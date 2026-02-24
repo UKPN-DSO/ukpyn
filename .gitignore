@@ -186,6 +186,7 @@ cython_debug/
 #  that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
 #  and can be added to the global gitignore or merged into this file.
 .vscode/
+.vscode/*
 
 # Ruff stuff:
 .ruff_cache/
@@ -211,6 +212,11 @@ AGENTS.md
 PLAN.md
 CODEX.md
 .claude/
+.claude/*
+claude.md
+agents.md
+plan.md
+codex.md
 
 # Tutorial-generated export artifacts
 tutorials/export.csv

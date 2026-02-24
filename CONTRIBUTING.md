@@ -29,6 +29,29 @@ ruff check .
 pre-commit run --all-files
 ```
 
+## GitHub Pages Docs Deployment
+
+Documentation is deployed automatically by GitHub Actions using
+`.github/workflows/docs-pages.yml`.
+
+- Trigger: push to `main`
+- Optional trigger: manual run via **Actions → Docs (GitHub Pages) → Run workflow**
+- Publish target: GitHub Pages environment (`github-pages`)
+
+### One-time repository settings
+
+In GitHub repository settings:
+
+1. Open **Settings → Pages**
+2. Set **Source** to **GitHub Actions**
+
+### Typical maintainer flow
+
+1. Merge docs changes to `dev` through normal PR process
+2. Promote to `main` for release
+3. Confirm the `Docs (GitHub Pages)` workflow succeeds on `main`
+4. Verify published site at `https://ukpyn.github.io/ukpyn/`
+
 ## Branch Strategy
 
 - Create branches from `dev`
