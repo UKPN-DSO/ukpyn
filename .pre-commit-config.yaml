@@ -1,0 +1,71 @@
+# Pre-commit configuration for ukpyn project
+# See https://pre-commit.com for more information
+
+repos:
+  # Standard pre-commit hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: debug-statements
+
+  # Markdown linting for README/docs quality
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.45.0
+    hooks:
+      - id: markdownlint
+        args: ["--disable", "MD013"]
+
+  # Ruff - Python linter and formatter
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.4
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+
+  # Security: Detect secrets and credentials
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: package.lock.json
+
+  # Security: Check for .env files and other sensitive files
+  - repo: local
+    hooks:
+      - id: check-env-files
+        name: Check for .env files
+        entry: >-
+          bash -c 'if git diff --cached --name-only | grep -E "^\.env($|\.)";
+          then echo "ERROR: Attempting to commit .env file(s). Remove them from staging.";
+          exit 1; fi'
+        language: system
+        pass_filenames: false
+
+      - id: check-private-keys
+        name: Check for private keys
+        entry: >-
+          bash -c 'if git diff --cached --name-only | grep -E "\.(pem|key|p12|pfx)$";
+          then echo "ERROR: Attempting to commit private key file(s).";
+          exit 1; fi'
+        language: system
+        pass_filenames: false
+
+# Configuration
+default_language_version:
+  python: python3.11
+
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit hooks
+  autoupdate_commit_msg: |
+    [pre-commit.ci] pre-commit autoupdate

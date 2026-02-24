@@ -184,9 +184,8 @@ cython_debug/
 # Visual Studio Code
 #  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore 
 #  that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
-#  and can be added to the global gitignore or merged into this file. However, if you prefer, 
-#  you could uncomment the following to ignore the entire vscode folder
-# .vscode/
+#  and can be added to the global gitignore or merged into this file.
+.vscode/
 
 # Ruff stuff:
 .ruff_cache/
@@ -205,3 +204,29 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Claude AI project files
+CLAUDE.md
+AGENTS.md
+PLAN.md
+CODEX.md
+.claude/
+
+# Tutorial-generated export artifacts
+tutorials/export.csv
+tutorials/export.xlsx
+tutorials/ltds_table_3a.csv
+tutorials/ltds_export.csv
+tutorials/flexibility_export.csv
+tutorials/dispatches_export.csv
+tutorials/dispatches_export.xlsx
+tutorials/powerflow_export.csv
+tutorials/powerflow_132kv_export.csv
+tutorials/curtailment_export.csv
+tutorials/curtailment_events.csv
+tutorials/curtailment_events.xlsx
+tutorials/ltds_transformers.csv
+tutorials/network_model.xlsx
+tutorials/ukpn_network.xlsx
+tutorials/ukpn_network.json
+tutorials/primary_substations.geojson
