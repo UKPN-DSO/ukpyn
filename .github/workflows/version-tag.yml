@@ -1,0 +1,118 @@
+name: Version + Tag
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: version-tag
+  cancel-in-progress: false
+
+jobs:
+  bump-and-tag:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Calculate next version
+        id: version
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+
+          pyproject = Path("pyproject.toml")
+          text = pyproject.read_text(encoding="utf-8")
+
+          match = re.search(r'^version\s*=\s*"(\d+)\.(\d+)\.(\d+)"\s*$', text, re.MULTILINE)
+          if not match:
+              raise SystemExit("Could not find [project] version in pyproject.toml")
+
+          major, minor, patch = map(int, match.groups())
+
+          event_name = os.getenv("GITHUB_EVENT_NAME", "")
+          commit_msg = ""
+          if event_name == "push":
+              commit_msg = os.getenv("GITHUB_EVENT_HEAD_COMMIT_MESSAGE", "") or ""
+
+          lowered = commit_msg.lower()
+          bump = "patch"
+          if "#major" in lowered or "[major]" in lowered:
+              bump = "major"
+          elif "#minor" in lowered or "[minor]" in lowered:
+              bump = "minor"
+
+          if bump == "major":
+              major += 1
+              minor = 0
+              patch = 0
+          elif bump == "minor":
+              minor += 1
+              patch = 0
+          else:
+              patch += 1
+
+          new_version = f"{major}.{minor}.{patch}"
+          new_text = re.sub(
+              r'^version\s*=\s*"\d+\.\d+\.\d+"\s*$',
+              f'version = "{new_version}"',
+              text,
+              count=1,
+              flags=re.MULTILINE,
+          )
+          pyproject.write_text(new_text, encoding="utf-8")
+
+          out_path = Path(os.environ["GITHUB_OUTPUT"])
+          with out_path.open("a", encoding="utf-8") as fh:
+              fh.write(f"new_version={new_version}\n")
+              fh.write(f"tag=v{new_version}\n")
+          PY
+        env:
+          GITHUB_EVENT_HEAD_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+
+      - name: Commit version bump
+        id: commit
+        shell: bash
+        run: |
+          if git diff --quiet -- pyproject.toml; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add pyproject.toml
+          git commit -m "chore(release): v${{ steps.version.outputs.new_version }} [skip ci]"
+          git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Create and push tag
+        if: steps.commit.outputs.changed == 'true'
+        shell: bash
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists; skipping"
+            exit 0
+          fi
+
+          git tag -a "$TAG" -m "Release $TAG"
+          git push origin "$TAG"
