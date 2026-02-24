@@ -1,0 +1,103 @@
+/* DSO theme tokens + accessibility-focused overrides for MkDocs Material */
+
+:root {
+  --bs-primary: #27187e;
+  --bs-secondary: #f04f14;
+  --bs-success: #198754;
+  --bs-info: #0dcaf0;
+  --bs-warning: #ffc107;
+  --bs-danger: #dc3545;
+  --bs-light: #fff;
+  --bs-cream: #fffbf6;
+  --bs-dark: #000;
+
+  --dso-font: Brown, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --md-primary-fg-color: var(--bs-primary);
+  --md-primary-fg-color--light: var(--bs-primary);
+  --md-primary-fg-color--dark: var(--bs-primary);
+  --md-accent-fg-color: var(--bs-secondary);
+  --md-accent-fg-color--transparent: rgba(240, 79, 20, 0.2);
+  --md-default-bg-color: var(--bs-light);
+  --md-default-fg-color: var(--bs-dark);
+}
+
+html,
+body,
+.md-typeset {
+  font-family: var(--dso-font);
+}
+
+.md-header,
+.md-tabs {
+  background-color: var(--bs-primary);
+}
+
+/* Improve readability in main content */
+.md-content__inner {
+  max-width: 72ch;
+  line-height: 1.7;
+}
+
+.md-typeset {
+  color: var(--bs-dark);
+}
+
+.md-typeset a {
+  color: var(--bs-primary);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.14em;
+}
+
+.md-typeset a:hover {
+  color: var(--bs-secondary);
+}
+
+/* Strong, visible keyboard focus styles */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--bs-secondary);
+  outline-offset: 3px;
+  text-decoration: none;
+}
+
+/* Improve inline code readability */
+.md-typeset code {
+  font-size: 0.9em;
+  padding: 0.15em 0.35em;
+  background-color: var(--bs-cream);
+  color: var(--bs-primary);
+}
+
+/* Improve code block readability */
+.md-typeset pre {
+  background-color: var(--bs-cream);
+}
+
+.md-typeset pre > code {
+  line-height: 1.55;
+  tab-size: 4;
+}
+
+/* Highlight selected nav item with DSO accent */
+.md-nav__link--active {
+  color: var(--bs-secondary);
+  font-weight: 600;
+}
+
+/* Respect reduced motion user preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
