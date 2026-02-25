@@ -100,6 +100,74 @@ class TestListDatasets:
         assert len(result.datasets) == 2
         assert result.datasets[0].dataset.dataset_id == "ukpn-smart-meter-data"
 
+    @pytest.mark.asyncio
+    async def test_list_datasets_parses_results_key(
+        self,
+        httpx_mock: HTTPXMock,
+    ) -> None:
+        """Test list_datasets parses OpenDataSoft 'results' key (wrapped format)."""
+        httpx_mock.add_response(
+            json={
+                "total_count": 2,
+                "results": [
+                    {
+                        "dataset": {
+                            "dataset_id": "ukpn-smart-meter-data",
+                            "has_records": True,
+                            "data_visible": True,
+                        }
+                    },
+                    {
+                        "dataset": {
+                            "dataset_id": "ukpn-substation-locations",
+                            "has_records": True,
+                            "data_visible": True,
+                        }
+                    },
+                ],
+            }
+        )
+
+        async with UKPNClient(api_key=TEST_API_KEY) as client:
+            result = await client.list_datasets()
+
+        assert result.total_count == 2
+        assert len(result.datasets) == 2
+        assert result.datasets[1].dataset.dataset_id == "ukpn-substation-locations"
+
+    @pytest.mark.asyncio
+    async def test_list_datasets_parses_flat_results_items(
+        self,
+        httpx_mock: HTTPXMock,
+    ) -> None:
+        """Test list_datasets parses OpenDataSoft 'results' items when unwrapped."""
+        httpx_mock.add_response(
+            json={
+                "total_count": 2,
+                "results": [
+                    {
+                        "dataset_id": "ukpn-smart-meter-data",
+                        "has_records": True,
+                        "data_visible": True,
+                        "metas": {"default": {"title": "Smart Meter Data"}},
+                    },
+                    {
+                        "dataset_id": "ukpn-substation-locations",
+                        "has_records": True,
+                        "data_visible": True,
+                    },
+                ],
+            }
+        )
+
+        async with UKPNClient(api_key=TEST_API_KEY) as client:
+            result = await client.list_datasets()
+
+        assert result.total_count == 2
+        assert len(result.datasets) == 2
+        assert result.datasets[0].dataset.dataset_id == "ukpn-smart-meter-data"
+        assert result.datasets[0].dataset.metas is not None
+
 
 class TestGetRecords:
     """Tests for get_records method."""
@@ -120,6 +188,75 @@ class TestGetRecords:
         assert len(result.records) == 2
         assert result.records[0].fields["region"] == "London"
 
+    @pytest.mark.asyncio
+    async def test_get_records_parses_results_key(
+        self,
+        httpx_mock: HTTPXMock,
+    ) -> None:
+        """Test get_records parses OpenDataSoft 'results' key."""
+        httpx_mock.add_response(
+            json={
+                "total_count": 2,
+                "results": [
+                    {"id": "rec-001", "fields": {"region": "London"}},
+                    {"id": "rec-002", "fields": {"region": "SPN"}},
+                ],
+            }
+        )
+
+        async with UKPNClient(api_key=TEST_API_KEY) as client:
+            result = await client.get_records("ukpn-smart-meter-data")
+
+        assert result.total_count == 2
+        assert len(result.records) == 2
+        assert result.records[0].fields["region"] == "London"
+
+
+class TestGetDataset:
+    """Tests for get_dataset method."""
+
+    @pytest.mark.asyncio
+    async def test_get_dataset_parses_wrapped_response(
+        self,
+        httpx_mock: HTTPXMock,
+    ) -> None:
+        """Test get_dataset parses wrapped 'dataset' response."""
+        httpx_mock.add_response(
+            json={
+                "dataset": {
+                    "dataset_id": "ukpn-smart-meter-data",
+                    "has_records": True,
+                    "data_visible": True,
+                }
+            }
+        )
+
+        async with UKPNClient(api_key=TEST_API_KEY) as client:
+            result = await client.get_dataset("ukpn-smart-meter-data")
+
+        assert result.dataset_id == "ukpn-smart-meter-data"
+        assert result.has_records is True
+
+    @pytest.mark.asyncio
+    async def test_get_dataset_parses_flat_response(
+        self,
+        httpx_mock: HTTPXMock,
+    ) -> None:
+        """Test get_dataset parses flat response without 'dataset' wrapper."""
+        httpx_mock.add_response(
+            json={
+                "dataset_id": "ukpn-smart-meter-installation-volumes",
+                "has_records": True,
+                "data_visible": True,
+                "metas": {"default": {"title": "Smart Meter Installation Volumes"}},
+            }
+        )
+
+        async with UKPNClient(api_key=TEST_API_KEY) as client:
+            result = await client.get_dataset("ukpn-smart-meter-installation-volumes")
+
+        assert result.dataset_id == "ukpn-smart-meter-installation-volumes"
+        assert result.metas is not None
 
 class TestErrorHandling:
     """Tests for error handling."""

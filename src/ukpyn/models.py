@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import AliasChoices, BaseModel, Field, model_validator
 
 
 class Link(BaseModel):
@@ -51,13 +51,24 @@ class DatasetListItem(BaseModel):
     dataset: Dataset
     links: list[Link] | None = None
 
+    @model_validator(mode="before")
+    @classmethod
+    def _normalize_dataset_item(cls, value: Any) -> Any:
+        """Support both wrapped and flat dataset list item formats."""
+        if isinstance(value, dict) and "dataset" not in value:
+            return {"dataset": value}
+        return value
+
 
 class DatasetListResponse(BaseModel):
     """Response from list_datasets endpoint."""
 
     total_count: int
     links: list[Link] | None = None
-    datasets: list[DatasetListItem] = Field(default_factory=list)
+    datasets: list[DatasetListItem] = Field(
+        default_factory=list,
+        validation_alias=AliasChoices("datasets", "results"),
+    )
 
 
 class DatasetResponse(BaseModel):
@@ -65,6 +76,14 @@ class DatasetResponse(BaseModel):
 
     dataset: Dataset
     links: list[Link] | None = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def _normalize_dataset_response(cls, value: Any) -> Any:
+        """Support both wrapped and flat dataset response formats."""
+        if isinstance(value, dict) and "dataset" not in value:
+            return {"dataset": value}
+        return value
 
 
 class RecordFields(BaseModel):
@@ -89,7 +108,10 @@ class RecordListResponse(BaseModel):
 
     total_count: int
     links: list[Link] | None = None
-    records: list[Record] = Field(default_factory=list)
+    records: list[Record] = Field(
+        default_factory=list,
+        validation_alias=AliasChoices("records", "results"),
+    )
 
 
 class RecordResponse(BaseModel):

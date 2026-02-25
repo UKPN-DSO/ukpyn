@@ -226,6 +226,7 @@ class UKPNClient:
         if where:
             params["where"] = where
         if search:
+            params["q"] = search
             params["search"] = search
         if order_by:
             params["order_by"] = order_by

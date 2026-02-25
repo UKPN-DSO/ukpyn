@@ -10,7 +10,7 @@ from ukpyn.client import UKPNClient
 
 @pytest.mark.asyncio
 async def test_list_datasets_passes_all_supported_params(httpx_mock: HTTPXMock) -> None:
-    """list_datasets sends where/search/order/refine/exclude query params."""
+    """list_datasets sends where/q/order/refine/exclude query params."""
     httpx_mock.add_response(
         json={
             "total_count": 0,
@@ -35,6 +35,7 @@ async def test_list_datasets_passes_all_supported_params(httpx_mock: HTTPXMock) 
     assert params["limit"] == "5"
     assert params["offset"] == "2"
     assert params["where"] == "records_count > 0"
+    assert params["q"] == "network"
     assert params["search"] == "network"
     assert params["order_by"] == "modified"
     assert "theme:power" in request.url.params.get_list("refine")
