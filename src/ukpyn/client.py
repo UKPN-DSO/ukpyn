@@ -94,6 +94,20 @@ class UKPNClient:
         """Async context manager exit."""
         await self.close()
 
+    def summary(self) -> str:
+        """Return a concise, human-readable summary of client configuration/state."""
+        client_state = (
+            "open"
+            if self._client is not None and not self._client.is_closed
+            else "closed"
+        )
+        return (
+            f"UKPNClient(api_url='{self._config.api_url}', "
+            f"timeout={self._config.timeout}, "
+            f"has_api_key={self._config.has_api_key}, "
+            f"client_state='{client_state}')"
+        )
+
     def _handle_error(self, response: httpx.Response) -> None:
         """
         Handle HTTP error responses.
@@ -260,6 +274,7 @@ class UKPNClient:
         dataset_id: str,
         limit: int = 10,
         offset: int = 0,
+        columns: str | list[str] | tuple[str, ...] | None = None,
         select: str | None = None,
         where: str | None = None,
         order_by: str | None = None,
@@ -276,8 +291,10 @@ class UKPNClient:
             dataset_id: The dataset identifier.
             limit: Maximum number of records to return (default 10).
             offset: Number of records to skip for pagination.
+            columns: Convenience alias for selecting columns. Accepts a
+                comma-separated string or list/tuple of column names.
             select: Fields to include in the response.
-            where: Filter expression (ODSQL).
+            where: SQL-like filter expression (ODSQL WHERE clause semantics).
             order_by: Field to sort by.
             group_by: Field to group results by.
             refine: Facet refinement filters.
@@ -293,12 +310,22 @@ class UKPNClient:
             RecordListResponse containing the list of records.
 
         Raises:
+            ValueError: If both columns and select are provided.
             NotFoundError: If the dataset does not exist.
         """
         params: dict[str, Any] = {
             "limit": limit,
             "offset": offset,
         }
+
+        if columns is not None and select is not None:
+            raise ValueError("Use either 'columns' or 'select', not both.")
+
+        if columns is not None:
+            if isinstance(columns, (list, tuple)):
+                select = ", ".join(columns)
+            else:
+                select = columns
 
         if select:
             params["select"] = select

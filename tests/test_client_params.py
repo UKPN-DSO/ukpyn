@@ -79,6 +79,36 @@ async def test_get_records_includes_geo_and_group_params(httpx_mock: HTTPXMock) 
 
 
 @pytest.mark.asyncio
+async def test_get_records_columns_list_maps_to_select(httpx_mock: HTTPXMock) -> None:
+    """get_records maps columns list to select query parameter."""
+    httpx_mock.add_response(
+        json={
+            "total_count": 1,
+            "records": [{"id": "r1", "fields": {"value": 1, "status": "ok"}}],
+        }
+    )
+
+    async with UKPNClient(api_key="k") as client:
+        await client.get_records(dataset_id="dataset-1", columns=["value", "status"])
+
+    request = httpx_mock.get_requests()[0]
+    params = dict(request.url.params)
+    assert params["select"] == "value, status"
+
+
+@pytest.mark.asyncio
+async def test_get_records_rejects_columns_and_select_together() -> None:
+    """get_records raises when both columns and select are provided."""
+    async with UKPNClient(api_key="k") as client:
+        with pytest.raises(ValueError, match="either 'columns' or 'select'"):
+            await client.get_records(
+                dataset_id="dataset-1",
+                columns=["value"],
+                select="value",
+            )
+
+
+@pytest.mark.asyncio
 async def test_export_data_uses_raw_request_and_params(httpx_mock: HTTPXMock) -> None:
     """export_data returns raw bytes and includes export params."""
     httpx_mock.add_response(content=b"a,b\n1,2\n")
