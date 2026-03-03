@@ -84,18 +84,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 1 records
         """
-        where_clauses: list[str] = []
-
+        refine = {}
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
             dataset="table_1",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine if refine else None,
             **kwargs,
         )
 
@@ -144,10 +141,11 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 2A records
         """
+        refine = {}
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
+            refine["licencearea"] = licence_area
 
         if substation is not None:
             where_clauses.append(f"substation LIKE '%{substation}%'")
@@ -158,6 +156,7 @@ class LTDSOrchestrator(BaseOrchestrator):
             dataset="table_2a",
             limit=limit,
             offset=offset,
+            refine=refine if refine else None,
             where=where,
             **kwargs,
         )
@@ -209,10 +208,11 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 2B records
         """
+        refine = {}
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
+            refine["licencearea"] = licence_area
 
         if substation is not None:
             where_clauses.append(f"substation LIKE '%{substation}%'")
@@ -223,6 +223,7 @@ class LTDSOrchestrator(BaseOrchestrator):
             dataset="table_2b",
             limit=limit,
             offset=offset,
+            refine=refine if refine else None,
             where=where,
             **kwargs,
         )
@@ -274,10 +275,11 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 3A records
         """
+        refine = {}
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
+            refine["licencearea"] = licence_area
 
         if year is not None:
             where_clauses.append(f"year = {year}")
@@ -288,6 +290,7 @@ class LTDSOrchestrator(BaseOrchestrator):
             dataset="table_3a",
             limit=limit,
             offset=offset,
+            refine=refine if refine else None,
             where=where,
             **kwargs,
         )
@@ -341,18 +344,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 3B records
         """
-        where_clauses: list[str] = []
-
+        refine = {}
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
             dataset="table_3b",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine if refine else None,
             **kwargs,
         )
 
@@ -399,18 +399,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 4A records
         """
-        where_clauses: list[str] = []
-
+        refine = {}
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
             dataset="table_4a",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine if refine else None,
             **kwargs,
         )
 
@@ -457,18 +454,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 4B records
         """
-        where_clauses: list[str] = []
-
+        refine = {}
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
             dataset="table_4b",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine if refine else None,
             **kwargs,
         )
 
@@ -515,18 +509,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 7 records
         """
-        where_clauses: list[str] = []
-
+        refine = {}
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
             dataset="table_7",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine if refine else None,
             **kwargs,
         )
 
@@ -573,18 +564,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 8 records
         """
-        where_clauses: list[str] = []
-
+        refine = {}
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
             dataset="table_8",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine if refine else None,
             **kwargs,
         )
 
@@ -704,10 +692,11 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 5 records
         """
+        refine = {}
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
+            refine["licencearea"] = licence_area
 
         if technology_type is not None:
             where_clauses.append(f"technology_type LIKE '%{technology_type}%'")
@@ -721,6 +710,7 @@ class LTDSOrchestrator(BaseOrchestrator):
             dataset="table_5",
             limit=limit,
             offset=offset,
+            refine=refine if refine else None,
             where=where,
             **kwargs,
         )
@@ -774,10 +764,11 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 6 records
         """
+        refine = {}
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
+            refine["licencearea"] = licence_area
 
         if substation is not None:
             where_clauses.append(f"substation LIKE '%{substation}%'")
@@ -788,6 +779,7 @@ class LTDSOrchestrator(BaseOrchestrator):
             dataset="table_6",
             limit=limit,
             offset=offset,
+            refine=refine if refine else None,
             where=where,
             **kwargs,
         )
@@ -838,18 +830,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing CIM records
         """
-        where_clauses: list[str] = []
-
+        refine = {}
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
             dataset="cim",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine if refine else None,
             **kwargs,
         )
 

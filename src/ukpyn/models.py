@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Any
 
-from pydantic import AliasChoices, BaseModel, Field, model_validator
+from pydantic import AliasChoices, BaseModel, Field, field_validator, model_validator
 
 
 class Link(BaseModel):
@@ -95,12 +95,45 @@ class RecordFields(BaseModel):
 class Record(BaseModel):
     """Individual record from a dataset."""
 
-    id: str
+    id: int | str | None = None
     timestamp: datetime | None = None
     size: int | None = None
     fields: dict[str, Any] | None = None
     record_timestamp: datetime | None = None
     links: list[Link] | None = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def _extract_fields_from_flat_structure(cls, value: Any) -> Any:
+        """
+        Handle flat API responses where fields are at root level.
+        
+        OpenDataSoft can return records in two formats:
+        1. Nested: {"id": 1, "fields": {"field1": "value1"}}
+        2. Flat: {"id": 1, "field1": "value1"}
+        
+        This validator converts flat format to nested format.
+        """
+        if not isinstance(value, dict):
+            return value
+        
+        # If fields already exists and is populated, use it as-is
+        if value.get("fields") is not None:
+            return value
+        
+        # Known Record fields that should not go into fields dict
+        known_fields = {"id", "timestamp", "size", "fields", "record_timestamp", "links"}
+        
+        # Extract unknown fields into fields dict
+        extra_fields = {k: v for k, v in value.items() if k not in known_fields}
+        
+        if extra_fields:
+            # Create new dict with known fields + fields dict
+            result = {k: v for k, v in value.items() if k in known_fields}
+            result["fields"] = extra_fields
+            return result
+        
+        return value
 
 
 class RecordListResponse(BaseModel):

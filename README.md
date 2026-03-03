@@ -151,7 +151,7 @@ print(f"Rows returned: {len(table_3a.records)}")
 from ukpyn import ltds, flexibility, gis, powerflow, curtailment
 
 # Get LTDS Table 3A (observed peak demand at primary substations)
-table_3a = ltds.get_table_3a(licence_area='EPN')
+table_3a = ltds.get_table_3a(licence_area='Eastern Power Networks (EPN)')
 
 # Get flexibility dispatch events
 dispatches = flexibility.get_dispatches(start_date='2024-01-01')
