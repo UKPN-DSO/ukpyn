@@ -113,6 +113,7 @@ class Record(BaseModel):
         2. Flat: {"id": 1, "field1": "value1"}
         
         This validator converts flat format to nested format.
+        Note: 'timestamp' is NOT extracted as it's commonly a data field, not metadata.
         """
         if not isinstance(value, dict):
             return value
@@ -121,8 +122,9 @@ class Record(BaseModel):
         if value.get("fields") is not None:
             return value
         
-        # Known Record fields that should not go into fields dict
-        known_fields = {"id", "timestamp", "size", "fields", "record_timestamp", "links"}
+        # Known Record metadata fields that should not go into fields dict
+        # Note: 'timestamp' is excluded - it's usually data, not metadata
+        known_fields = {"id", "size", "fields", "record_timestamp", "links"}
         
         # Extract unknown fields into fields dict
         extra_fields = {k: v for k, v in value.items() if k not in known_fields}

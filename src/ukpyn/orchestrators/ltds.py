@@ -15,7 +15,7 @@ Usage:
     table_3a = ltds.get_table_3a(licence_area='EPN')
     transformers = ltds.get_table_2a(licence_area='SPN')
     generation = ltds.get_table_5(technology_type='Solar')
-    projects = ltds.get_projects(status='Active')
+    projects = ltds.get_projects(local_authority='Cambridge')
 
     # Async access
     data = await ltds.get_async('table_3a')
@@ -599,8 +599,9 @@ class LTDSOrchestrator(BaseOrchestrator):
 
     async def get_projects_async(
         self,
-        project_type: str | None = None,
-        status: str | None = None,
+        licence_area: str | None = None,
+        local_authority: str | None = None,
+        expected_start_year: int | None = None,
         limit: int = 100,
         offset: int = 0,
         **kwargs: Any,
@@ -612,8 +613,9 @@ class LTDSOrchestrator(BaseOrchestrator):
         including reinforcement schemes, new connections, and upgrades.
 
         Args:
-            project_type: Filter by project type
-            status: Filter by project status (e.g., 'Active', 'Completed')
+            licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
+            local_authority: Filter by local authority name
+            expected_start_year: Filter by expected start year
             limit: Maximum records to return (default 100)
             offset: Pagination offset
             **kwargs: Additional query parameters
@@ -621,13 +623,17 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing infrastructure project records
         """
+        refine = {}
         where_clauses: list[str] = []
 
-        if project_type is not None:
-            where_clauses.append(f"project_type = '{project_type}'")
+        if licence_area is not None:
+            refine["dno"] = licence_area
 
-        if status is not None:
-            where_clauses.append(f"status = '{status}'")
+        if local_authority is not None:
+            where_clauses.append(f"local_authority LIKE '%{local_authority}%'")
+
+        if expected_start_year is not None:
+            where_clauses.append(f"expected_start_year = {expected_start_year}")
 
         where = " AND ".join(where_clauses) if where_clauses else None
 
@@ -635,14 +641,16 @@ class LTDSOrchestrator(BaseOrchestrator):
             dataset="projects",
             limit=limit,
             offset=offset,
+            refine=refine if refine else None,
             where=where,
             **kwargs,
         )
 
     def get_projects(
         self,
-        project_type: str | None = None,
-        status: str | None = None,
+        licence_area: str | None = None,
+        local_authority: str | None = None,
+        expected_start_year: int | None = None,
         limit: int = 100,
         offset: int = 0,
         **kwargs: Any,
@@ -654,8 +662,9 @@ class LTDSOrchestrator(BaseOrchestrator):
         """
         return _run_sync(
             self.get_projects_async(
-                project_type=project_type,
-                status=status,
+                licence_area=licence_area,
+                local_authority=local_authority,
+                expected_start_year=expected_start_year,
                 limit=limit,
                 offset=offset,
                 **kwargs,
@@ -1292,8 +1301,9 @@ def get_cim(
 
 
 def get_projects(
-    project_type: str | None = None,
-    status: str | None = None,
+    licence_area: str | None = None,
+    local_authority: str | None = None,
+    expected_start_year: int | None = None,
     limit: int = 100,
     **kwargs: Any,
 ) -> RecordListResponse:
@@ -1303,8 +1313,9 @@ def get_projects(
     Convenience function using the default orchestrator.
 
     Args:
-        project_type: Filter by project type
-        status: Filter by project status (e.g., 'Active', 'Completed')
+        licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
+        local_authority: Filter by local authority name
+        expected_start_year: Filter by expected start year
         limit: Maximum records to return
         **kwargs: Additional query parameters
 
@@ -1313,11 +1324,14 @@ def get_projects(
 
     Example:
         from ukpyn import ltds
-        active_projects = ltds.get_projects(status='Active')
+        epn_projects = ltds.get_projects(licence_area='EPN')
+        cambridge_projects = ltds.get_projects(local_authority='Cambridge')
+        projects_2024 = ltds.get_projects(expected_start_year=2024)
     """
     return _get_orchestrator().get_projects(
-        project_type=project_type,
-        status=status,
+        licence_area=licence_area,
+        local_authority=local_authority,
+        expected_start_year=expected_start_year,
         limit=limit,
         **kwargs,
     )

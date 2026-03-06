@@ -32,7 +32,7 @@ import asyncio
 from typing import Any, Literal
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator
+from .base import BaseOrchestrator, _run_sync
 from .registry import POWERFLOW_DATASETS
 
 # Type definitions
@@ -103,14 +103,36 @@ class PowerflowOrchestrator(BaseOrchestrator):
             ...     start_date='2024-01-01'
             ... )
         """
+        # Construct base dataset key
         dataset_key = f"{voltage}_{granularity}"
+        
+        # Some datasets are split by licence area (e.g., 33kV half-hourly)
+        # If the base key doesn't exist, try with licence_area suffix
+        dataset_is_area_specific = False
+        if dataset_key not in self.DATASETS and licence_area is not None:
+            dataset_key_with_area = f"{dataset_key}_{licence_area.lower()}"
+            if dataset_key_with_area in self.DATASETS:
+                dataset_key = dataset_key_with_area
+                dataset_is_area_specific = True
+        elif dataset_key not in self.DATASETS:
+            # Check if any licence-area-specific versions exist
+            area_variants = [f"{dataset_key}_{area}" for area in ["epn", "spn", "lpn"]]
+            available_variants = [v for v in area_variants if v in self.DATASETS]
+            if available_variants:
+                raise ValueError(
+                    f"Dataset '{dataset_key}' not found. This data is only available "
+                    f"split by licence area. Please specify licence_area parameter. "
+                    f"Available: {', '.join(available_variants)}"
+                )
 
         where_parts = []
 
         if circuit_id is not None:
             where_parts.append(f"circuit_id = '{circuit_id}'")
 
-        if licence_area is not None:
+        # Only filter by licence_area if the dataset has that field
+        # Area-specific datasets (e.g., 33kv_half_hourly_epn) don't have it
+        if licence_area is not None and not dataset_is_area_specific:
             where_parts.append(f"licence_area = '{licence_area}'")
 
         if start_date is not None:
@@ -148,7 +170,7 @@ class PowerflowOrchestrator(BaseOrchestrator):
         **kwargs: Any,
     ) -> RecordListResponse:
         """Synchronous wrapper for get_circuit_timeseries_async."""
-        return asyncio.run(
+        return _run_sync(
             self.get_circuit_timeseries_async(
                 voltage=voltage,
                 granularity=granularity,
@@ -200,16 +222,37 @@ class PowerflowOrchestrator(BaseOrchestrator):
             ...     granularity='monthly'
             ... )
         """
+        # Construct base dataset key
         dataset_key = f"{transformer_type}_{granularity}"
+        
+        # Some datasets are split by licence area (e.g., primary half-hourly)
+        # If the base key doesn't exist, try with licence_area suffix
+        dataset_is_area_specific = False
+        if dataset_key not in self.DATASETS and licence_area is not None:
+            dataset_key_with_area = f"{dataset_key}_{licence_area.lower()}"
+            if dataset_key_with_area in self.DATASETS:
+                dataset_key = dataset_key_with_area
+                dataset_is_area_specific = True
+        elif dataset_key not in self.DATASETS:
+            # Check if any licence-area-specific versions exist
+            area_variants = [f"{dataset_key}_{area}" for area in ["epn", "spn", "lpn"]]
+            available_variants = [v for v in area_variants if v in self.DATASETS]
+            if available_variants:
+                raise ValueError(
+                    f"Dataset '{dataset_key}' not found. This data is only available "
+                    f"split by licence area. Please specify licence_area parameter. "
+                    f"Available: {', '.join(available_variants)}"
+                )
 
         where_parts = []
 
         if transformer_id is not None:
             where_parts.append(f"transformer_id = '{transformer_id}'")
 
-        if licence_area is not None:
+        # Only filter by licence_area if the dataset has that field
+        # Area-specific datasets (e.g., primary_half_hourly_epn) don't have it
+        if licence_area is not None and not dataset_is_area_specific:
             where_parts.append(f"licence_area = '{licence_area}'")
-
         if start_date is not None:
             where_parts.append(f"timestamp >= '{start_date}'")
 
@@ -245,7 +288,7 @@ class PowerflowOrchestrator(BaseOrchestrator):
         **kwargs: Any,
     ) -> RecordListResponse:
         """Synchronous wrapper for get_transformer_timeseries_async."""
-        return asyncio.run(
+        return _run_sync(
             self.get_transformer_timeseries_async(
                 transformer_type=transformer_type,
                 granularity=granularity,
@@ -300,7 +343,7 @@ class PowerflowOrchestrator(BaseOrchestrator):
         **kwargs: Any,
     ) -> RecordListResponse:
         """Synchronous wrapper for discover_circuits_async."""
-        return asyncio.run(
+        return _run_sync(
             self.discover_circuits_async(
                 voltage=voltage,
                 licence_area=licence_area,
@@ -344,7 +387,7 @@ class PowerflowOrchestrator(BaseOrchestrator):
         **kwargs: Any,
     ) -> RecordListResponse:
         """Synchronous wrapper for discover_transformers_async."""
-        return asyncio.run(
+        return _run_sync(
             self.discover_transformers_async(
                 transformer_type=transformer_type,
                 licence_area=licence_area,

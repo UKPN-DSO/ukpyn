@@ -158,8 +158,8 @@ class CurtailmentOrchestrator(BaseOrchestrator):
             where_clauses.append(f"start_time_local <= '{formatted_end}'")
 
         if driver is not None:
-            # driver maps to 'curtailment_driver' in the dataset
-            where_clauses.append(f"curtailment_driver = '{driver}'")
+            # driver maps to 'driver' in the dataset
+            where_clauses.append(f"driver = '{driver}'")
 
         where = " AND ".join(where_clauses) if where_clauses else None
 

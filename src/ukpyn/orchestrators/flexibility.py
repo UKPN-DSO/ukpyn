@@ -13,7 +13,7 @@ Usage:
 
     # Async access
     data = await flexibility.get_async('dispatches')
-    dispatches = await flexibility.get_dispatches_async(service_type='STOR')
+    dispatches = await flexibility.get_dispatches_async(product='SECURE')
 """
 
 from datetime import date, datetime
@@ -98,7 +98,7 @@ class FlexibilityOrchestrator(BaseOrchestrator):
         self,
         start_date: DateInput = None,
         end_date: DateInput = None,
-        service_type: str | None = None,
+        product: str | None = None,
         limit: int = 100,
         offset: int = 0,
         **kwargs: Any,
@@ -114,7 +114,7 @@ class FlexibilityOrchestrator(BaseOrchestrator):
                 Accepts ISO format string, date, or datetime.
             end_date: Filter by end date (inclusive).
                 Accepts ISO format string, date, or datetime.
-            service_type: Filter by flexibility service type
+            product: Filter by flexibility service type
                 (e.g., 'STOR', 'DSR', 'ANM')
             limit: Maximum records to return (default 100)
             offset: Pagination offset
@@ -132,7 +132,7 @@ class FlexibilityOrchestrator(BaseOrchestrator):
 
             # Get STOR dispatches
             stor_dispatches = await flexibility.get_dispatches_async(
-                service_type='STOR'
+                product='STOR'
             )
         """
         where_clauses: list[str] = []
@@ -145,9 +145,9 @@ class FlexibilityOrchestrator(BaseOrchestrator):
             formatted_end = _format_date_for_where(end_date)
             where_clauses.append(f"start_time_local <= '{formatted_end}'")
 
-        if service_type is not None:
-            # service_type maps to 'product' field in the dataset
-            where_clauses.append(f"product = '{service_type}'")
+        if product is not None:
+            # product maps to 'product' field in the dataset
+            where_clauses.append(f"product = '{product}'")
 
         where = " AND ".join(where_clauses) if where_clauses else None
 
@@ -163,7 +163,7 @@ class FlexibilityOrchestrator(BaseOrchestrator):
         self,
         start_date: DateInput = None,
         end_date: DateInput = None,
-        service_type: str | None = None,
+        product: str | None = None,
         limit: int = 100,
         offset: int = 0,
         **kwargs: Any,
@@ -177,7 +177,7 @@ class FlexibilityOrchestrator(BaseOrchestrator):
             self.get_dispatches_async(
                 start_date=start_date,
                 end_date=end_date,
-                service_type=service_type,
+                product=product,
                 limit=limit,
                 offset=offset,
                 **kwargs,
@@ -346,7 +346,7 @@ async def get_async(
 def get_dispatches(
     start_date: DateInput = None,
     end_date: DateInput = None,
-    service_type: str | None = None,
+    product: str | None = None,
     limit: int = 100,
     **kwargs: Any,
 ) -> RecordListResponse:
@@ -360,7 +360,7 @@ def get_dispatches(
             Accepts ISO format string, date, or datetime.
         end_date: Filter by end date (inclusive).
             Accepts ISO format string, date, or datetime.
-        service_type: Filter by flexibility service type
+        product: Filter by flexibility service type
         limit: Maximum records to return
         **kwargs: Additional query parameters
 
@@ -371,13 +371,13 @@ def get_dispatches(
         from ukpyn import flexibility
         dispatches = flexibility.get_dispatches(
             start_date='2024-01-01',
-            service_type='STOR'
+            product='STOR'
         )
     """
     return _get_orchestrator().get_dispatches(
         start_date=start_date,
         end_date=end_date,
-        service_type=service_type,
+        product=product,
         limit=limit,
         **kwargs,
     )
