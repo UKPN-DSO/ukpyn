@@ -148,7 +148,7 @@ class LTDSOrchestrator(BaseOrchestrator):
             refine["licencearea"] = licence_area
 
         if substation is not None:
-            where_clauses.append(f"substation LIKE '%{substation}%'")
+            where_clauses.append(f"lv_substation LIKE '%{substation}%'")
 
         where = " AND ".join(where_clauses) if where_clauses else None
 
@@ -215,7 +215,8 @@ class LTDSOrchestrator(BaseOrchestrator):
             refine["licencearea"] = licence_area
 
         if substation is not None:
-            where_clauses.append(f"substation LIKE '%{substation}%'")
+            # Table 2B has lv_substation_1 and lv_substation_2 (3-winding transformers)
+            where_clauses.append(f"(lv_substation_1 LIKE '%{substation}%' OR lv_substation_2 LIKE '%{substation}%')")
 
         where = " AND ".join(where_clauses) if where_clauses else None
 
@@ -976,7 +977,7 @@ def get_table_2a(
 
     Args:
         licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
-        substation: Filter by substation name
+        substation: Filter by substation name (searches lv_substation field in the dataset)
         limit: Maximum records to return
         **kwargs: Additional query parameters
 
@@ -1008,7 +1009,7 @@ def get_table_2b(
 
     Args:
         licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
-        substation: Filter by substation name
+        substation: Filter by substation name (searches lv_substation_1 and lv_substation_2 fields)
         limit: Maximum records to return
         **kwargs: Additional query parameters
 

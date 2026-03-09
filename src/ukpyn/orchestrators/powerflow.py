@@ -143,10 +143,20 @@ class PowerflowOrchestrator(BaseOrchestrator):
 
         where_clause = " AND ".join(where_parts) if where_parts else None
 
-        if where_clause and kwargs.get("where"):
-            kwargs["where"] = f"({kwargs['where']}) AND ({where_clause})"
+        # Get user-provided WHERE clause, but strip empty/whitespace-only values
+        user_where = kwargs.get("where", "").strip()
+        # Also remove empty parentheses patterns
+        if user_where in ("", "()", "( )"):
+            user_where = None
+
+        if where_clause and user_where:
+            kwargs["where"] = f"({user_where}) AND ({where_clause})"
         elif where_clause:
             kwargs["where"] = where_clause
+        elif user_where:
+            kwargs["where"] = user_where
+        else:
+            kwargs.pop("where", None)  # Remove if empty
 
         if "order_by" not in kwargs:
             kwargs["order_by"] = "timestamp"
@@ -261,10 +271,20 @@ class PowerflowOrchestrator(BaseOrchestrator):
 
         where_clause = " AND ".join(where_parts) if where_parts else None
 
-        if where_clause and kwargs.get("where"):
-            kwargs["where"] = f"({kwargs['where']}) AND ({where_clause})"
+        # Get user-provided WHERE clause, but strip empty/whitespace-only values
+        user_where = kwargs.get("where", "").strip()
+        # Also remove empty parentheses patterns
+        if user_where in ("", "()", "( )"):
+            user_where = None
+
+        if where_clause and user_where:
+            kwargs["where"] = f"({user_where}) AND ({where_clause})"
         elif where_clause:
             kwargs["where"] = where_clause
+        elif user_where:
+            kwargs["where"] = user_where
+        else:
+            kwargs.pop("where", None)  # Remove if empty
 
         if "order_by" not in kwargs:
             kwargs["order_by"] = "timestamp"
@@ -297,6 +317,386 @@ class PowerflowOrchestrator(BaseOrchestrator):
                 start_date=start_date,
                 end_date=end_date,
                 limit=limit,
+                **kwargs,
+            )
+        )
+
+    # =========================================================================
+    # Substation Time Series Methods
+    # =========================================================================
+
+    async def get_half_hourly_timeseries_async(
+        self,
+        substation: str,
+        granularity: Granularity = "half_hourly",
+        licence_area: str | None = None,
+        start_date: str | None = None,
+        end_date: str | None = None,
+        limit: int = 100000,
+        debug: bool = False,
+        **kwargs: Any,
+    ) -> RecordListResponse:
+        """
+        Get half-hourly time series data for all transformers at a substation.
+
+        This method automatically:
+        1. Queries LTDS Tables 2A and 2B to determine transformer types
+        2. Queries monthly powerflow data filtering by ltds_name (substation name)
+        3. Extracts tx_id values for the substation's transformers
+        4. Retrieves time series data for those specific transformers
+
+        Args:
+            substation: Substation name (e.g., 'Addenbrookes Primary 11kV')
+            granularity: Data granularity - 'monthly' or 'half_hourly'
+            licence_area: Licence area (EPN, SPN, LPN) - auto-detected if not provided
+            start_date: Start date (ISO format: YYYY-MM-DD)
+            end_date: End date (ISO format: YYYY-MM-DD)
+            limit: Maximum records (default 100000)
+            debug: If True, print detailed debug information
+            **kwargs: Additional query parameters
+
+        Returns:
+            RecordListResponse with time series data for all transformers
+
+        Example:
+            >>> data = await pf.get_half_hourly_timeseries_async(
+            ...     substation='Addenbrookes Primary 11kV',
+            ...     granularity='half_hourly',
+            ...     start_date='2023-01-01',
+            ...     end_date='2024-01-01',
+            ...     debug=True
+            ... )
+
+        Note:
+            The monthly powerflow datasets contain ltds_name field that matches
+            the substation name, making direct filtering possible.
+        """
+        from ..utils.powerflow_helpers import (
+            determine_transformer_type,
+            extract_lv_nodes_and_voltages,
+            parse_voltage,
+        )
+        from .ltds import _get_orchestrator as _get_ltds_orchestrator
+
+        if debug:
+            print(f"\n{'='*80}")
+            print(f"[DEBUG] get_half_hourly_timeseries() called")
+            print(f"  Substation: {substation}")
+            print(f"  Granularity: {granularity}")
+            print(f"  Licence Area: {licence_area or 'Auto-detect'}")
+            print(f"  Date Range: {start_date} to {end_date}")
+            print(f"{'='*80}")
+
+        # Step 1: Query LTDS to determine transformer types and licence area
+        if debug:
+            print(f"\n[STEP 1] Querying LTDS Tables 2A and 2B for '{substation}'")
+        
+        ltds = _get_ltds_orchestrator()
+
+        # Query both tables to understand transformer configuration
+        table_2a_response = await ltds.get_table_2a_async(
+            substation=substation, limit=100
+        )
+        table_2b_response = await ltds.get_table_2b_async(
+            substation=substation, limit=100
+        )
+
+        # Determine licence area from LTDS data (if not explicitly provided)
+        if not licence_area:
+            if table_2a_response.records:
+                first_record = table_2a_response.records[0].fields
+                licence_area_field = (
+                    first_record.get("licencearea") or      # All lowercase, no underscore (actual field name)
+                    first_record.get("licence_area") or     # With underscore (some datasets)
+                    first_record.get("license_area") or     # US spelling
+                    first_record.get("licence_area_name")   # Alternative name
+                )
+                    
+                if licence_area_field:
+                    licence_area_upper = str(licence_area_field).upper()
+                    if "EPN" in licence_area_upper or "EASTERN" in licence_area_upper:
+                        licence_area = "EPN"
+                    elif "SPN" in licence_area_upper or "SOUTH EASTERN" in licence_area_upper:
+                        licence_area = "SPN"
+                    elif "LPN" in licence_area_upper or "LONDON" in licence_area_upper:
+                        licence_area = "LPN"
+            
+            if not licence_area and table_2b_response.records:
+                first_record = table_2b_response.records[0].fields
+                licence_area_field = (
+                    first_record.get("licencearea") or      # All lowercase, no underscore (actual field name)
+                    first_record.get("licence_area") or     # With underscore (some datasets)
+                    first_record.get("license_area") or     # US spelling
+                    first_record.get("licence_area_name")   # Alternative name
+                )
+                    
+                if licence_area_field:
+                    licence_area_upper = str(licence_area_field).upper()
+                    if "EPN" in licence_area_upper or "EASTERN" in licence_area_upper:
+                        licence_area = "EPN"
+                    elif "SPN" in licence_area_upper or "SOUTH EASTERN" in licence_area_upper:
+                        licence_area = "SPN"
+                    elif "LPN" in licence_area_upper or "LONDON" in licence_area_upper:
+                        licence_area = "LPN"
+            
+            if not licence_area:
+                raise ValueError(
+                    f"Could not determine licence area for substation '{substation}'. "
+                    "Please specify licence_area explicitly (EPN, SPN, or LPN)."
+                )
+
+        if debug:
+            print(f"  Licence area: {licence_area}")
+
+        # Step 2: Determine transformer types from voltage levels
+        if debug:
+            print(f"\n[STEP 2] Determining transformer types from LTDS data")
+        
+        nodes_info = extract_lv_nodes_and_voltages(
+            table_2a_response, table_2b_response, debug=False
+        )
+
+        if not nodes_info:
+            if debug:
+                print(f"[WARNING] No transformers found in LTDS for '{substation}'")
+            return RecordListResponse(records=[], total_count=0)
+
+        # Determine which transformer types we need (grid vs primary)
+        has_grid = False
+        has_primary = False
+
+        for node_info in nodes_info:
+            voltage = parse_voltage(node_info["voltage_lv"])
+            if voltage is not None:
+                tx_type = determine_transformer_type(voltage)
+                if tx_type == "grid":
+                    has_grid = True
+                else:
+                    has_primary = True
+
+        if debug:
+            print(f"  Transformer types: {'grid ' if has_grid else ''}{'primary' if has_primary else ''}")
+
+        # Step 3: Query monthly powerflow data filtering by ltds_name
+        if debug:
+            print(f"\n[STEP 3] Querying monthly data for ltds_name = '{substation}'")
+
+        all_tx_ids = set()
+
+        # Query grid monthly if needed (with pagination)
+        if has_grid:
+            if debug:
+                print(f"  Querying grid monthly data...")
+            
+            offset = 0
+            total_records = 0
+            while True:
+                grid_monthly = await self.get_transformer_timeseries_async(
+                    transformer_type="grid",
+                    granularity="monthly",
+                    licence_area=licence_area,
+                    limit=100,  # API max is 100
+                    offset=offset,
+                    where=f"ltds_name = '{substation}'"
+                )
+                
+                # Extract unique tx_id values
+                for record in grid_monthly.records:
+                    tx_id = record.fields.get("tx_id")
+                    if tx_id:
+                        all_tx_ids.add(tx_id)
+                
+                total_records += len(grid_monthly.records)
+                
+                # Break if we got fewer records than requested (no more data)
+                if len(grid_monthly.records) < 100:
+                    break
+                
+                offset += 100
+            
+            if debug:
+                print(f"    Found {total_records} records, {len(all_tx_ids)} unique tx_ids")
+
+        # Query primary monthly if needed (with pagination)
+        if has_primary:
+            if debug:
+                print(f"  Querying primary monthly data...")
+            
+            grid_count = len(all_tx_ids)
+            offset = 0
+            total_records = 0
+            while True:
+                primary_monthly = await self.get_transformer_timeseries_async(
+                    transformer_type="primary",
+                    granularity="monthly",
+                    licence_area=licence_area,
+                    limit=100,  # API max is 100
+                    offset=offset,
+                    where=f"ltds_name = '{substation}'"
+                )
+                
+                # Extract unique tx_id values
+                for record in primary_monthly.records:
+                    tx_id = record.fields.get("tx_id")
+                    if tx_id:
+                        all_tx_ids.add(tx_id)
+                
+                total_records += len(primary_monthly.records)
+                
+                # Break if we got fewer records than requested (no more data)
+                if len(primary_monthly.records) < 100:
+                    break
+                
+                offset += 100
+            
+            if debug:
+                print(f"    Found {total_records} records, {len(all_tx_ids) - grid_count} unique tx_ids")
+
+        if not all_tx_ids:
+            if debug:
+                print(f"\n[WARNING] No transformer IDs found for '{substation}'")
+            return RecordListResponse(records=[], total_count=0)
+
+        if debug:
+            print(f"\n  Total unique transformer IDs: {len(all_tx_ids)}")
+            print(f"  tx_ids: {list(all_tx_ids)}")
+
+        # Step 4: Query time series data for the specific tx_ids
+        if debug:
+            print(f"\n[STEP 4] Fetching {granularity} data for {len(all_tx_ids)} transformers")
+
+        # Build WHERE clause for tx_ids
+        tx_id_list = list(all_tx_ids)
+        tx_id_conditions = [f"tx_id = '{tx_id}'" for tx_id in tx_id_list]
+        tx_id_where = "(" + " OR ".join(tx_id_conditions) + ")"
+
+        # Add date filters
+        where_parts = [tx_id_where]
+        if start_date:
+            where_parts.append(f"timestamp >= '{start_date}'")
+        if end_date:
+            where_parts.append(f"timestamp <= '{end_date}'")
+
+        where_clause = " AND ".join(where_parts)
+
+        # Merge with user-provided WHERE clause
+        if kwargs.get("where"):
+            where_clause = f"({kwargs['where']}) AND ({where_clause})"
+        
+        kwargs_copy = kwargs.copy()
+        kwargs_copy.pop("limit", None)
+        kwargs_copy.pop("offset", None)
+        kwargs_copy["where"] = where_clause
+
+        # Fetch data with pagination
+        page_size = min(limit, 100)
+        all_records = []
+
+        # Fetch grid data if needed
+        # NOTE: Don't pass licence_area here - we're already filtering by specific tx_ids
+        # which implicitly limits to the correct area. Some datasets (grid_half_hourly)
+        # don't have licence_area field even though they're documented as "combined".
+        if has_grid:
+            offset = 0
+            while True:
+                grid_response = await self.get_transformer_timeseries_async(
+                    transformer_type="grid",
+                    granularity=granularity,
+                    licence_area=None,  # Don't filter by area - tx_ids are already area-specific
+                    limit=page_size,
+                    offset=offset,
+                    **kwargs_copy,
+                )
+                all_records.extend(grid_response.records)
+                
+                if debug:
+                    print(f"  Fetched {len(grid_response.records)} grid records (offset {offset})")
+                
+                if len(grid_response.records) < page_size:
+                    break
+                offset += page_size
+
+        # Fetch primary data if needed
+        if has_primary:
+            offset = 0
+            while True:
+                primary_response = await self.get_transformer_timeseries_async(
+                    transformer_type="primary",
+                    granularity=granularity,
+                    licence_area=licence_area,  # Primary datasets ARE split by area
+                    limit=page_size,
+                    offset=offset,
+                    **kwargs_copy,
+                )
+                all_records.extend(primary_response.records)
+                
+                if debug:
+                    print(f"  Fetched {len(primary_response.records)} primary records (offset {offset})")
+                
+                if len(primary_response.records) < page_size:
+                    break
+                offset += page_size
+
+        if debug:
+            print(f"\n[COMPLETE] Retrieved {len(all_records)} total records")
+
+        return RecordListResponse(records=all_records, total_count=len(all_records))
+
+    def get_half_hourly_timeseries(
+        self,
+        substation: str,
+        granularity: Granularity = "half_hourly",
+        licence_area: str | None = None,
+        start_date: str | None = None,
+        end_date: str | None = None,
+        limit: int = 100000,
+        debug: bool = False,
+        **kwargs: Any,
+    ) -> RecordListResponse:
+        """
+        Get half-hourly time series data for all transformers at a substation.
+
+        This method automatically:
+        1. Queries LTDS Tables 2A and 2B to determine transformer types
+        2. Queries monthly powerflow data filtering by ltds_name (substation name)
+        3. Extracts tx_id values for the substation's transformers
+        4. Retrieves time series data for those specific transformers
+
+        Args:
+            substation: Substation name (e.g., 'Addenbrookes Primary 11kV')
+            granularity: Data granularity - 'monthly' or 'half_hourly'
+            licence_area: Licence area (EPN, SPN, LPN) - auto-detected if not provided
+            start_date: Start date (ISO format: YYYY-MM-DD)
+            end_date: End date (ISO format: YYYY-MM-DD)
+            limit: Maximum records (default 100000)
+            debug: If True, print detailed debug information
+            **kwargs: Additional query parameters
+
+        Returns:
+            RecordListResponse with time series data for all transformers
+
+        Example:
+            >>> from ukpyn.orchestrators import powerflow
+            >>> data = powerflow.get_half_hourly_timeseries(
+            ...     substation='Addenbrookes Primary 11kV',
+            ...     granularity='half_hourly',
+            ...     licence_area='EPN',
+            ...     start_date='2023-01-01',
+            ...     end_date='2024-01-01'
+            ... )
+
+        Note:
+            Monthly powerflow datasets contain ltds_name field for direct filtering.
+        """
+        return _run_sync(
+            self.get_half_hourly_timeseries_async(
+                substation=substation,
+                granularity=granularity,
+                licence_area=licence_area,
+                start_date=start_date,
+                end_date=end_date,
+                limit=limit,
+                debug=debug,
                 **kwargs,
             )
         )
@@ -539,3 +939,62 @@ def export(
 ) -> bytes:
     """Export powerflow dataset data."""
     return _get_orchestrator().export(dataset, format=format, **kwargs)
+
+
+def get_half_hourly_timeseries(
+    substation: str,
+    granularity: Granularity = "half_hourly",
+    licence_area: str | None = None,
+    start_date: str | None = None,
+    end_date: str | None = None,
+    limit: int = 100000,
+    debug: bool = False,
+    **kwargs: Any,
+) -> RecordListResponse:
+    """
+    Get half-hourly time series data for all transformers at a substation.
+
+    This convenience function automatically:
+    1. Queries LTDS Tables 2A and 2B to determine transformer types
+    2. Queries monthly powerflow data filtering by ltds_name (substation name)
+    3. Extracts tx_id values for the substation's transformers
+    4. Retrieves time series data for those specific transformers
+
+    Args:
+        substation: Substation name (e.g., 'Addenbrookes Primary 11kV')
+        granularity: Data granularity - 'monthly' or 'half_hourly'
+        licence_area: Licence area (EPN, SPN, LPN) - auto-detected if not provided
+        start_date: Start date (ISO format: YYYY-MM-DD)
+        end_date: End date (ISO format: YYYY-MM-DD)
+        limit: Maximum records (default 100000)
+        debug: If True, print detailed debug information
+        **kwargs: Additional query parameters
+
+    Returns:
+        RecordListResponse with time series data for all transformers
+
+    Example:
+        >>> from ukpyn.orchestrators import powerflow
+        >>> data = powerflow.get_half_hourly_timeseries(
+        ...     substation='Addenbrookes Primary 11kV',
+        ...     granularity='half_hourly',
+        ...     licence_area='EPN',
+        ...     start_date='2023-01-01',
+        ...     end_date='2024-01-01',
+        ...     debug=True
+        ... )
+
+    Note:
+        Monthly powerflow datasets contain ltds_name field for direct filtering.
+        Requires LTDS orchestrator to determine transformer configuration.
+    """
+    return _get_orchestrator().get_half_hourly_timeseries(
+        substation=substation,
+        granularity=granularity,
+        licence_area=licence_area,
+        start_date=start_date,
+        end_date=end_date,
+        limit=limit,
+        debug=debug,
+        **kwargs,
+    )
