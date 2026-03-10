@@ -310,6 +310,37 @@ class TestErrorHandling:
         assert exc_info.value.retry_after == 60
 
 
+class TestClientSummary:
+    """Tests for client summary output."""
+
+    def test_summary_includes_safe_client_state(self) -> None:
+        """Summary reports safe config/state details without secrets."""
+        client = UKPNClient(api_key=TEST_API_KEY)
+
+        summary = client.summary()
+
+        assert "UKPNClient(" in summary
+        assert "has_api_key=True" in summary
+        assert "client_state='closed'" in summary
+        assert TEST_API_KEY not in summary
+        assert "Authorization" not in summary
+
+    @pytest.mark.asyncio
+    async def test_summary_reflects_open_and_closed_state(
+        self,
+        httpx_mock: HTTPXMock,
+        mock_catalog_response: dict[str, Any],
+    ) -> None:
+        """Summary reflects HTTP client lifecycle state changes."""
+        httpx_mock.add_response(json=mock_catalog_response)
+
+        async with UKPNClient(api_key=TEST_API_KEY) as client:
+            await client.list_datasets()
+            assert "client_state='open'" in client.summary()
+
+        assert "client_state='closed'" in client.summary()
+
+
 class TestClientContextManager:
     """Tests for async context manager functionality."""
 

@@ -1,6 +1,7 @@
 """Pydantic models for OpenDataSoft API v2.1 responses."""
 
 from datetime import datetime
+from html import escape
 from typing import Any
 
 from pydantic import AliasChoices, BaseModel, Field, field_validator, model_validator
@@ -31,6 +32,23 @@ class DatasetMetas(BaseModel):
     admin: dict[str, Any] | None = None
 
 
+class DatasetDescription:
+    """Notebook-friendly dataset description with text and rich HTML repr."""
+
+    def __init__(self, text: str, html: str) -> None:
+        self._text = text
+        self._html = html
+
+    def __str__(self) -> str:
+        return self._text
+
+    def __repr__(self) -> str:
+        return self._text
+
+    def _repr_html_(self) -> str:
+        return self._html
+
+
 class Dataset(BaseModel):
     """OpenDataSoft Dataset model."""
 
@@ -44,12 +62,153 @@ class Dataset(BaseModel):
     features: list[str] | None = None
     links: list[Link] | None = None
 
+    @property
+    def title(self) -> str:
+        """Return dataset title from metadata, when available."""
+        if self.metas and self.metas.default:
+            maybe_title = self.metas.default.get("title")
+            if isinstance(maybe_title, str) and maybe_title:
+                return maybe_title
+        return "N/A"
+
+    @property
+    def description(self) -> str:
+        """Return dataset description from metadata, when available."""
+        if self.metas and self.metas.default:
+            maybe_description = self.metas.default.get("description")
+            if isinstance(maybe_description, str) and maybe_description:
+                return maybe_description
+        return "N/A"
+
+    @property
+    def record_count(self) -> Any:
+        """Return record count from metadata, when available."""
+        if self.metas and self.metas.default:
+            return self.metas.default.get("records_count", "N/A")
+        return "N/A"
+
+    @property
+    def url(self) -> str:
+        """Return canonical OpenDataSoft explore URL for this dataset."""
+        return f"https://ukpowernetworks.opendatasoft.com/explore/dataset/{self.dataset_id}"
+
+    @property
+    def field_ids(self) -> list[str]:
+        """Return dataset field identifiers as a simple list."""
+        if not self.fields:
+            return []
+        return [field.name for field in self.fields]
+
+    def check_fields(self, cols: list[str]) -> list[str]:
+        """Return only requested columns that exist on this dataset."""
+        available_fields = set(self.field_ids)
+        if not available_fields:
+            return []
+        return [col for col in cols if col in available_fields]
+
+    def summary(self) -> str:
+        """Return a concise, human-readable summary of this dataset."""
+        title_text = f", title='{self.title}'" if self.title != "N/A" else ""
+        return (
+            f"Dataset(id='{self.dataset_id}'{title_text}, "
+            f"has_records={self.has_records}, records={self.record_count}, "
+            f"fields={len(self.fields) if self.fields else 0})"
+        )
+
+    def details(self) -> DatasetDescription:
+        """Return detailed dataset information with automatic notebook HTML rendering."""
+        title = self.title
+        record_count = self.record_count
+        field_count = len(self.fields) if self.fields else 0
+        dataset_url = self.url
+        field_lines = []
+        if self.fields:
+            for field in self.fields:
+                field_description = field.description or "No description"
+                field_lines.append(
+                    f"- {field.name} ({field.type}), {field_description}"
+                )
+        else:
+            field_lines.append("- None")
+
+        text = "\n".join(
+            [
+                f"Dataset: {title}",
+                f"Dataset ID: {self.dataset_id}",
+                f"Has records: {self.has_records}",
+                f"Records: {record_count}",
+                f"URL: {dataset_url}",
+                f"Fields (total): {field_count}",
+                *field_lines,
+            ]
+        )
+        html_fields = "".join(
+            [
+                "<li>None</li>"
+                if not self.fields
+                else "".join(
+                    f"<li>{escape(field.name)} ({escape(field.type)}), "
+                    f"{escape(field.description or 'No description')}</li>"
+                    for field in self.fields
+                )
+            ]
+        )
+        html = (
+            "<div style='max-height: 240px; overflow-y: auto; border: 1px solid #ddd; "
+            "padding: 10px; border-radius: 6px; font-family: system-ui, sans-serif;'>"
+            f"<p><b>Dataset:</b> {escape(str(title))}</p>"
+            f"<p><b>Dataset ID:</b> {escape(str(self.dataset_id))}</p>"
+            f"<p><b>Has records:</b> {escape(str(self.has_records))}</p>"
+            f"<p><b>Records:</b> {escape(str(record_count))}</p>"
+            f"<p><b>URL:</b> <a href='{escape(str(dataset_url), quote=True)}' "
+            "target='_blank' rel='noopener noreferrer'>"
+            f"{escape(str(dataset_url))}</a></p>"
+            f"<p><b>Fields (total):</b> {field_count}</p>"
+            f"<ul>{html_fields}</ul>"
+            "</div>"
+        )
+
+        return DatasetDescription(text=text, html=html)
+
 
 class DatasetListItem(BaseModel):
     """Dataset item in a list response."""
 
     dataset: Dataset
     links: list[Link] | None = None
+
+    @property
+    def id(self) -> str:
+        """Return dataset identifier alias for convenience."""
+        return self.dataset.dataset_id
+
+    @property
+    def title(self) -> str:
+        """Proxy dataset title for convenience."""
+        return self.dataset.title
+
+    @property
+    def description(self) -> str:
+        """Proxy dataset description for convenience."""
+        return self.dataset.description
+
+    @property
+    def record_count(self) -> Any:
+        """Proxy dataset record count for convenience."""
+        return self.dataset.record_count
+
+    @property
+    def url(self) -> str:
+        """Proxy dataset URL for convenience."""
+        return self.dataset.url
+
+    def summary(self) -> str:
+        """Proxy dataset summary for convenience."""
+        return self.dataset.summary()
+
+    def details(self) -> DatasetDescription:
+        """Proxy dataset details for convenience."""
+        return self.dataset.details()
 
     @model_validator(mode="before")
     @classmethod
@@ -70,6 +229,17 @@ class DatasetListResponse(BaseModel):
         validation_alias=AliasChoices("datasets", "results"),
     )
 
+    def summary(self) -> str:
+        """Return a concise, human-readable summary of dataset list results."""
+        returned_count = len(self.datasets)
+        sample_ids = [item.dataset.dataset_id for item in self.datasets[:5]]
+        sample_text = ", ".join(sample_ids) if sample_ids else "none"
+        suffix = " ..." if returned_count > 5 else ""
+        return (
+            f"DatasetListResponse(total_count={self.total_count}, "
+            f"returned={returned_count}, sample_ids=[{sample_text}{suffix}])"
+        )
+
 
 class DatasetResponse(BaseModel):
     """Response from get_dataset endpoint."""
@@ -84,6 +254,10 @@ class DatasetResponse(BaseModel):
         if isinstance(value, dict) and "dataset" not in value:
             return {"dataset": value}
         return value
+
+    def summary(self) -> str:
+        """Return a concise, human-readable summary of this dataset response."""
+        return f"DatasetResponse({self.dataset.summary()})"
 
 
 class RecordFields(BaseModel):
@@ -148,12 +322,27 @@ class RecordListResponse(BaseModel):
         validation_alias=AliasChoices("records", "results"),
     )
 
+    def summary(self) -> str:
+        """Return a concise, human-readable summary of record list results."""
+        returned_count = len(self.records)
+        sample_ids = [record.id for record in self.records[:5]]
+        sample_text = ", ".join(sample_ids) if sample_ids else "none"
+        suffix = " ..." if returned_count > 5 else ""
+        return (
+            f"RecordListResponse(total_count={self.total_count}, "
+            f"returned={returned_count}, sample_ids=[{sample_text}{suffix}])"
+        )
+
 
 class RecordResponse(BaseModel):
     """Response from get single record endpoint."""
 
     record: Record
     links: list[Link] | None = None
+
+    def summary(self) -> str:
+        """Return a concise, human-readable summary of this record response."""
+        return f"RecordResponse({self.record.summary()})"
 
 
 class Facet(BaseModel):
