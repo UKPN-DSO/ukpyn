@@ -856,8 +856,21 @@ def fill_gaps(
             gap_idx = result.index[mask]
 
             if len(gap_idx) > 0:
-                gap_start_idx = result.index.get_loc(gap_idx[0])
-                gap_end_idx = result.index.get_loc(gap_idx[-1])
+                # get_loc can return int, slice, or boolean array
+                # Handle all cases to get integer position
+                loc_start = result.index.get_loc(gap_idx[0])
+                loc_end = result.index.get_loc(gap_idx[-1])
+                
+                # Convert to integer position if needed
+                if isinstance(loc_start, slice):
+                    gap_start_idx = loc_start.start if loc_start.start is not None else 0
+                else:
+                    gap_start_idx = int(loc_start) if not isinstance(loc_start, int) else loc_start
+                    
+                if isinstance(loc_end, slice):
+                    gap_end_idx = loc_end.stop - 1 if loc_end.stop is not None else len(result) - 1
+                else:
+                    gap_end_idx = int(loc_end) if not isinstance(loc_end, int) else loc_end
 
                 # Get surrounding timestamps
                 if gap_start_idx > 0 and gap_end_idx < len(result) - 1:

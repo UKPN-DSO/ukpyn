@@ -4,7 +4,7 @@ import asyncio
 from typing import Any, Literal
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator
+from .base import BaseOrchestrator, _run_sync
 from .registry import GEO_DATASETS
 
 # Type alias for voltage level parameter
@@ -39,6 +39,7 @@ class GISOrchestrator(BaseOrchestrator):
 
     async def get_primary_substations_async(
         self,
+        site: str | None = None,
         licence_area: str | None = None,
         limit: int = 100,
         offset: int = 0,
@@ -48,7 +49,8 @@ class GISOrchestrator(BaseOrchestrator):
         Get primary substation areas asynchronously.
 
         Args:
-            licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
+            site: Filter by site name
+            licence_area: Filter by licence area (e.g., Eastern Power Networks (EPN))
             limit: Maximum number of records to return
             offset: Pagination offset
             **kwargs: Additional query parameters
@@ -56,23 +58,24 @@ class GISOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing primary substation data
         """
-        where_clauses: list[str] = []
-
+        refine = {"sitetype": "Primary Substation"}
+        
+        if site:
+            refine["sitefunctionallocation"] = site
         if licence_area:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
-            dataset="primary_substations",
+            dataset="grid-and-primary-sites",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine,
             **kwargs,
         )
 
     def get_primary_substations(
         self,
+        site: str | None = None,
         licence_area: str | None = None,
         limit: int = 100,
         offset: int = 0,
@@ -82,6 +85,7 @@ class GISOrchestrator(BaseOrchestrator):
         Get primary substation areas synchronously.
 
         Args:
+            site: Filter by site name
             licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
             limit: Maximum number of records to return
             offset: Pagination offset
@@ -90,8 +94,9 @@ class GISOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing primary substation data
         """
-        return asyncio.run(
+        return _run_sync(
             self.get_primary_substations_async(
+                site=site,
                 licence_area=licence_area,
                 limit=limit,
                 offset=offset,
@@ -114,7 +119,7 @@ class GISOrchestrator(BaseOrchestrator):
         Get secondary sites asynchronously.
 
         Args:
-            primary_substation: Filter by parent primary substation name
+            primary_substation: Filter by parent primary substation field "sitefunctionallocation"
             limit: Maximum number of records to return
             offset: Pagination offset
             **kwargs: Additional query parameters
@@ -125,12 +130,12 @@ class GISOrchestrator(BaseOrchestrator):
         where_clauses: list[str] = []
 
         if primary_substation:
-            where_clauses.append(f"primary_substation = '{primary_substation}'")
+            where_clauses.append(f"primaryfeederfunctionallocation = '{primary_substation}'")
 
         where = " AND ".join(where_clauses) if where_clauses else None
 
         return await self.get_async(
-            dataset="secondary_sites",
+            dataset="ukpn-secondary-sites",
             limit=limit,
             offset=offset,
             where=where,
@@ -156,7 +161,7 @@ class GISOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing secondary site data
         """
-        return asyncio.run(
+        return _run_sync(
             self.get_secondary_sites_async(
                 primary_substation=primary_substation,
                 limit=limit,
@@ -216,7 +221,7 @@ class GISOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing overhead line data
         """
-        return asyncio.run(
+        return _run_sync(
             self.get_overhead_lines_async(
                 voltage=voltage,
                 limit=limit,
@@ -276,7 +281,7 @@ class GISOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing pole data
         """
-        return asyncio.run(
+        return _run_sync(
             self.get_poles_async(
                 voltage=voltage,
                 limit=limit,
@@ -325,7 +330,7 @@ class GISOrchestrator(BaseOrchestrator):
         Returns:
             GeoJSON data as bytes
         """
-        return asyncio.run(
+        return _run_sync(
             self.export_geojson_async(
                 dataset=dataset,
                 **kwargs,
@@ -372,7 +377,7 @@ class GISOrchestrator(BaseOrchestrator):
         Returns:
             Shapefile data as bytes (ZIP archive)
         """
-        return asyncio.run(
+        return _run_sync(
             self.export_shapefile_async(
                 dataset=dataset,
                 **kwargs,

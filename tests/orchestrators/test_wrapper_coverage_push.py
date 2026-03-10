@@ -45,7 +45,7 @@ async def test_flexibility_dispatch_and_curtailment_where(monkeypatch) -> None:
     await orchestrator.get_dispatches_async(
         start_date="2024-01-01",
         end_date="2024-01-31",
-        service_type="STOR",
+        product="Secure",
     )
     await orchestrator.get_curtailment_async(
         site_id="SITE-1",
@@ -57,7 +57,7 @@ async def test_flexibility_dispatch_and_curtailment_where(monkeypatch) -> None:
     assert calls[0]["where"] == (
         "start_time_local >= '2024-01-01' AND "
         "start_time_local <= '2024-01-31' AND "
-        "product = 'STOR'"
+        "product = 'Secure'"
     )
     assert calls[1]["dataset"] == "curtailment"
     assert calls[1]["where"] == (
@@ -91,7 +91,7 @@ def test_flexibility_sync_wrappers(func_name: str, monkeypatch) -> None:
 @pytest.mark.parametrize(
     "module_func,method_name,kwargs",
     [
-        ("get_dispatches", "get_dispatches", {"service_type": "STOR", "limit": 2}),
+        ("get_dispatches", "get_dispatches", {"product": "SECURE", "limit": 2}),
         ("get_curtailment", "get_curtailment", {"site_id": "S1", "limit": 2}),
     ],
 )
@@ -127,10 +127,10 @@ async def test_gis_async_methods_select_dataset_keys(monkeypatch) -> None:
     await orchestrator.get_poles_async(voltage="hv")
     await orchestrator.export_geojson_async("primary_substations")
 
-    assert calls[0]["dataset"] == "primary_substations"
-    assert calls[0]["where"] == "licence_area = 'EPN'"
-    assert calls[1]["dataset"] == "secondary_sites"
-    assert calls[1]["where"] == "primary_substation = 'A'"
+    assert calls[0]["dataset"] == "grid-and-primary-sites"
+    assert calls[0]["refine"] == {"sitetype": "Primary Substation", "licencearea": "EPN"}
+    assert calls[1]["dataset"] == "ukpn-secondary-sites"
+    assert calls[1]["where"] == "primaryfeederfunctionallocation = 'A'"
     assert calls[2]["dataset"] == "lv_overhead_lines"
     assert calls[3]["dataset"] == "hv_poles"
     assert calls[4]["format"] == "geojson"
@@ -179,7 +179,7 @@ def test_gis_module_specific_functions(monkeypatch) -> None:
 
 @pytest.mark.asyncio
 async def test_ltds_async_where_builders_for_high_impact_tables(monkeypatch) -> None:
-    """LTDS async methods build where clauses for major table helpers."""
+    """LTDS async methods build where/refine clauses for major table helpers."""
     orchestrator = LTDSOrchestrator()
     calls: list[dict[str, object]] = []
 
@@ -195,16 +195,17 @@ async def test_ltds_async_where_builders_for_high_impact_tables(monkeypatch) -> 
         substation="ASHFORD",
     )
     await orchestrator.get_table_6_async(licence_area="SPN", substation="BATTERSEA")
-    await orchestrator.get_projects_async(project_type="Reinforcement", status="Active")
+    await orchestrator.get_projects_async(local_authority="Cambridge", expected_start_year=2024)
     await orchestrator.get_cim_async(licence_area="LPN")
 
     assert calls[0]["dataset"] == "table_5"
     assert "technology_type LIKE '%Solar%'" in calls[0]["where"]
     assert calls[1]["dataset"] == "table_6"
     assert calls[2]["dataset"] == "projects"
-    assert calls[2]["where"] == "project_type = 'Reinforcement' AND status = 'Active'"
+    assert "local_authority LIKE '%Cambridge%'" in str(calls[2]["where"])
+    assert "expected_start_year = 2024" in str(calls[2]["where"])
     assert calls[3]["dataset"] == "cim"
-    assert calls[3]["where"] == "licence_area = 'LPN'"
+    assert calls[3]["refine"] == {"licencearea": "LPN"}
 
 
 @pytest.mark.parametrize(

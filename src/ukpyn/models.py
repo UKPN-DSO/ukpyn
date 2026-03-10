@@ -4,7 +4,7 @@ from datetime import datetime
 from html import escape
 from typing import Any
 
-from pydantic import AliasChoices, BaseModel, Field, model_validator
+from pydantic import AliasChoices, BaseModel, Field, field_validator, model_validator
 
 
 class Link(BaseModel):
@@ -269,7 +269,7 @@ class RecordFields(BaseModel):
 class Record(BaseModel):
     """Individual record from a dataset."""
 
-    id: str
+    id: int | str | None = None
     timestamp: datetime | None = None
     size: int | None = None
     fields: dict[str, Any] | None = None
@@ -278,64 +278,38 @@ class Record(BaseModel):
 
     @model_validator(mode="before")
     @classmethod
-    def _normalize_record(cls, value: Any) -> Any:
-        """Support both wrapped and flat record response formats."""
+    def _extract_fields_from_flat_structure(cls, value: Any) -> Any:
+        """
+        Handle flat API responses where fields are at root level.
+        
+        OpenDataSoft can return records in two formats:
+        1. Nested: {"id": 1, "fields": {"field1": "value1"}}
+        2. Flat: {"id": 1, "field1": "value1"}
+        
+        This validator converts flat format to nested format.
+        Note: 'timestamp' is NOT extracted as it's commonly a data field, not metadata.
+        """
         if not isinstance(value, dict):
             return value
-
-        if "id" in value:
+        
+        # If fields already exists and is populated, use it as-is
+        if value.get("fields") is not None:
             return value
-
-        if "fields" in value and isinstance(value["fields"], dict):
-            candidate_id = (
-                value.get("recordid")
-                or value.get("record_id")
-                or value["fields"].get("id")
-                or "unknown"
-            )
-            return {
-                "id": str(candidate_id),
-                "fields": value["fields"],
-                "timestamp": value.get("timestamp"),
-                "record_timestamp": value.get("record_timestamp"),
-                "size": value.get("size"),
-                "links": value.get("links"),
-            }
-
-        fields = {
-            key: val
-            for key, val in value.items()
-            if key
-            not in {
-                "recordid",
-                "record_id",
-                "timestamp",
-                "record_timestamp",
-                "size",
-                "links",
-            }
-        }
-        candidate_id = value.get("recordid") or value.get("record_id") or "unknown"
-        return {
-            "id": str(candidate_id),
-            "fields": fields,
-            "timestamp": value.get("timestamp"),
-            "record_timestamp": value.get("record_timestamp"),
-            "size": value.get("size"),
-            "links": value.get("links"),
-        }
-
-    def summary(self) -> str:
-        """Return a concise, human-readable summary of this record."""
-        field_names = sorted(self.fields.keys()) if self.fields else []
-        field_count = len(field_names)
-        preview_names = field_names[:5]
-        preview_text = ", ".join(preview_names) if preview_names else "none"
-        suffix = " ..." if field_count > 5 else ""
-        return (
-            f"Record(id='{self.id}', field_count={field_count}, "
-            f"fields=[{preview_text}{suffix}])"
-        )
+        
+        # Known Record metadata fields that should not go into fields dict
+        # Note: 'timestamp' is excluded - it's usually data, not metadata
+        known_fields = {"id", "size", "fields", "record_timestamp", "links"}
+        
+        # Extract unknown fields into fields dict
+        extra_fields = {k: v for k, v in value.items() if k not in known_fields}
+        
+        if extra_fields:
+            # Create new dict with known fields + fields dict
+            result = {k: v for k, v in value.items() if k in known_fields}
+            result["fields"] = extra_fields
+            return result
+        
+        return value
 
 
 class RecordListResponse(BaseModel):

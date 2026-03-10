@@ -15,7 +15,7 @@ Usage:
     table_3a = ltds.get_table_3a(licence_area='EPN')
     transformers = ltds.get_table_2a(licence_area='SPN')
     generation = ltds.get_table_5(technology_type='Solar')
-    projects = ltds.get_projects(status='Active')
+    projects = ltds.get_projects(local_authority='Cambridge')
 
     # Async access
     data = await ltds.get_async('table_3a')
@@ -84,18 +84,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 1 records
         """
-        where_clauses: list[str] = []
-
+        refine = {}
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
             dataset="table_1",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine if refine else None,
             **kwargs,
         )
 
@@ -144,13 +141,14 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 2A records
         """
+        refine = {}
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
+            refine["licencearea"] = licence_area
 
         if substation is not None:
-            where_clauses.append(f"substation LIKE '%{substation}%'")
+            where_clauses.append(f"lv_substation LIKE '%{substation}%'")
 
         where = " AND ".join(where_clauses) if where_clauses else None
 
@@ -158,6 +156,7 @@ class LTDSOrchestrator(BaseOrchestrator):
             dataset="table_2a",
             limit=limit,
             offset=offset,
+            refine=refine if refine else None,
             where=where,
             **kwargs,
         )
@@ -209,13 +208,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 2B records
         """
+        refine = {}
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
+            refine["licencearea"] = licence_area
 
         if substation is not None:
-            where_clauses.append(f"substation LIKE '%{substation}%'")
+            # Table 2B has lv_substation_1 and lv_substation_2 (3-winding transformers)
+            where_clauses.append(f"(lv_substation_1 LIKE '%{substation}%' OR lv_substation_2 LIKE '%{substation}%')")
 
         where = " AND ".join(where_clauses) if where_clauses else None
 
@@ -223,6 +224,7 @@ class LTDSOrchestrator(BaseOrchestrator):
             dataset="table_2b",
             limit=limit,
             offset=offset,
+            refine=refine if refine else None,
             where=where,
             **kwargs,
         )
@@ -274,10 +276,11 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 3A records
         """
+        refine = {}
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
+            refine["licencearea"] = licence_area
 
         if year is not None:
             where_clauses.append(f"year = {year}")
@@ -288,6 +291,7 @@ class LTDSOrchestrator(BaseOrchestrator):
             dataset="table_3a",
             limit=limit,
             offset=offset,
+            refine=refine if refine else None,
             where=where,
             **kwargs,
         )
@@ -341,18 +345,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 3B records
         """
-        where_clauses: list[str] = []
-
+        refine = {}
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
             dataset="table_3b",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine if refine else None,
             **kwargs,
         )
 
@@ -399,18 +400,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 4A records
         """
-        where_clauses: list[str] = []
-
+        refine = {}
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
             dataset="table_4a",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine if refine else None,
             **kwargs,
         )
 
@@ -457,18 +455,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 4B records
         """
-        where_clauses: list[str] = []
-
+        refine = {}
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
             dataset="table_4b",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine if refine else None,
             **kwargs,
         )
 
@@ -515,18 +510,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 7 records
         """
-        where_clauses: list[str] = []
-
+        refine = {}
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
             dataset="table_7",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine if refine else None,
             **kwargs,
         )
 
@@ -573,18 +565,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 8 records
         """
-        where_clauses: list[str] = []
-
+        refine = {}
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
             dataset="table_8",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine if refine else None,
             **kwargs,
         )
 
@@ -611,8 +600,9 @@ class LTDSOrchestrator(BaseOrchestrator):
 
     async def get_projects_async(
         self,
-        project_type: str | None = None,
-        status: str | None = None,
+        licence_area: str | None = None,
+        local_authority: str | None = None,
+        expected_start_year: int | None = None,
         limit: int = 100,
         offset: int = 0,
         **kwargs: Any,
@@ -624,8 +614,9 @@ class LTDSOrchestrator(BaseOrchestrator):
         including reinforcement schemes, new connections, and upgrades.
 
         Args:
-            project_type: Filter by project type
-            status: Filter by project status (e.g., 'Active', 'Completed')
+            licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
+            local_authority: Filter by local authority name
+            expected_start_year: Filter by expected start year
             limit: Maximum records to return (default 100)
             offset: Pagination offset
             **kwargs: Additional query parameters
@@ -633,13 +624,17 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing infrastructure project records
         """
+        refine = {}
         where_clauses: list[str] = []
 
-        if project_type is not None:
-            where_clauses.append(f"project_type = '{project_type}'")
+        if licence_area is not None:
+            refine["dno"] = licence_area
 
-        if status is not None:
-            where_clauses.append(f"status = '{status}'")
+        if local_authority is not None:
+            where_clauses.append(f"local_authority LIKE '%{local_authority}%'")
+
+        if expected_start_year is not None:
+            where_clauses.append(f"expected_start_year = {expected_start_year}")
 
         where = " AND ".join(where_clauses) if where_clauses else None
 
@@ -647,14 +642,16 @@ class LTDSOrchestrator(BaseOrchestrator):
             dataset="projects",
             limit=limit,
             offset=offset,
+            refine=refine if refine else None,
             where=where,
             **kwargs,
         )
 
     def get_projects(
         self,
-        project_type: str | None = None,
-        status: str | None = None,
+        licence_area: str | None = None,
+        local_authority: str | None = None,
+        expected_start_year: int | None = None,
         limit: int = 100,
         offset: int = 0,
         **kwargs: Any,
@@ -666,8 +663,9 @@ class LTDSOrchestrator(BaseOrchestrator):
         """
         return _run_sync(
             self.get_projects_async(
-                project_type=project_type,
-                status=status,
+                licence_area=licence_area,
+                local_authority=local_authority,
+                expected_start_year=expected_start_year,
                 limit=limit,
                 offset=offset,
                 **kwargs,
@@ -704,10 +702,11 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 5 records
         """
+        refine = {}
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
+            refine["licencearea"] = licence_area
 
         if technology_type is not None:
             where_clauses.append(f"technology_type LIKE '%{technology_type}%'")
@@ -721,6 +720,7 @@ class LTDSOrchestrator(BaseOrchestrator):
             dataset="table_5",
             limit=limit,
             offset=offset,
+            refine=refine if refine else None,
             where=where,
             **kwargs,
         )
@@ -774,10 +774,11 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing Table 6 records
         """
+        refine = {}
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
+            refine["licencearea"] = licence_area
 
         if substation is not None:
             where_clauses.append(f"substation LIKE '%{substation}%'")
@@ -788,6 +789,7 @@ class LTDSOrchestrator(BaseOrchestrator):
             dataset="table_6",
             limit=limit,
             offset=offset,
+            refine=refine if refine else None,
             where=where,
             **kwargs,
         )
@@ -838,18 +840,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         Returns:
             RecordListResponse containing CIM records
         """
-        where_clauses: list[str] = []
-
+        refine = {}
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
-
-        where = " AND ".join(where_clauses) if where_clauses else None
+            refine["licencearea"] = licence_area
 
         return await self.get_async(
             dataset="cim",
             limit=limit,
             offset=offset,
-            where=where,
+            refine=refine if refine else None,
             **kwargs,
         )
 
@@ -978,7 +977,7 @@ def get_table_2a(
 
     Args:
         licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
-        substation: Filter by substation name
+        substation: Filter by substation name (searches lv_substation field in the dataset)
         limit: Maximum records to return
         **kwargs: Additional query parameters
 
@@ -1010,7 +1009,7 @@ def get_table_2b(
 
     Args:
         licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
-        substation: Filter by substation name
+        substation: Filter by substation name (searches lv_substation_1 and lv_substation_2 fields)
         limit: Maximum records to return
         **kwargs: Additional query parameters
 
@@ -1303,8 +1302,9 @@ def get_cim(
 
 
 def get_projects(
-    project_type: str | None = None,
-    status: str | None = None,
+    licence_area: str | None = None,
+    local_authority: str | None = None,
+    expected_start_year: int | None = None,
     limit: int = 100,
     **kwargs: Any,
 ) -> RecordListResponse:
@@ -1314,8 +1314,9 @@ def get_projects(
     Convenience function using the default orchestrator.
 
     Args:
-        project_type: Filter by project type
-        status: Filter by project status (e.g., 'Active', 'Completed')
+        licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
+        local_authority: Filter by local authority name
+        expected_start_year: Filter by expected start year
         limit: Maximum records to return
         **kwargs: Additional query parameters
 
@@ -1324,11 +1325,14 @@ def get_projects(
 
     Example:
         from ukpyn import ltds
-        active_projects = ltds.get_projects(status='Active')
+        epn_projects = ltds.get_projects(licence_area='EPN')
+        cambridge_projects = ltds.get_projects(local_authority='Cambridge')
+        projects_2024 = ltds.get_projects(expected_start_year=2024)
     """
     return _get_orchestrator().get_projects(
-        project_type=project_type,
-        status=status,
+        licence_area=licence_area,
+        local_authority=local_authority,
+        expected_start_year=expected_start_year,
         limit=limit,
         **kwargs,
     )
