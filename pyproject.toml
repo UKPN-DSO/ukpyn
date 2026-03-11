@@ -7,7 +7,7 @@ name = "ukpyn"
 version = "0.1.2"
 description = "Python client for UK Power Networks Open Data"
 readme = "README.md"
-license = { text ="CC-BY-4.0"}
+license = "GNU AGPLv3"
 requires-python = ">=3.11"
 authors = [
     { name = "Dr Jamie M. Bright", email = "jamie.bright@ukpowernetworks.co.uk" },
