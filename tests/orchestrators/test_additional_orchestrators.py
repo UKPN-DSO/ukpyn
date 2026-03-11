@@ -100,8 +100,7 @@ async def test_dfes_get_headroom_async_combines_where(monkeypatch) -> None:
 
     assert captured["dataset"] == "headroom"
     assert captured["where"] == (
-        "scenario = 'Leading the Way' AND "
-        "year = 2035 AND licence_area = 'EPN'"
+        "scenario = 'Leading the Way' AND year = 2035 AND licence_area = 'EPN'"
     )
     assert captured["order_by"] == "year"
 
@@ -177,7 +176,9 @@ async def test_powerflow_circuit_and_transformer_default_order_by(monkeypatch) -
 
     monkeypatch.setattr(orchestrator, "get_async", fake_get_async)
 
-    await orchestrator.get_circuit_timeseries_async(voltage="33kv", granularity="monthly")
+    await orchestrator.get_circuit_timeseries_async(
+        voltage="33kv", granularity="monthly"
+    )
     await orchestrator.get_transformer_timeseries_async(transformer_type="grid")
 
     assert captured_calls[0]["dataset"] == "33kv_monthly"
@@ -198,10 +199,16 @@ async def test_powerflow_discovery_uses_monthly(monkeypatch) -> None:
         return kwargs
 
     monkeypatch.setattr(orchestrator, "get_circuit_timeseries_async", fake_circuits)
-    monkeypatch.setattr(orchestrator, "get_transformer_timeseries_async", fake_transformers)
+    monkeypatch.setattr(
+        orchestrator, "get_transformer_timeseries_async", fake_transformers
+    )
 
-    circuits = await orchestrator.discover_circuits_async(voltage="132kv", licence_area="LPN")
-    transformers = await orchestrator.discover_transformers_async(transformer_type="primary")
+    circuits = await orchestrator.discover_circuits_async(
+        voltage="132kv", licence_area="LPN"
+    )
+    transformers = await orchestrator.discover_transformers_async(
+        transformer_type="primary"
+    )
 
     assert circuits["granularity"] == "monthly"
     assert circuits["voltage"] == "132kv"

@@ -5,10 +5,9 @@ from typing import Any
 import pytest
 from pytest_httpx import HTTPXMock
 
-from ukpyn import spatial
 from ukpyn.spatial import (
-    Bounds,
     GEO_ENABLED_DATASETS,
+    Bounds,
     _bounds_to_polygon,
     list_geo_datasets,
     query_bounds,
@@ -31,7 +30,15 @@ def mock_geo_records_response() -> dict[str, Any]:
                     "licence_area": "LPN",
                     "geo_shape": {
                         "type": "Polygon",
-                        "coordinates": [[[-0.1, 51.5], [-0.1, 51.6], [0.0, 51.6], [0.0, 51.5], [-0.1, 51.5]]],
+                        "coordinates": [
+                            [
+                                [-0.1, 51.5],
+                                [-0.1, 51.6],
+                                [0.0, 51.6],
+                                [0.0, 51.5],
+                                [-0.1, 51.5],
+                            ]
+                        ],
                     },
                 },
             },
@@ -42,7 +49,15 @@ def mock_geo_records_response() -> dict[str, Any]:
                     "licence_area": "LPN",
                     "geo_shape": {
                         "type": "Polygon",
-                        "coordinates": [[[-0.2, 51.4], [-0.2, 51.5], [-0.1, 51.5], [-0.1, 51.4], [-0.2, 51.4]]],
+                        "coordinates": [
+                            [
+                                [-0.2, 51.4],
+                                [-0.2, 51.5],
+                                [-0.1, 51.5],
+                                [-0.1, 51.4],
+                                [-0.2, 51.4],
+                            ]
+                        ],
                     },
                 },
             },
@@ -156,7 +171,12 @@ class TestQueryBoundsValidation:
                 api_key=TEST_API_KEY,
             )
 
-    def test_valid_dataset_accepted(self, london_bounds: Bounds, httpx_mock: HTTPXMock, mock_geo_records_response: dict[str, Any]) -> None:
+    def test_valid_dataset_accepted(
+        self,
+        london_bounds: Bounds,
+        httpx_mock: HTTPXMock,
+        mock_geo_records_response: dict[str, Any],
+    ) -> None:
         """Test that valid dataset names don't raise validation errors."""
         # Mock the response so we don't actually call the API
         httpx_mock.add_response(json=mock_geo_records_response)

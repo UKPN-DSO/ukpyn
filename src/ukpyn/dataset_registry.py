@@ -127,7 +127,6 @@ FLEXIBILITY_DATASETS: dict[str, str] = {
     "dispatch_events": "ukpn-flexibility-dispatches",  # Alias
     # Flexibility tender data - procurement information
     "tenders": "ukpn-flexibility-tender-data",
-
 }
 
 # =============================================================================

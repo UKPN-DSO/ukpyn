@@ -98,8 +98,7 @@ class BaseOrchestrator:
         if friendly_name not in self.DATASETS:
             available = ", ".join(self.DATASETS.keys())
             raise ValueError(
-                f"Unknown dataset: '{friendly_name}'. "
-                f"Available datasets: {available}"
+                f"Unknown dataset: '{friendly_name}'. Available datasets: {available}"
             )
         return self.DATASETS[friendly_name]
 

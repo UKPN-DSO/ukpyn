@@ -24,7 +24,9 @@ async def test_network_statistics_and_profiles_async_where(monkeypatch) -> None:
     monkeypatch.setattr(orchestrator, "get_async", fake_get_async)
 
     await orchestrator.get_statistics_async(year=2024, region="EPN")
-    await orchestrator.get_demand_profiles_async(profile_class="1", where="licence_area = 'SPN'")
+    await orchestrator.get_demand_profiles_async(
+        profile_class="1", where="licence_area = 'SPN'"
+    )
 
     assert calls[0]["dataset"] == "statistics"
     assert calls[0]["where"] == "year = 2024 AND region = 'EPN'"
@@ -99,7 +101,12 @@ async def test_powerflow_where_merge_and_order_override(monkeypatch) -> None:
 
 @pytest.mark.parametrize(
     "func_name",
-    ["get_circuit_timeseries", "get_transformer_timeseries", "discover_circuits", "discover_transformers"],
+    [
+        "get_circuit_timeseries",
+        "get_transformer_timeseries",
+        "discover_circuits",
+        "discover_transformers",
+    ],
 )
 def test_powerflow_sync_wrappers(func_name: str, monkeypatch) -> None:
     """Powerflow sync wrappers invoke matching async methods."""

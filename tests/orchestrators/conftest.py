@@ -6,7 +6,6 @@ import pytest
 
 from ukpyn.models import Record, RecordListResponse
 
-
 # Test constants
 TEST_API_KEY = "test-api-key-12345"
 

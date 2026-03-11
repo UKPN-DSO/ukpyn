@@ -258,6 +258,7 @@ class TestGetDataset:
         assert result.dataset_id == "ukpn-smart-meter-installation-volumes"
         assert result.metas is not None
 
+
 class TestErrorHandling:
     """Tests for error handling."""
 

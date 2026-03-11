@@ -2,8 +2,7 @@
 
 from types import SimpleNamespace
 
-from ukpyn import __version__
-from ukpyn import cli
+from ukpyn import __version__, cli
 from ukpyn.cli import main
 
 
@@ -29,7 +28,7 @@ def test_cli_unknown_command_prints_help(monkeypatch, capsys) -> None:
     """CLI prints help for unknown command branch."""
 
     class FakeParser:
-        def parse_args(self, argv):
+        def parse_args(self):
             return SimpleNamespace(command="unknown")
 
         def print_help(self):

@@ -8,7 +8,13 @@ from pytest_httpx import HTTPXMock
 
 from ukpyn.client import UKPNClient
 from ukpyn.config import Config
-from ukpyn.exceptions import NotFoundError, RateLimitError, ServerError, UKPNError, ValidationError
+from ukpyn.exceptions import (
+    NotFoundError,
+    RateLimitError,
+    ServerError,
+    UKPNError,
+    ValidationError,
+)
 
 
 @pytest.mark.asyncio
@@ -69,7 +75,9 @@ def test_handle_error_server_and_generic_statuses() -> None:
 
 
 @pytest.mark.asyncio
-async def test_get_dataset_success_parses_dataset_response(httpx_mock: HTTPXMock) -> None:
+async def test_get_dataset_success_parses_dataset_response(
+    httpx_mock: HTTPXMock,
+) -> None:
     """get_dataset should parse DatasetResponse and return the dataset payload."""
     httpx_mock.add_response(
         json={
@@ -88,7 +96,9 @@ async def test_get_dataset_success_parses_dataset_response(httpx_mock: HTTPXMock
 
 
 @pytest.mark.asyncio
-async def test_export_data_uses_none_params_when_no_filters(httpx_mock: HTTPXMock) -> None:
+async def test_export_data_uses_none_params_when_no_filters(
+    httpx_mock: HTTPXMock,
+) -> None:
     """export_data should call raw request with params=None when no filters are passed."""
     httpx_mock.add_response(content=b"{}")
 

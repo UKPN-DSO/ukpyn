@@ -355,7 +355,11 @@ def _detect_seasonal_hints(series: Any) -> dict[str, Any]:
     try:
         hourly_means = series.groupby(series.index.hour).mean()
         if len(hourly_means) >= 12:
-            hourly_cv = hourly_means.std() / hourly_means.mean() if hourly_means.mean() != 0 else 0
+            hourly_cv = (
+                hourly_means.std() / hourly_means.mean()
+                if hourly_means.mean() != 0
+                else 0
+            )
             hints["has_daily_pattern"] = hourly_cv > 0.05
             hints["daily_variation_cv"] = hourly_cv
     except Exception:
@@ -366,7 +370,11 @@ def _detect_seasonal_hints(series: Any) -> dict[str, Any]:
         try:
             daily_means = series.groupby(series.index.dayofweek).mean()
             if len(daily_means) >= 5:
-                weekly_cv = daily_means.std() / daily_means.mean() if daily_means.mean() != 0 else 0
+                weekly_cv = (
+                    daily_means.std() / daily_means.mean()
+                    if daily_means.mean() != 0
+                    else 0
+                )
                 hints["has_weekly_pattern"] = weekly_cv > 0.03
                 hints["weekly_variation_cv"] = weekly_cv
         except Exception:
@@ -441,7 +449,9 @@ def autocorrelation(series: Any, lags: int = 48) -> Any:
             acf_values.append(1.0)
         else:
             # Calculate autocorrelation for this lag
-            cov = sum((values[i] - mean) * (values[i - lag] - mean) for i in range(lag, n))
+            cov = sum(
+                (values[i] - mean) * (values[i - lag] - mean) for i in range(lag, n)
+            )
             cov /= n
             acf_values.append(cov / var)
 
@@ -521,7 +531,9 @@ def seasonal_pattern(
     elif period == "annual":
         grouper = valid.index.month
     else:
-        raise ValueError(f"Unknown period: {period}. Use 'daily', 'weekly', or 'annual'.")
+        raise ValueError(
+            f"Unknown period: {period}. Use 'daily', 'weekly', or 'annual'."
+        )
 
     # Calculate statistics by group
     grouped = valid.groupby(grouper)
@@ -662,7 +674,9 @@ def peak_analysis(
         # Most common peak months
         month_counts = peak_times.groupby(peak_times.index.month).size()
         if len(month_counts) > 0:
-            peak_months = month_counts.nlargest(min(3, len(month_counts))).index.tolist()
+            peak_months = month_counts.nlargest(
+                min(3, len(month_counts))
+            ).index.tolist()
 
     # Calculate maximum consecutive periods above threshold
     max_consecutive = _max_consecutive_true(above_threshold)

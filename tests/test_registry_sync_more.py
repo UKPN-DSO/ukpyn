@@ -24,7 +24,7 @@ from ukpyn.registry_sync import (
 
 def test_extract_registry_maps_parses_assign_and_annassign() -> None:
     """Registry map extraction handles both Assign and AnnAssign forms."""
-    source = '''
+    source = """
 A_DATASETS = {
     "a": "a-id",
 }
@@ -32,7 +32,7 @@ A_DATASETS = {
 B_DATASETS: dict[str, str] = {
     "b": "b-id",
 }
-'''
+"""
 
     maps = extract_registry_maps(source)
     assert maps["A_DATASETS"]["a"] == "a-id"
@@ -65,7 +65,9 @@ def test_inject_unmanaged_section_raises_when_anchor_missing() -> None:
         ("ukpn-constraints-foo", "src/ukpyn/orchestrators/network.py"),
     ],
 )
-def test_suggest_update_targets_keyword_routes(dataset_id: str, expected_target: str) -> None:
+def test_suggest_update_targets_keyword_routes(
+    dataset_id: str, expected_target: str
+) -> None:
     """Dataset ID heuristics route to expected orchestrator target files."""
     assert expected_target in suggest_update_targets(dataset_id)
 
@@ -146,7 +148,9 @@ NETWORK_DATASETS: dict[str, str] = {}
     assert '"new_count": 1' in summary
 
 
-def test_synchronize_registry_no_change_when_no_new(tmp_path: Path, monkeypatch) -> None:
+def test_synchronize_registry_no_change_when_no_new(
+    tmp_path: Path, monkeypatch
+) -> None:
     """Synchronization keeps registry unchanged when there are no new datasets."""
     section = (
         f"{BEGIN_MARKER}\n"

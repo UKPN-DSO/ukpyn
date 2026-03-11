@@ -178,13 +178,17 @@ def records_to_timeseries(
     # Return Series or DataFrame based on args
     if value_field:
         if value_field not in df.columns:
-            raise ValueError(f"Field '{value_field}' not found. Available: {list(df.columns)}")
+            raise ValueError(
+                f"Field '{value_field}' not found. Available: {list(df.columns)}"
+            )
         return df[value_field]
 
     if value_fields:
         missing = [f for f in value_fields if f not in df.columns]
         if missing:
-            raise ValueError(f"Fields not found: {missing}. Available: {list(df.columns)}")
+            raise ValueError(
+                f"Fields not found: {missing}. Available: {list(df.columns)}"
+            )
         return df[value_fields]
 
     return df
@@ -432,9 +436,7 @@ def detect_redaction(
     marker_values = markers if markers is not None else default_markers
 
     text_markers = {
-        str(value).strip().lower()
-        for value in marker_values
-        if isinstance(value, str)
+        str(value).strip().lower() for value in marker_values if isinstance(value, str)
     }
     literal_markers = [value for value in marker_values if not isinstance(value, str)]
 
@@ -568,7 +570,9 @@ def detect_rolling_anomalies(
 
     effective_min_periods = min_periods or max(3, window_size // 2)
 
-    baseline = series.rolling(window=window_size, min_periods=effective_min_periods).median()
+    baseline = series.rolling(
+        window=window_size, min_periods=effective_min_periods
+    ).median()
     abs_deviation = (series - baseline).abs()
     rolling_mad = abs_deviation.rolling(
         window=window_size,
@@ -618,7 +622,10 @@ def summarize_flow_balance(
         raise ValueError("tolerance must be >= 0")
 
     aligned = pd.concat(
-        [line_power.rename("line_power"), transformer_power.rename("transformer_power")],
+        [
+            line_power.rename("line_power"),
+            transformer_power.rename("transformer_power"),
+        ],
         axis=1,
         join="inner",
     ).dropna()
@@ -636,7 +643,9 @@ def summarize_flow_balance(
 
     difference = aligned["line_power"] - aligned["transformer_power"]
     abs_difference = difference.abs()
-    relative_difference = abs_difference / aligned["transformer_power"].abs().replace(0, pd.NA)
+    relative_difference = abs_difference / aligned["transformer_power"].abs().replace(
+        0, pd.NA
+    )
     within_tolerance = (relative_difference <= tolerance).fillna(False)
 
     return {
@@ -696,7 +705,9 @@ def quality_control(
 
     # Detect outliers
     if valid_points > 0:
-        outlier_flags = flag_outliers(valid_series, method=outlier_method, threshold=outlier_threshold)
+        outlier_flags = flag_outliers(
+            valid_series, method=outlier_method, threshold=outlier_threshold
+        )
         outlier_points = outlier_flags.sum()
     else:
         outlier_points = 0
@@ -711,11 +722,15 @@ def quality_control(
 
     if outlier_points > 0:
         outlier_pct = 100 * outlier_points / valid_points if valid_points > 0 else 0
-        issues.append(f"Outliers detected: {outlier_points} points ({outlier_pct:.1f}%)")
+        issues.append(
+            f"Outliers detected: {outlier_points} points ({outlier_pct:.1f}%)"
+        )
 
     if gaps:
         total_gap_hours = sum(g.duration_hours for g in gaps)
-        issues.append(f"Data gaps: {len(gaps)} gaps totaling {total_gap_hours:.1f} hours")
+        issues.append(
+            f"Data gaps: {len(gaps)} gaps totaling {total_gap_hours:.1f} hours"
+        )
 
     # Calculate quality score (simple weighted average)
     if total_points > 0:
@@ -860,17 +875,27 @@ def fill_gaps(
                 # Handle all cases to get integer position
                 loc_start = result.index.get_loc(gap_idx[0])
                 loc_end = result.index.get_loc(gap_idx[-1])
-                
+
                 # Convert to integer position if needed
                 if isinstance(loc_start, slice):
-                    gap_start_idx = loc_start.start if loc_start.start is not None else 0
+                    gap_start_idx = (
+                        loc_start.start if loc_start.start is not None else 0
+                    )
                 else:
-                    gap_start_idx = int(loc_start) if not isinstance(loc_start, int) else loc_start
-                    
+                    gap_start_idx = (
+                        int(loc_start) if not isinstance(loc_start, int) else loc_start
+                    )
+
                 if isinstance(loc_end, slice):
-                    gap_end_idx = loc_end.stop - 1 if loc_end.stop is not None else len(result) - 1
+                    gap_end_idx = (
+                        loc_end.stop - 1
+                        if loc_end.stop is not None
+                        else len(result) - 1
+                    )
                 else:
-                    gap_end_idx = int(loc_end) if not isinstance(loc_end, int) else loc_end
+                    gap_end_idx = (
+                        int(loc_end) if not isinstance(loc_end, int) else loc_end
+                    )
 
                 # Get surrounding timestamps
                 if gap_start_idx > 0 and gap_end_idx < len(result) - 1:

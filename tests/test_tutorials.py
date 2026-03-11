@@ -74,9 +74,7 @@ class TestTutorialNotebooksValid:
             assert "cell_type" in cell, (
                 f"{notebook_path.name} cell {i} missing 'cell_type'"
             )
-            assert "source" in cell, (
-                f"{notebook_path.name} cell {i} missing 'source'"
-            )
+            assert "source" in cell, f"{notebook_path.name} cell {i} missing 'source'"
             assert cell["cell_type"] in ("code", "markdown", "raw"), (
                 f"{notebook_path.name} cell {i} has invalid cell_type: "
                 f"{cell['cell_type']}"
@@ -128,8 +126,7 @@ class TestTutorialNotebooksExecute:
             from nbconvert.preprocessors import ExecutePreprocessor
         except ImportError:
             pytest.skip(
-                "nbconvert not installed - install with: "
-                "pip install nbconvert jupyter"
+                "nbconvert not installed - install with: pip install nbconvert jupyter"
             )
 
         # Read the notebook
@@ -173,10 +170,7 @@ class TestTutorialNotebooksSyntax:
                 continue
 
             source = cell.get("source", [])
-            if isinstance(source, list):
-                code = "".join(source)
-            else:
-                code = source
+            code = "".join(source) if isinstance(source, list) else source
 
             # Skip empty cells
             if not code.strip():
@@ -190,14 +184,10 @@ class TestTutorialNotebooksSyntax:
             # (Jupyter supports top-level await, regular Python doesn't)
             if "await " in code or "async with" in code or "async for" in code:
                 # Wrap in async function for syntax check
-                indented_code = "\n".join(
-                    f"    {line}" for line in code.split("\n")
-                )
+                indented_code = "\n".join(f"    {line}" for line in code.split("\n"))
                 code = f"async def _notebook_cell():\n{indented_code}"
 
             try:
                 compile(code, f"{notebook_path.name}:cell_{i}", "exec")
             except SyntaxError as e:
-                pytest.fail(
-                    f"Syntax error in {notebook_path.name} cell {i}: {e}"
-                )
+                pytest.fail(f"Syntax error in {notebook_path.name} cell {i}: {e}")

@@ -218,7 +218,9 @@ class TestDescribeTimeseries:
         """Test kurtosis is higher for peaked data."""
         dates = pd.date_range("2024-01-01", periods=100, freq="30min")
         # Create data with heavy tails
-        values = [100.0] * 90 + [1.0] * 5 + [200.0] * 5  # Most at center, some at extremes
+        values = (
+            [100.0] * 90 + [1.0] * 5 + [200.0] * 5
+        )  # Most at center, some at extremes
         series = pd.Series(values, index=dates)
 
         result = describe_timeseries(series)
@@ -241,7 +243,9 @@ class TestDescribeTimeseries:
         assert math.isnan(result.p50)
         assert result.seasonal_hints == {}
 
-    def test_all_nan_series_returns_nan_stats(self, all_nan_timeseries: pd.Series) -> None:
+    def test_all_nan_series_returns_nan_stats(
+        self, all_nan_timeseries: pd.Series
+    ) -> None:
         """Test all NaN series returns NaN for all statistics."""
         result = describe_timeseries(all_nan_timeseries)
 
@@ -377,7 +381,9 @@ class TestAutocorrelation:
         assert result[1] > 0.9
         assert result[5] > 0.8
 
-    def test_periodic_autocorrelation(self, daily_pattern_timeseries: pd.Series) -> None:
+    def test_periodic_autocorrelation(
+        self, daily_pattern_timeseries: pd.Series
+    ) -> None:
         """Test autocorrelation for periodic data shows pattern."""
         result = autocorrelation(daily_pattern_timeseries, lags=96)
 
@@ -451,7 +457,9 @@ class TestAutocorrelation:
 class TestSeasonalPattern:
     """Tests for seasonal_pattern function."""
 
-    def test_returns_seasonal_profile(self, daily_pattern_timeseries: pd.Series) -> None:
+    def test_returns_seasonal_profile(
+        self, daily_pattern_timeseries: pd.Series
+    ) -> None:
         """Test that seasonal_pattern returns SeasonalProfile."""
         result = seasonal_pattern(daily_pattern_timeseries, period="daily")
 
@@ -478,7 +486,9 @@ class TestSeasonalPattern:
         assert result.period == "annual"
         assert len(result.profile_mean) == 12  # Months 1-12
 
-    def test_dominant_period_unit_daily(self, daily_pattern_timeseries: pd.Series) -> None:
+    def test_dominant_period_unit_daily(
+        self, daily_pattern_timeseries: pd.Series
+    ) -> None:
         """Test dominant period unit is correctly identified for daily pattern."""
         result = seasonal_pattern(daily_pattern_timeseries, period="daily")
 
@@ -486,7 +496,9 @@ class TestSeasonalPattern:
         assert result.dominant_period_unit is not None
         assert 0 <= result.dominant_period_unit <= 23
 
-    def test_dominant_period_unit_weekly(self, weekly_pattern_timeseries: pd.Series) -> None:
+    def test_dominant_period_unit_weekly(
+        self, weekly_pattern_timeseries: pd.Series
+    ) -> None:
         """Test dominant period unit for weekly pattern."""
         result = seasonal_pattern(weekly_pattern_timeseries, period="weekly")
 
@@ -543,14 +555,18 @@ class TestSeasonalPattern:
         assert result.dominant_period_unit is None
         assert math.isnan(result.range_ratio)
 
-    def test_all_nan_series_returns_empty_profile(self, all_nan_timeseries: pd.Series) -> None:
+    def test_all_nan_series_returns_empty_profile(
+        self, all_nan_timeseries: pd.Series
+    ) -> None:
         """Test all NaN series returns empty profile."""
         result = seasonal_pattern(all_nan_timeseries, period="daily")
 
         assert result.profile_mean == {}
         assert result.dominant_period_unit is None
 
-    def test_invalid_period_raises_error(self, daily_pattern_timeseries: pd.Series) -> None:
+    def test_invalid_period_raises_error(
+        self, daily_pattern_timeseries: pd.Series
+    ) -> None:
         """Test invalid period raises ValueError."""
         with pytest.raises(ValueError, match="Unknown period"):
             seasonal_pattern(daily_pattern_timeseries, period="quarterly")
@@ -607,7 +623,9 @@ class TestPeakAnalysis:
 
         assert result.trough_value == 100.0  # Min value in fixture
 
-    def test_trough_timestamp_identified(self, timeseries_with_peaks: pd.Series) -> None:
+    def test_trough_timestamp_identified(
+        self, timeseries_with_peaks: pd.Series
+    ) -> None:
         """Test trough timestamp is correctly identified."""
         result = peak_analysis(timeseries_with_peaks)
 
@@ -627,7 +645,9 @@ class TestPeakAnalysis:
         # Mean / Peak should be between 0 and 1
         assert 0 < result.mean_to_peak_ratio < 1
 
-    def test_threshold_percentile_stored(self, timeseries_with_peaks: pd.Series) -> None:
+    def test_threshold_percentile_stored(
+        self, timeseries_with_peaks: pd.Series
+    ) -> None:
         """Test threshold percentile is stored correctly."""
         result = peak_analysis(timeseries_with_peaks, threshold_percentile=95.0)
 
@@ -672,7 +692,9 @@ class TestPeakAnalysis:
         for month in result.peak_months:
             assert 1 <= month <= 12
 
-    def test_max_consecutive_above_threshold(self, timeseries_with_peaks: pd.Series) -> None:
+    def test_max_consecutive_above_threshold(
+        self, timeseries_with_peaks: pd.Series
+    ) -> None:
         """Test max consecutive periods above threshold."""
         result = peak_analysis(timeseries_with_peaks, threshold_percentile=90.0)
 
@@ -694,7 +716,9 @@ class TestPeakAnalysis:
         assert result.peak_months == []
         assert result.max_consecutive_above_threshold == 0
 
-    def test_all_nan_series_returns_nan_values(self, all_nan_timeseries: pd.Series) -> None:
+    def test_all_nan_series_returns_nan_values(
+        self, all_nan_timeseries: pd.Series
+    ) -> None:
         """Test all NaN series returns NaN values."""
         result = peak_analysis(all_nan_timeseries)
 

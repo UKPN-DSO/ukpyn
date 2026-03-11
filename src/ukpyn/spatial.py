@@ -151,7 +151,9 @@ async def query_bounds_async(
 
     async with UKPNClient(**client_kwargs) as client:
         # Query each dataset in parallel
-        async def query_dataset(dataset_name: str) -> tuple[str, RecordListResponse | str]:
+        async def query_dataset(
+            dataset_name: str,
+        ) -> tuple[str, RecordListResponse | str]:
             """Query a single dataset and return (name, result_or_error)."""
             try:
                 dataset_id = ALL_DATASETS[dataset_name]

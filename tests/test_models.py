@@ -1,7 +1,5 @@
 """Tests for Pydantic models."""
 
-from typing import Any
-
 import pytest
 from pydantic import ValidationError
 
@@ -228,7 +226,12 @@ class TestDataset:
                     annotations={"unit": "utc", "indexed": True},
                 )
             ],
-            links=[{"rel": "self", "href": "https://example.com/datasets/ukpn-smart-meter-data"}],
+            links=[
+                {
+                    "rel": "self",
+                    "href": "https://example.com/datasets/ukpn-smart-meter-data",
+                }
+            ],
         )
 
         details = dataset.details()
@@ -247,7 +250,10 @@ class TestDataset:
         assert "- record_timestamp (datetime), Timestamp of the record" in details_text
         assert "Description:" not in details_text
         assert "max-height: 240px" in details_html
-        assert "<a href='https://ukpowernetworks.opendatasoft.com/explore/dataset/ukpn-smart-meter-data'" in details_html
+        assert (
+            "<a href='https://ukpowernetworks.opendatasoft.com/explore/dataset/ukpn-smart-meter-data'"
+            in details_html
+        )
         assert "<ul>" in details_html
         assert "record_timestamp (datetime), Timestamp of the record" in details_html
         assert "<b>Description:</b>" not in details_html

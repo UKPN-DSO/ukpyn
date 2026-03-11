@@ -73,9 +73,7 @@ def _format_date_for_where(value: DateInput) -> str | None:
                     "Expected ISO format (YYYY-MM-DD) or datetime string."
                 ) from err
 
-    raise TypeError(
-        f"Expected str, date, or datetime, got {type(value).__name__}"
-    )
+    raise TypeError(f"Expected str, date, or datetime, got {type(value).__name__}")
 
 
 class CurtailmentOrchestrator(BaseOrchestrator):

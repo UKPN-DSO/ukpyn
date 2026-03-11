@@ -1,6 +1,5 @@
 """GIS orchestrator for geospatial/infrastructure datasets."""
 
-import asyncio
 from typing import Any, Literal
 
 from ..models import RecordListResponse
@@ -59,7 +58,7 @@ class GISOrchestrator(BaseOrchestrator):
             RecordListResponse containing primary substation data
         """
         refine = {"sitetype": "Primary Substation"}
-        
+
         if site:
             refine["sitefunctionallocation"] = site
         if licence_area:
@@ -130,7 +129,9 @@ class GISOrchestrator(BaseOrchestrator):
         where_clauses: list[str] = []
 
         if primary_substation:
-            where_clauses.append(f"primaryfeederfunctionallocation = '{primary_substation}'")
+            where_clauses.append(
+                f"primaryfeederfunctionallocation = '{primary_substation}'"
+            )
 
         where = " AND ".join(where_clauses) if where_clauses else None
 

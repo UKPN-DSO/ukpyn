@@ -32,7 +32,7 @@ def extract_lv_nodes_and_voltages(
     nodes_info = []
 
     if debug:
-        print(f"\n[DEBUG] Extracting LV nodes from LTDS responses:")
+        print("\n[DEBUG] Extracting LV nodes from LTDS responses:")
         print(f"  Table 2A records: {len(table_2a_response.records)}")
         print(f"  Table 2B records: {len(table_2b_response.records)}")
 
@@ -45,69 +45,77 @@ def extract_lv_nodes_and_voltages(
         hv_substation = fields.get("hv_substation")
 
         if debug:
-            print(f"\n  [Table 2A #{idx+1}]")
+            print(f"\n  [Table 2A #{idx + 1}]")
             print(f"    HV Substation: {hv_substation}")
             print(f"    LV Substation: {lv_substation}")
             print(f"    LV Node: {lv_node}")
             print(f"    Voltage LV: {voltage_lv}")
 
         if lv_node and voltage_lv is not None:
-            nodes_info.append({
-                "lv_node": lv_node, 
-                "voltage_lv": voltage_lv,
-                "lv_substation": lv_substation,
-                "hv_substation": hv_substation
-            })
+            nodes_info.append(
+                {
+                    "lv_node": lv_node,
+                    "voltage_lv": voltage_lv,
+                    "lv_substation": lv_substation,
+                    "hv_substation": hv_substation,
+                }
+            )
 
     # Process Table 2B (3-winding transformers - has two LV sides)
     for idx, record in enumerate(table_2b_response.records):
         fields = record.fields
         hv_substation = fields.get("hv_substation")
-        
+
         if debug:
-            print(f"\n  [Table 2B #{idx+1}]")
+            print(f"\n  [Table 2B #{idx + 1}]")
             print(f"    HV Substation: {hv_substation}")
-        
+
         # LV side 1
         lv_node_1 = fields.get("lv_node_1")
         voltage_lv_1 = fields.get("voltage_lv_1")
         lv_substation_1 = fields.get("lv_substation_1")
-        
+
         if debug:
             print(f"    LV Substation 1: {lv_substation_1}")
             print(f"    LV Node 1: {lv_node_1}")
             print(f"    Voltage LV 1: {voltage_lv_1}")
-            
+
         if lv_node_1 and voltage_lv_1 is not None:
-            nodes_info.append({
-                "lv_node": lv_node_1, 
-                "voltage_lv": voltage_lv_1,
-                "lv_substation": lv_substation_1,
-                "hv_substation": hv_substation
-            })
+            nodes_info.append(
+                {
+                    "lv_node": lv_node_1,
+                    "voltage_lv": voltage_lv_1,
+                    "lv_substation": lv_substation_1,
+                    "hv_substation": hv_substation,
+                }
+            )
 
         # LV side 2
         lv_node_2 = fields.get("lv_node_2")
         voltage_lv_2 = fields.get("voltage_lv_2")
         lv_substation_2 = fields.get("lv_substation_2")
-        
+
         if debug:
             print(f"    LV Substation 2: {lv_substation_2}")
             print(f"    LV Node 2: {lv_node_2}")
             print(f"    Voltage LV 2: {voltage_lv_2}")
-            
+
         if lv_node_2 and voltage_lv_2 is not None:
-            nodes_info.append({
-                "lv_node": lv_node_2, 
-                "voltage_lv": voltage_lv_2,
-                "lv_substation": lv_substation_2,
-                "hv_substation": hv_substation
-            })
+            nodes_info.append(
+                {
+                    "lv_node": lv_node_2,
+                    "voltage_lv": voltage_lv_2,
+                    "lv_substation": lv_substation_2,
+                    "hv_substation": hv_substation,
+                }
+            )
 
     if debug:
         print(f"\n[DEBUG] Extracted {len(nodes_info)} LV nodes total")
         for i, node in enumerate(nodes_info):
-            print(f"  Node {i+1}: {node['lv_node']} @ {node['voltage_lv']}kV (HV: {node['hv_substation']}, LV: {node['lv_substation']})")
+            print(
+                f"  Node {i + 1}: {node['lv_node']} @ {node['voltage_lv']}kV (HV: {node['hv_substation']}, LV: {node['lv_substation']})"
+            )
 
     return nodes_info
 
@@ -171,7 +179,9 @@ def determine_transformer_type(voltage_lv: float) -> str:
     return "grid" if voltage_lv >= 22 else "primary"
 
 
-def extract_transformer_ids(response: RecordListResponse, debug: bool = False) -> list[str]:
+def extract_transformer_ids(
+    response: RecordListResponse, debug: bool = False
+) -> list[str]:
     """
     Extract unique transformer IDs (tx_id) from a powerflow response.
 
@@ -189,14 +199,16 @@ def extract_transformer_ids(response: RecordListResponse, debug: bool = False) -
     tx_ids = set()
 
     if debug:
-        print(f"\n[DEBUG] Extracting transformer IDs from {len(response.records)} records")
+        print(
+            f"\n[DEBUG] Extracting transformer IDs from {len(response.records)} records"
+        )
 
     for idx, record in enumerate(response.records):
         tx_id = record.fields.get("tx_id")
         if tx_id:
             tx_ids.add(tx_id)
             if debug and idx < 10:  # Show first 10 for brevity
-                print(f"  Record {idx+1}: tx_id={tx_id}")
+                print(f"  Record {idx + 1}: tx_id={tx_id}")
 
     if debug:
         print(f"\n[DEBUG] Found {len(tx_ids)} unique transformer IDs:")

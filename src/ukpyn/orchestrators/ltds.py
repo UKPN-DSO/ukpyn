@@ -216,7 +216,9 @@ class LTDSOrchestrator(BaseOrchestrator):
 
         if substation is not None:
             # Table 2B has lv_substation_1 and lv_substation_2 (3-winding transformers)
-            where_clauses.append(f"(lv_substation_1 LIKE '%{substation}%' OR lv_substation_2 LIKE '%{substation}%')")
+            where_clauses.append(
+                f"(lv_substation_1 LIKE '%{substation}%' OR lv_substation_2 LIKE '%{substation}%')"
+            )
 
         where = " AND ".join(where_clauses) if where_clauses else None
 

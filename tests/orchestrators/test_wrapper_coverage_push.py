@@ -95,7 +95,9 @@ def test_flexibility_sync_wrappers(func_name: str, monkeypatch) -> None:
         ("get_curtailment", "get_curtailment", {"site_id": "S1", "limit": 2}),
     ],
 )
-def test_flexibility_module_specific_functions(module_func, method_name, kwargs, monkeypatch) -> None:
+def test_flexibility_module_specific_functions(
+    module_func, method_name, kwargs, monkeypatch
+) -> None:
     """Flexibility module convenience functions delegate to singleton methods."""
     fake = SimpleNamespace(**{method_name: lambda **k: (method_name, k)})
     monkeypatch.setattr(flexibility, "_get_orchestrator", lambda: fake)
@@ -128,7 +130,10 @@ async def test_gis_async_methods_select_dataset_keys(monkeypatch) -> None:
     await orchestrator.export_geojson_async("primary_substations")
 
     assert calls[0]["dataset"] == "grid-and-primary-sites"
-    assert calls[0]["refine"] == {"sitetype": "Primary Substation", "licencearea": "EPN"}
+    assert calls[0]["refine"] == {
+        "sitetype": "Primary Substation",
+        "licencearea": "EPN",
+    }
     assert calls[1]["dataset"] == "ukpn-secondary-sites"
     assert calls[1]["where"] == "primaryfeederfunctionallocation = 'A'"
     assert calls[2]["dataset"] == "lv_overhead_lines"
@@ -155,7 +160,11 @@ def test_gis_sync_wrappers(func_name: str, monkeypatch) -> None:
 
     monkeypatch.setattr(orchestrator, f"{func_name}_async", fake_async)
 
-    result = getattr(orchestrator, func_name)("x", limit=2) if "export" in func_name else getattr(orchestrator, func_name)(limit=2)
+    result = (
+        getattr(orchestrator, func_name)("x", limit=2)
+        if "export" in func_name
+        else getattr(orchestrator, func_name)(limit=2)
+    )
     assert "kwargs" in result
 
 
@@ -195,7 +204,9 @@ async def test_ltds_async_where_builders_for_high_impact_tables(monkeypatch) -> 
         substation="ASHFORD",
     )
     await orchestrator.get_table_6_async(licence_area="SPN", substation="BATTERSEA")
-    await orchestrator.get_projects_async(local_authority="Cambridge", expected_start_year=2024)
+    await orchestrator.get_projects_async(
+        local_authority="Cambridge", expected_start_year=2024
+    )
     await orchestrator.get_cim_async(licence_area="LPN")
 
     assert calls[0]["dataset"] == "table_5"

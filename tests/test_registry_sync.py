@@ -20,7 +20,7 @@ def test_parse_metadata_rows_extracts_dataset_ids() -> None:
 
 def test_extract_managed_and_unmanaged_ids() -> None:
     """Registry parser separates managed and unmanaged IDs."""
-    source = '''
+    source = """
 LTDS_DATASETS: dict[str, str] = {
     "table_1": "ltds-table-1",
 }
@@ -33,7 +33,7 @@ ALL_DATASETS: dict[str, str] = {
     **LTDS_DATASETS,
     **UNMANAGED_DATASETS,
 }
-'''
+"""
     managed, unmanaged = extract_managed_and_unmanaged_ids(source)
     assert managed == {"ltds-table-1"}
     assert unmanaged == {"ukpn-new"}

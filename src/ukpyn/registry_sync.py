@@ -61,9 +61,13 @@ def _extract_literal_string_dict(node: ast.AST) -> dict[str, str]:
 
     result: dict[str, str] = {}
     for key_node, value_node in zip(node.keys, node.values, strict=True):
-        if not isinstance(key_node, ast.Constant) or not isinstance(key_node.value, str):
+        if not isinstance(key_node, ast.Constant) or not isinstance(
+            key_node.value, str
+        ):
             continue
-        if not isinstance(value_node, ast.Constant) or not isinstance(value_node.value, str):
+        if not isinstance(value_node, ast.Constant) or not isinstance(
+            value_node.value, str
+        ):
             continue
         result[key_node.value] = value_node.value
     return result
@@ -87,7 +91,11 @@ def extract_registry_maps(registry_source: str) -> dict[str, dict[str, str]]:
             target_name = node.target.id
             value_node = node.value
 
-        if not target_name or not target_name.endswith("_DATASETS") or value_node is None:
+        if (
+            not target_name
+            or not target_name.endswith("_DATASETS")
+            or value_node is None
+        ):
             continue
 
         parsed = _extract_literal_string_dict(value_node)
@@ -97,7 +105,9 @@ def extract_registry_maps(registry_source: str) -> dict[str, dict[str, str]]:
     return maps
 
 
-def extract_managed_and_unmanaged_ids(registry_source: str) -> tuple[set[str], set[str]]:
+def extract_managed_and_unmanaged_ids(
+    registry_source: str,
+) -> tuple[set[str], set[str]]:
     """Return managed and unmanaged dataset IDs from registry source."""
     maps = extract_registry_maps(registry_source)
 
@@ -145,11 +155,7 @@ def inject_unmanaged_section(registry_source: str, section: str) -> str:
     if BEGIN_MARKER in registry_source and END_MARKER in registry_source:
         start_index = registry_source.index(BEGIN_MARKER)
         end_index = registry_source.index(END_MARKER) + len(END_MARKER)
-        return (
-            registry_source[:start_index]
-            + section
-            + registry_source[end_index:]
-        )
+        return registry_source[:start_index] + section + registry_source[end_index:]
 
     anchor = registry_source.find(NETWORK_DATASETS_HEADER)
     if anchor == -1:
@@ -163,15 +169,61 @@ def inject_unmanaged_section(registry_source: str, section: str) -> str:
 def suggest_update_targets(dataset_id: str) -> list[str]:
     """Suggest likely files for triaging a dataset integration."""
     checks: list[tuple[tuple[str, ...], list[str]]] = [
-        (("ltds",), ["src/ukpyn/orchestrators/ltds.py", "tutorials/04-ltds-network-planning.ipynb"]),
+        (
+            ("ltds",),
+            [
+                "src/ukpyn/orchestrators/ltds.py",
+                "tutorials/04-ltds-network-planning.ipynb",
+            ],
+        ),
         (("dfes",), ["src/ukpyn/orchestrators/dfes.py"]),
         (("dnoa",), ["src/ukpyn/orchestrators/dnoa.py"]),
-        (("flexibility",), ["src/ukpyn/orchestrators/flexibility.py", "tutorials/05-flexibility-markets.ipynb"]),
-        (("curtailment",), ["src/ukpyn/orchestrators/curtailment.py", "tutorials/07-curtailment-events.ipynb"]),
-        (("power-flow", "powerflow", "circuit-operational", "transformer-operational"), ["src/ukpyn/orchestrators/powerflow.py", "tutorials/06-powerflow-timeseries.ipynb"]),
-        (("postcode", "sites", "boundaries", "overhead", "poles", "grid-supply", "shapefile"), ["src/ukpyn/orchestrators/gis.py", "tutorials/08-geospatial-data.ipynb"]),
-        (("capacity-register", "large-demand", "embedded"), ["src/ukpyn/orchestrators/ders.py"]),
-        (("constraints", "fault", "outages", "rota"), ["src/ukpyn/orchestrators/network.py"]),
+        (
+            ("flexibility",),
+            [
+                "src/ukpyn/orchestrators/flexibility.py",
+                "tutorials/05-flexibility-markets.ipynb",
+            ],
+        ),
+        (
+            ("curtailment",),
+            [
+                "src/ukpyn/orchestrators/curtailment.py",
+                "tutorials/07-curtailment-events.ipynb",
+            ],
+        ),
+        (
+            (
+                "power-flow",
+                "powerflow",
+                "circuit-operational",
+                "transformer-operational",
+            ),
+            [
+                "src/ukpyn/orchestrators/powerflow.py",
+                "tutorials/06-powerflow-timeseries.ipynb",
+            ],
+        ),
+        (
+            (
+                "postcode",
+                "sites",
+                "boundaries",
+                "overhead",
+                "poles",
+                "grid-supply",
+                "shapefile",
+            ),
+            ["src/ukpyn/orchestrators/gis.py", "tutorials/08-geospatial-data.ipynb"],
+        ),
+        (
+            ("capacity-register", "large-demand", "embedded"),
+            ["src/ukpyn/orchestrators/ders.py"],
+        ),
+        (
+            ("constraints", "fault", "outages", "rota"),
+            ["src/ukpyn/orchestrators/network.py"],
+        ),
     ]
 
     lowered = dataset_id.lower()
@@ -263,7 +315,9 @@ def synchronize_registry(
         registry_path.write_text(updated_source, encoding="utf-8")
 
     report_path.parent.mkdir(parents=True, exist_ok=True)
-    report_path.write_text(build_issue_report(new_ids, metadata_titles), encoding="utf-8")
+    report_path.write_text(
+        build_issue_report(new_ids, metadata_titles), encoding="utf-8"
+    )
 
     payload = {
         "new_dataset_ids": new_ids,

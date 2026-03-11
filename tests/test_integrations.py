@@ -46,9 +46,12 @@ def test_base_contrib_concrete_properties_and_method() -> None:
 
     assert contrib.name == "demo"
     assert contrib.install_hint == "pip install demo"
-    assert contrib.get_for_bounds({"north": 1, "south": 0, "east": 1, "west": 0})[
-        "bounds"
-    ]["north"] == 1
+    assert (
+        contrib.get_for_bounds({"north": 1, "south": 0, "east": 1, "west": 0})[
+            "bounds"
+        ]["north"]
+        == 1
+    )
 
 
 def test_list_integrations_contains_expected_names() -> None:
@@ -175,6 +178,7 @@ def test_weather_module_level_get_for_bounds_delegates(monkeypatch) -> None:
 def test_weather_check_earthkit_importerror_message(monkeypatch) -> None:
     """_check_earthkit should raise a helpful ImportError when dependency is missing."""
     import builtins
+
     from ukpyn.integrations import weather
 
     real_import = builtins.__import__
@@ -215,7 +219,9 @@ def test_base_contrib_abstract_bodies_return_none_when_called_via_super() -> Non
     """Calling abstract method/property bodies via super should be safe no-ops."""
     contrib = _CallsBaseContribMethods()
 
-    assert contrib.get_for_bounds({"north": 1, "south": 0, "east": 1, "west": 0}) is None
+    assert (
+        contrib.get_for_bounds({"north": 1, "south": 0, "east": 1, "west": 0}) is None
+    )
     assert contrib.name is None
     assert contrib.install_hint is None
 
@@ -234,6 +240,7 @@ def test_weather_check_earthkit_sets_cached_module_on_success(monkeypatch) -> No
     """_check_earthkit should cache imported module object when import succeeds."""
     import sys
     import types
+
     from ukpyn.integrations import weather
 
     earthkit_pkg = types.ModuleType("earthkit")

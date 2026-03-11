@@ -1,7 +1,5 @@
 """Tests for Flexibility orchestrator."""
 
-import pytest
-
 from ukpyn.orchestrators import flexibility
 from ukpyn.orchestrators.flexibility import FlexibilityOrchestrator
 from ukpyn.registry import FLEXIBILITY_DATASETS
@@ -32,7 +30,10 @@ class TestFlexibilityDatasetsMapping:
 
     def test_dispatches_and_dispatch_events_same_id(self) -> None:
         """Test that dispatches and dispatch_events map to same dataset ID."""
-        assert FLEXIBILITY_DATASETS["dispatches"] == FLEXIBILITY_DATASETS["dispatch_events"]
+        assert (
+            FLEXIBILITY_DATASETS["dispatches"]
+            == FLEXIBILITY_DATASETS["dispatch_events"]
+        )
 
     def test_orchestrator_uses_flexibility_datasets(self) -> None:
         """Test that FlexibilityOrchestrator uses FLEXIBILITY_DATASETS mapping."""
@@ -128,4 +129,6 @@ class TestFlexibilityAvailableDatasets:
         """Test that module and orchestrator available_datasets match."""
         orchestrator = FlexibilityOrchestrator(api_key=TEST_API_KEY)
 
-        assert set(flexibility.available_datasets) == set(orchestrator.available_datasets)
+        assert set(flexibility.available_datasets) == set(
+            orchestrator.available_datasets
+        )

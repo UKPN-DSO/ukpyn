@@ -28,7 +28,6 @@ Usage:
     circuits = powerflow.discover_circuits(voltage='132kv')
 """
 
-import asyncio
 from typing import Any, Literal
 
 from ..models import RecordListResponse
@@ -105,7 +104,7 @@ class PowerflowOrchestrator(BaseOrchestrator):
         """
         # Construct base dataset key
         dataset_key = f"{voltage}_{granularity}"
-        
+
         # Some datasets are split by licence area (e.g., 33kV half-hourly)
         # If the base key doesn't exist, try with licence_area suffix
         dataset_is_area_specific = False
@@ -234,7 +233,7 @@ class PowerflowOrchestrator(BaseOrchestrator):
         """
         # Construct base dataset key
         dataset_key = f"{transformer_type}_{granularity}"
-        
+
         # Some datasets are split by licence area (e.g., primary half-hourly)
         # If the base key doesn't exist, try with licence_area suffix
         dataset_is_area_specific = False
@@ -379,18 +378,18 @@ class PowerflowOrchestrator(BaseOrchestrator):
         from .ltds import _get_orchestrator as _get_ltds_orchestrator
 
         if debug:
-            print(f"\n{'='*80}")
-            print(f"[DEBUG] get_half_hourly_timeseries() called")
+            print(f"\n{'=' * 80}")
+            print("[DEBUG] get_half_hourly_timeseries() called")
             print(f"  Substation: {substation}")
             print(f"  Granularity: {granularity}")
             print(f"  Licence Area: {licence_area or 'Auto-detect'}")
             print(f"  Date Range: {start_date} to {end_date}")
-            print(f"{'='*80}")
+            print(f"{'=' * 80}")
 
         # Step 1: Query LTDS to determine transformer types and licence area
         if debug:
             print(f"\n[STEP 1] Querying LTDS Tables 2A and 2B for '{substation}'")
-        
+
         ltds = _get_ltds_orchestrator()
 
         # Query both tables to understand transformer configuration
@@ -406,39 +405,53 @@ class PowerflowOrchestrator(BaseOrchestrator):
             if table_2a_response.records:
                 first_record = table_2a_response.records[0].fields
                 licence_area_field = (
-                    first_record.get("licencearea") or      # All lowercase, no underscore (actual field name)
-                    first_record.get("licence_area") or     # With underscore (some datasets)
-                    first_record.get("license_area") or     # US spelling
-                    first_record.get("licence_area_name")   # Alternative name
+                    first_record.get(
+                        "licencearea"
+                    )  # All lowercase, no underscore (actual field name)
+                    or first_record.get(
+                        "licence_area"
+                    )  # With underscore (some datasets)
+                    or first_record.get("license_area")  # US spelling
+                    or first_record.get("licence_area_name")  # Alternative name
                 )
-                    
+
                 if licence_area_field:
                     licence_area_upper = str(licence_area_field).upper()
                     if "EPN" in licence_area_upper or "EASTERN" in licence_area_upper:
                         licence_area = "EPN"
-                    elif "SPN" in licence_area_upper or "SOUTH EASTERN" in licence_area_upper:
+                    elif (
+                        "SPN" in licence_area_upper
+                        or "SOUTH EASTERN" in licence_area_upper
+                    ):
                         licence_area = "SPN"
                     elif "LPN" in licence_area_upper or "LONDON" in licence_area_upper:
                         licence_area = "LPN"
-            
+
             if not licence_area and table_2b_response.records:
                 first_record = table_2b_response.records[0].fields
                 licence_area_field = (
-                    first_record.get("licencearea") or      # All lowercase, no underscore (actual field name)
-                    first_record.get("licence_area") or     # With underscore (some datasets)
-                    first_record.get("license_area") or     # US spelling
-                    first_record.get("licence_area_name")   # Alternative name
+                    first_record.get(
+                        "licencearea"
+                    )  # All lowercase, no underscore (actual field name)
+                    or first_record.get(
+                        "licence_area"
+                    )  # With underscore (some datasets)
+                    or first_record.get("license_area")  # US spelling
+                    or first_record.get("licence_area_name")  # Alternative name
                 )
-                    
+
                 if licence_area_field:
                     licence_area_upper = str(licence_area_field).upper()
                     if "EPN" in licence_area_upper or "EASTERN" in licence_area_upper:
                         licence_area = "EPN"
-                    elif "SPN" in licence_area_upper or "SOUTH EASTERN" in licence_area_upper:
+                    elif (
+                        "SPN" in licence_area_upper
+                        or "SOUTH EASTERN" in licence_area_upper
+                    ):
                         licence_area = "SPN"
                     elif "LPN" in licence_area_upper or "LONDON" in licence_area_upper:
                         licence_area = "LPN"
-            
+
             if not licence_area:
                 raise ValueError(
                     f"Could not determine licence area for substation '{substation}'. "
@@ -450,8 +463,8 @@ class PowerflowOrchestrator(BaseOrchestrator):
 
         # Step 2: Determine transformer types from voltage levels
         if debug:
-            print(f"\n[STEP 2] Determining transformer types from LTDS data")
-        
+            print("\n[STEP 2] Determining transformer types from LTDS data")
+
         nodes_info = extract_lv_nodes_and_voltages(
             table_2a_response, table_2b_response, debug=False
         )
@@ -475,7 +488,9 @@ class PowerflowOrchestrator(BaseOrchestrator):
                     has_primary = True
 
         if debug:
-            print(f"  Transformer types: {'grid ' if has_grid else ''}{'primary' if has_primary else ''}")
+            print(
+                f"  Transformer types: {'grid ' if has_grid else ''}{'primary' if has_primary else ''}"
+            )
 
         # Step 3: Query monthly powerflow data filtering by ltds_name
         if debug:
@@ -486,8 +501,8 @@ class PowerflowOrchestrator(BaseOrchestrator):
         # Query grid monthly if needed (with pagination)
         if has_grid:
             if debug:
-                print(f"  Querying grid monthly data...")
-            
+                print("  Querying grid monthly data...")
+
             offset = 0
             total_records = 0
             while True:
@@ -497,31 +512,33 @@ class PowerflowOrchestrator(BaseOrchestrator):
                     licence_area=licence_area,
                     limit=100,  # API max is 100
                     offset=offset,
-                    where=f"ltds_name = '{substation}'"
+                    where=f"ltds_name = '{substation}'",
                 )
-                
+
                 # Extract unique tx_id values
                 for record in grid_monthly.records:
                     tx_id = record.fields.get("tx_id")
                     if tx_id:
                         all_tx_ids.add(tx_id)
-                
+
                 total_records += len(grid_monthly.records)
-                
+
                 # Break if we got fewer records than requested (no more data)
                 if len(grid_monthly.records) < 100:
                     break
-                
+
                 offset += 100
-            
+
             if debug:
-                print(f"    Found {total_records} records, {len(all_tx_ids)} unique tx_ids")
+                print(
+                    f"    Found {total_records} records, {len(all_tx_ids)} unique tx_ids"
+                )
 
         # Query primary monthly if needed (with pagination)
         if has_primary:
             if debug:
-                print(f"  Querying primary monthly data...")
-            
+                print("  Querying primary monthly data...")
+
             grid_count = len(all_tx_ids)
             offset = 0
             total_records = 0
@@ -532,25 +549,27 @@ class PowerflowOrchestrator(BaseOrchestrator):
                     licence_area=licence_area,
                     limit=100,  # API max is 100
                     offset=offset,
-                    where=f"ltds_name = '{substation}'"
+                    where=f"ltds_name = '{substation}'",
                 )
-                
+
                 # Extract unique tx_id values
                 for record in primary_monthly.records:
                     tx_id = record.fields.get("tx_id")
                     if tx_id:
                         all_tx_ids.add(tx_id)
-                
+
                 total_records += len(primary_monthly.records)
-                
+
                 # Break if we got fewer records than requested (no more data)
                 if len(primary_monthly.records) < 100:
                     break
-                
+
                 offset += 100
-            
+
             if debug:
-                print(f"    Found {total_records} records, {len(all_tx_ids) - grid_count} unique tx_ids")
+                print(
+                    f"    Found {total_records} records, {len(all_tx_ids) - grid_count} unique tx_ids"
+                )
 
         if not all_tx_ids:
             if debug:
@@ -563,7 +582,9 @@ class PowerflowOrchestrator(BaseOrchestrator):
 
         # Step 4: Query time series data for the specific tx_ids
         if debug:
-            print(f"\n[STEP 4] Fetching {granularity} data for {len(all_tx_ids)} transformers")
+            print(
+                f"\n[STEP 4] Fetching {granularity} data for {len(all_tx_ids)} transformers"
+            )
 
         # Build WHERE clause for tx_ids
         tx_id_list = list(all_tx_ids)
@@ -582,7 +603,7 @@ class PowerflowOrchestrator(BaseOrchestrator):
         # Merge with user-provided WHERE clause
         if kwargs.get("where"):
             where_clause = f"({kwargs['where']}) AND ({where_clause})"
-        
+
         kwargs_copy = kwargs.copy()
         kwargs_copy.pop("limit", None)
         kwargs_copy.pop("offset", None)
@@ -608,10 +629,12 @@ class PowerflowOrchestrator(BaseOrchestrator):
                     **kwargs_copy,
                 )
                 all_records.extend(grid_response.records)
-                
+
                 if debug:
-                    print(f"  Fetched {len(grid_response.records)} grid records (offset {offset})")
-                
+                    print(
+                        f"  Fetched {len(grid_response.records)} grid records (offset {offset})"
+                    )
+
                 if len(grid_response.records) < page_size:
                     break
                 offset += page_size
@@ -629,10 +652,12 @@ class PowerflowOrchestrator(BaseOrchestrator):
                     **kwargs_copy,
                 )
                 all_records.extend(primary_response.records)
-                
+
                 if debug:
-                    print(f"  Fetched {len(primary_response.records)} primary records (offset {offset})")
-                
+                    print(
+                        f"  Fetched {len(primary_response.records)} primary records (offset {offset})"
+                    )
+
                 if len(primary_response.records) < page_size:
                     break
                 offset += page_size

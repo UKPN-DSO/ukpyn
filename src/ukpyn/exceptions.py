@@ -1,7 +1,6 @@
 """Custom exceptions for the UKPN API client."""
 
 
-
 class UKPNError(Exception):
     """Base exception for UKPN API errors."""
 
@@ -19,7 +18,9 @@ class UKPNError(Exception):
 class AuthenticationError(UKPNError):
     """Raised when API authentication fails."""
 
-    def __init__(self, message: str = "Authentication failed. Check your API key.") -> None:
+    def __init__(
+        self, message: str = "Authentication failed. Check your API key."
+    ) -> None:
         super().__init__(message, status_code=401)
 
 

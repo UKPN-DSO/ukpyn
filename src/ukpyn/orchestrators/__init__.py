@@ -19,6 +19,19 @@ Usage:
     data = await ltds.get_async('table_3a')
 """
 
+from ..registry import (
+    ALL_DATASETS,
+    CURTAILMENT_DATASETS,
+    DER_DATASETS,
+    DFES_DATASETS,
+    DNOA_DATASETS,
+    FLEXIBILITY_DATASETS,
+    GEO_DATASETS,
+    LTDS_DATASETS,
+    NETWORK_DATASETS,
+    POWERFLOW_DATASETS,
+    RESOURCES_DATASETS,
+)
 from . import (
     curtailment,
     ders,
@@ -33,6 +46,7 @@ from . import (
 )
 from .base import BaseOrchestrator
 from .curtailment import CurtailmentOrchestrator
+from .ders import DERSOrchestrator
 from .dfes import DFESOrchestrator
 from .dnoa import DNOAOrchestrator
 from .flexibility import FlexibilityOrchestrator
@@ -40,20 +54,6 @@ from .gis import GISOrchestrator
 from .ltds import LTDSOrchestrator
 from .network import NetworkOrchestrator
 from .powerflow import PowerflowOrchestrator
-from ..registry import (
-    ALL_DATASETS,
-    CURTAILMENT_DATASETS,
-    DER_DATASETS,
-    DFES_DATASETS,
-    DNOA_DATASETS,
-    FLEXIBILITY_DATASETS,
-    GEO_DATASETS,
-    LTDS_DATASETS,
-    NETWORK_DATASETS,
-    POWERFLOW_DATASETS,
-    RESOURCES_DATASETS,
-)
-from .ders import DERSOrchestrator
 from .resources import ResourcesOrchestrator
 
 __all__ = [

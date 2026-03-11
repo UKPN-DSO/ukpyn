@@ -164,7 +164,9 @@ def mock_dict_records() -> list[dict[str, Any]]:
 class TestRecordsToTimeseries:
     """Tests for records_to_timeseries function."""
 
-    def test_converts_mock_records_to_series(self, mock_ukpyn_records: list[Any]) -> None:
+    def test_converts_mock_records_to_series(
+        self, mock_ukpyn_records: list[Any]
+    ) -> None:
         """Test conversion of mock ukpyn records to Series."""
         result = records_to_timeseries(
             mock_ukpyn_records,
@@ -177,7 +179,9 @@ class TestRecordsToTimeseries:
         assert result.iloc[0] == 100.5
         assert isinstance(result.index, pd.DatetimeIndex)
 
-    def test_converts_dict_records_to_series(self, mock_dict_records: list[dict[str, Any]]) -> None:
+    def test_converts_dict_records_to_series(
+        self, mock_dict_records: list[dict[str, Any]]
+    ) -> None:
         """Test conversion of dictionary records to Series."""
         result = records_to_timeseries(
             mock_dict_records,
@@ -229,7 +233,9 @@ class TestRecordsToTimeseries:
         assert isinstance(result, pd.DataFrame)
         assert len(result) == 0
 
-    def test_missing_value_field_raises_error(self, mock_ukpyn_records: list[Any]) -> None:
+    def test_missing_value_field_raises_error(
+        self, mock_ukpyn_records: list[Any]
+    ) -> None:
         """Test that missing value_field raises ValueError."""
         with pytest.raises(ValueError, match="Field 'nonexistent' not found"):
             records_to_timeseries(
@@ -238,7 +244,9 @@ class TestRecordsToTimeseries:
                 value_field="nonexistent",
             )
 
-    def test_missing_value_fields_raises_error(self, mock_ukpyn_records: list[Any]) -> None:
+    def test_missing_value_fields_raises_error(
+        self, mock_ukpyn_records: list[Any]
+    ) -> None:
         """Test that missing value_fields raises ValueError."""
         with pytest.raises(ValueError, match="Fields not found"):
             records_to_timeseries(
@@ -255,7 +263,9 @@ class TestRecordsToTimeseries:
             {"timestamp": "2024-01-01T01:00:00Z", "value": 2},
         ]
 
-        result = records_to_timeseries(records, timestamp_field="timestamp", value_field="value")
+        result = records_to_timeseries(
+            records, timestamp_field="timestamp", value_field="value"
+        )
 
         assert result.iloc[0] == 1
         assert result.iloc[1] == 2
@@ -329,7 +339,9 @@ class TestDetectStepChanges:
 
         assert len(changes) == 0
 
-    def test_returns_empty_for_all_nan_series(self, all_nan_timeseries: pd.Series) -> None:
+    def test_returns_empty_for_all_nan_series(
+        self, all_nan_timeseries: pd.Series
+    ) -> None:
         """Test returns empty list for all NaN series."""
         changes = detect_step_changes(all_nan_timeseries)
 
@@ -340,7 +352,9 @@ class TestDetectStepChanges:
         with pytest.raises(TypeError, match="series must be a pandas Series"):
             detect_step_changes([1, 2, 3, 4, 5])
 
-    def test_step_change_dataclass_fields(self, timeseries_with_step: pd.Series) -> None:
+    def test_step_change_dataclass_fields(
+        self, timeseries_with_step: pd.Series
+    ) -> None:
         """Test StepChange dataclass has expected fields."""
         changes = detect_step_changes(
             timeseries_with_step,
@@ -381,7 +395,9 @@ class TestDetectStepChanges:
 
         assert len(changes_high) <= len(changes_low)
 
-    def test_min_confidence_filters_results(self, timeseries_with_step: pd.Series) -> None:
+    def test_min_confidence_filters_results(
+        self, timeseries_with_step: pd.Series
+    ) -> None:
         """Test that min_confidence filters low confidence results."""
         changes_low_conf = detect_step_changes(
             timeseries_with_step,
@@ -441,7 +457,9 @@ class TestFlagOutliers:
             flags = flag_outliers(simple_timeseries, method=method)
             assert flags.sum() == 0
 
-    def test_returns_empty_series_for_empty_input(self, empty_timeseries: pd.Series) -> None:
+    def test_returns_empty_series_for_empty_input(
+        self, empty_timeseries: pd.Series
+    ) -> None:
         """Test returns empty Series for empty input."""
         flags = flag_outliers(empty_timeseries)
 
@@ -458,10 +476,16 @@ class TestFlagOutliers:
         with pytest.raises(ValueError, match="Unknown method"):
             flag_outliers(simple_timeseries, method="invalid")
 
-    def test_threshold_affects_sensitivity(self, timeseries_with_outliers: pd.Series) -> None:
+    def test_threshold_affects_sensitivity(
+        self, timeseries_with_outliers: pd.Series
+    ) -> None:
         """Test that threshold affects detection sensitivity."""
-        flags_strict = flag_outliers(timeseries_with_outliers, method="zscore", threshold=1.0)
-        flags_loose = flag_outliers(timeseries_with_outliers, method="zscore", threshold=5.0)
+        flags_strict = flag_outliers(
+            timeseries_with_outliers, method="zscore", threshold=1.0
+        )
+        flags_loose = flag_outliers(
+            timeseries_with_outliers, method="zscore", threshold=5.0
+        )
 
         # Stricter threshold should flag more (or equal) points
         assert flags_strict.sum() >= flags_loose.sum()
@@ -533,12 +557,16 @@ class TestQualityControl:
 
     def test_detects_outliers(self, timeseries_with_outliers: pd.Series) -> None:
         """Test detection of outliers."""
-        report = quality_control(timeseries_with_outliers, outlier_method="iqr", outlier_threshold=1.5)
+        report = quality_control(
+            timeseries_with_outliers, outlier_method="iqr", outlier_threshold=1.5
+        )
 
         assert report.outlier_points > 0
         assert any("Outlier" in issue for issue in report.issues)
 
-    def test_different_outlier_methods(self, timeseries_with_outliers: pd.Series) -> None:
+    def test_different_outlier_methods(
+        self, timeseries_with_outliers: pd.Series
+    ) -> None:
         """Test quality_control with different outlier methods."""
         for method in ["zscore", "iqr", "mad"]:
             report = quality_control(timeseries_with_outliers, outlier_method=method)
@@ -564,7 +592,9 @@ class TestQualityControl:
         """Test quality score decreases as data quality worsens."""
         report_perfect = quality_control(simple_timeseries)
         report_gaps = quality_control(timeseries_with_gaps)
-        report_outliers = quality_control(timeseries_with_outliers, outlier_threshold=1.5)
+        report_outliers = quality_control(
+            timeseries_with_outliers, outlier_threshold=1.5
+        )
 
         # Perfect data should have highest score
         assert report_perfect.quality_score >= report_gaps.quality_score
@@ -586,9 +616,13 @@ class TestQualityControl:
 class TestIdentifyGaps:
     """Tests for identify_gaps function."""
 
-    def test_identifies_gaps_in_data(self, timeseries_with_timestamp_gap: pd.Series) -> None:
+    def test_identifies_gaps_in_data(
+        self, timeseries_with_timestamp_gap: pd.Series
+    ) -> None:
         """Test identification of gaps in time series data."""
-        gaps = identify_gaps(timeseries_with_timestamp_gap, expected_frequency="30min", min_gap_hours=1.0)
+        gaps = identify_gaps(
+            timeseries_with_timestamp_gap, expected_frequency="30min", min_gap_hours=1.0
+        )
 
         assert len(gaps) > 0
         assert isinstance(gaps[0], GapInfo)
@@ -601,7 +635,9 @@ class TestIdentifyGaps:
 
     def test_gap_info_fields(self, timeseries_with_timestamp_gap: pd.Series) -> None:
         """Test GapInfo has expected fields."""
-        gaps = identify_gaps(timeseries_with_timestamp_gap, expected_frequency="30min", min_gap_hours=1.0)
+        gaps = identify_gaps(
+            timeseries_with_timestamp_gap, expected_frequency="30min", min_gap_hours=1.0
+        )
 
         if gaps:
             gap = gaps[0]
@@ -613,7 +649,9 @@ class TestIdentifyGaps:
             assert gap.duration_hours > 0
             assert gap.missing_points >= 0
 
-    def test_min_gap_hours_parameter(self, timeseries_with_timestamp_gap: pd.Series) -> None:
+    def test_min_gap_hours_parameter(
+        self, timeseries_with_timestamp_gap: pd.Series
+    ) -> None:
         """Test min_gap_hours parameter filters small gaps."""
         gaps_1h = identify_gaps(
             timeseries_with_timestamp_gap,
@@ -648,7 +686,9 @@ class TestIdentifyGaps:
             # 30min frequency should report more missing points than 1h
             assert gaps_30min[0].missing_points >= gaps_1h[0].missing_points
 
-    def test_returns_empty_for_short_series(self, single_value_timeseries: pd.Series) -> None:
+    def test_returns_empty_for_short_series(
+        self, single_value_timeseries: pd.Series
+    ) -> None:
         """Test returns empty list for single value series."""
         gaps = identify_gaps(single_value_timeseries)
 
@@ -714,12 +754,18 @@ class TestFillGaps:
         # Median fill should fill all NaN
         assert filled.isna().sum() == 0
 
-    def test_max_gap_hours_limits_filling(self, timeseries_with_gaps: pd.Series) -> None:
+    def test_max_gap_hours_limits_filling(
+        self, timeseries_with_gaps: pd.Series
+    ) -> None:
         """Test max_gap_hours limits which gaps are filled."""
         # Fill only small gaps (less than 4 hours)
-        filled_small = fill_gaps(timeseries_with_gaps, method="linear", max_gap_hours=4.0)
+        filled_small = fill_gaps(
+            timeseries_with_gaps, method="linear", max_gap_hours=4.0
+        )
         # Fill all gaps
-        filled_all = fill_gaps(timeseries_with_gaps, method="linear", max_gap_hours=None)
+        filled_all = fill_gaps(
+            timeseries_with_gaps, method="linear", max_gap_hours=None
+        )
 
         # Filling all should result in fewer NaN than limiting
         assert filled_all.isna().sum() <= filled_small.isna().sum()
@@ -742,7 +788,9 @@ class TestFillGaps:
         with pytest.raises(ValueError, match="Unknown method"):
             fill_gaps(simple_timeseries, method="invalid")
 
-    def test_fill_gaps_on_series_without_gaps(self, simple_timeseries: pd.Series) -> None:
+    def test_fill_gaps_on_series_without_gaps(
+        self, simple_timeseries: pd.Series
+    ) -> None:
         """Test fill_gaps on series without gaps returns copy."""
         filled = fill_gaps(simple_timeseries, method="linear")
 
@@ -832,7 +880,9 @@ class TestSummarizeRedactionByPeriod:
         df = pd.DataFrame({"value": [1, 2, 3]})
 
         with pytest.raises(ValueError, match="datetime timestamp is required"):
-            summarize_redaction_by_period(df, timestamp_field="timestamp", value_fields=["value"])
+            summarize_redaction_by_period(
+                df, timestamp_field="timestamp", value_fields=["value"]
+            )
 
 
 class TestDetectRollingAnomalies:
@@ -1044,7 +1094,9 @@ class TestModuleExports:
 class TestEdgeCases:
     """Tests for edge cases and boundary conditions."""
 
-    def test_single_value_series_operations(self, single_value_timeseries: pd.Series) -> None:
+    def test_single_value_series_operations(
+        self, single_value_timeseries: pd.Series
+    ) -> None:
         """Test operations on single value series."""
         # Should not raise errors
         outliers = flag_outliers(single_value_timeseries)
@@ -1080,7 +1132,9 @@ class TestEdgeCases:
         series = pd.Series(values, index=dates)
 
         # Should handle negative values correctly
-        changes = detect_step_changes(series, threshold=0.1, window_size=10, min_confidence=0.3)
+        changes = detect_step_changes(
+            series, threshold=0.1, window_size=10, min_confidence=0.3
+        )
         assert len(changes) >= 0  # May or may not detect depending on implementation
 
         outliers = flag_outliers(series)
