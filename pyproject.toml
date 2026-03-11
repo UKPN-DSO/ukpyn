@@ -129,11 +129,11 @@ all = [
 ukpyn = "ukpyn.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/ukpyn"
-Repository = "https://github.com/ukpyn"
-Documentation = "https://ukpyn.github.io/ukpyn/"
-Changelog = "https://github.com/ukpyn/blob/main/CHANGELOG.md"
-Issues = "https://github.com/ukpyn/issues"
+Homepage = "https://ukpn-dso.github.io/ukpyn/"
+Repository = "https://github.com/UKPN-DSO/ukpyn"
+Documentation = "https://ukpn-dso.github.io/ukpyn/"  # Fixed: was ukpyn.github.io
+Changelog = "https://github.com/UKPN-DSO/ukpyn/blob/main/CHANGELOG.md"  # Fixed: added UKPN-DSO
+Issues = "https://github.com/UKPN-DSO/ukpyn/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/ukpyn"]
