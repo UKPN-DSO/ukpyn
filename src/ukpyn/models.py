@@ -324,7 +324,9 @@ class Record(BaseModel):
         field_names = sorted(self.fields.keys()) if self.fields else []
         field_count = len(field_names)
         field_preview = ", ".join(field_names) if field_names else "none"
-        return f"Record(id={self.id}, field_count={field_count}, fields=[{field_preview}])"
+        return (
+            f"Record(id={self.id}, field_count={field_count}, fields=[{field_preview}])"
+        )
 
 
 class RecordListResponse(BaseModel):
