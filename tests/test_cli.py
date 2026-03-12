@@ -28,7 +28,7 @@ def test_cli_unknown_command_prints_help(monkeypatch, capsys) -> None:
     """CLI prints help for unknown command branch."""
 
     class FakeParser:
-        def parse_args(self):
+        def parse_args(self, args=None):
             return SimpleNamespace(command="unknown")
 
         def print_help(self):

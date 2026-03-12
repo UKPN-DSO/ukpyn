@@ -18,14 +18,14 @@ from ukpyn.orchestrators.ltds import LTDSOrchestrator
             "get_table_2a_async",
             {"licence_area": "EPN", "substation": "ASHFORD"},
             "table_2a",
-            "substation LIKE '%ASHFORD%'",
+            "lv_substation LIKE '%ASHFORD%'",
             "where",
         ),
         (
             "get_table_2b_async",
             {"licence_area": "SPN", "substation": "BROMLEY"},
             "table_2b",
-            "substation LIKE '%BROMLEY%'",
+            "lv_substation_1 LIKE '%BROMLEY%'",
             "where",
         ),
         (
