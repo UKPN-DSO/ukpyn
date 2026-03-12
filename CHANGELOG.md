@@ -7,6 +7,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- NOTICE file now correctly references CC-BY-4.0 (was Apache 2.0)
+- Backfilled CHANGELOG entries for v0.1.1 through v0.1.8
+
+## [0.1.8] - 2025-03-12
+
+### Fixed
+- Pinned GitHub Action SHAs for CodeQL compliance in publish workflows
+- Automatic dev branch sync after version-tag bumps on main
+- Test fixes for curtailment column names, LTDS substation columns, CLI parser, and Record model
+
+### Added
+- Production PyPI publish workflow (`publish-pypi.yml`) with trusted publishing
+- TestPyPI pre-release publish workflow (`publish-testpypi.yml`)
+
+## [0.1.7] - 2025-03-11
+
+### Changed
+- Updated GitHub Actions to use pinned commit SHAs instead of version tags
+- Added PyPI production publish workflow
+
+## [0.1.6] - 2025-03-11
+
+### Changed
+- Version control workflow improvements
+
+## [0.1.5] - 2025-03-11
+
+### Fixed
+- CI pipeline: switched from `uv.lock` to `pyproject.toml` dependency resolution
+- Full dependency installation with `--all-extras` in CI
+- Integration tests now skip gracefully in CI instead of failing
+- Fixed `test_cli` FakeParser signature, LTDS coverage test column names
+- Ruff lint and format fixes
+
+## [0.1.2] - 2025-03-10
+
+### Changed
+- Improved documentation for Tutorial 01 (Getting Started)
+
+## [0.1.1] - 2025-03-10
+
+### Added
+- Automatic version bump and tagging workflow for main branch
+- Docs deployment workflow for GitHub Pages
+- Local ignore rules for development artifacts
+
 ## [0.1.0-beta] - 2024-03-11
 
 ### Added
