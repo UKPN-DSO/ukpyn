@@ -181,6 +181,9 @@ exclude_lines = [
     "raise NotImplementedError",
 ]
 
+[tool.uv]
+index-url = "https://pypi.org/simple"
+
 [dependency-groups]
 dev = [
     "pre-commit>=4.5.1",
