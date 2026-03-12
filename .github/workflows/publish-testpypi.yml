@@ -34,6 +34,6 @@ jobs:
         run: python -m build
       
       - name: Publish to TestPyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@76f52bc884231f62b54027e44d48d264ac019d21 # v1.12.4
         with:
           repository-url: https://test.pypi.org/legacy/
