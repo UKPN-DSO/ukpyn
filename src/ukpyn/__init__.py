@@ -35,6 +35,7 @@ Usage:
 """
 
 from importlib.metadata import version
+
 __version__ = version("ukpyn")
 __author__ = "Dr Jamie M. Bright"
 
