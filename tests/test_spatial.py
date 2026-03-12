@@ -302,7 +302,7 @@ class TestIntegration:
     ) -> None:
         """Test query_bounds with real API (requires API key)."""
         if not api_key_available:
-            pytest.fail(
+            pytest.skip(
                 "UKPN_API_KEY is required for integration tests. "
                 "Set it in your environment or .env file, then rerun with: "
                 "pytest -m integration"
