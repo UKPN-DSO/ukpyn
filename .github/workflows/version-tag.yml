@@ -127,3 +127,12 @@ jobs:
 
           git tag -a "$TAG" -m "Release $TAG"
           git push origin "$TAG"
+
+      - name: Sync dev with main
+        if: steps.commit.outputs.changed == 'true'
+        shell: bash
+        run: |
+          git fetch origin dev
+          git checkout dev
+          git merge origin/main --no-edit
+          git push origin dev
