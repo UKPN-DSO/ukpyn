@@ -324,6 +324,17 @@ REFERENCE_DATASETS: dict[str, str] = {
 }
 
 # =============================================================================
+
+# BEGIN AUTO-GENERATED UNMANAGED DATASETS
+# =============================================================================
+# Unmanaged ODP Datasets
+# Auto-generated from ODP metadata (domain-dataset0)
+# Last sync: 2026-03-12
+# =============================================================================
+UNMANAGED_DATASETS: dict[str, str] = {
+}
+# END AUTO-GENERATED UNMANAGED DATASETS
+
 # NETWORK_DATASETS (Legacy - backward compatibility)
 # Combines stats, profiles, and some powerflow for existing network orchestrator
 # =============================================================================
