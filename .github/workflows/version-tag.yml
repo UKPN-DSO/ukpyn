@@ -35,7 +35,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
+      # bump tag and version in pyproject.toml
+      # add #major, #minor, or #patch to commit message to specify type of version bump; defaults to patch
       - name: Calculate next version
         id: version
         shell: bash
