@@ -292,13 +292,18 @@ class Record(BaseModel):
         if not isinstance(value, dict):
             return value
 
+        # Handle recordid -> id mapping
+        if "recordid" in value and "id" not in value:
+            value = {**value, "id": value.pop("recordid")}
+
         # If fields already exists and is populated, use it as-is
         if value.get("fields") is not None:
             return value
 
         # Known Record metadata fields that should not go into fields dict
         # Note: 'timestamp' is excluded - it's usually data, not metadata
-        known_fields = {"id", "size", "fields", "record_timestamp", "links"}
+        # 'recordid' is included to prevent it from being extracted if mapping failed
+        known_fields = {"id", "recordid", "size", "fields", "record_timestamp", "links"}
 
         # Extract unknown fields into fields dict
         extra_fields = {k: v for k, v in value.items() if k not in known_fields}
@@ -307,9 +312,19 @@ class Record(BaseModel):
             # Create new dict with known fields + fields dict
             result = {k: v for k, v in value.items() if k in known_fields}
             result["fields"] = extra_fields
+            # Default id to "unknown" if not present
+            if "id" not in result:
+                result["id"] = "unknown"
             return result
 
         return value
+
+    def summary(self) -> str:
+        """Return a human-readable summary of the record."""
+        field_names = sorted(self.fields.keys()) if self.fields else []
+        field_count = len(field_names)
+        field_preview = ", ".join(field_names) if field_names else "none"
+        return f"Record(id={self.id}, field_count={field_count}, fields=[{field_preview}])"
 
 
 class RecordListResponse(BaseModel):

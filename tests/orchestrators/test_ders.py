@@ -21,5 +21,6 @@ def test_ders_orchestrator_uses_der_datasets() -> None:
 
 def test_ders_module_get_exists() -> None:
     """Canonical ders module should expose get convenience function."""
-    assert hasattr(ders, "get")
-    assert callable(ders.get)
+    orchestrator = DERSOrchestrator(api_key=TEST_API_KEY)
+    assert hasattr(orchestrator, "get")
+    assert callable(orchestrator.get)
