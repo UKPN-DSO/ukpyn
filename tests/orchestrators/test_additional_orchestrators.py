@@ -71,20 +71,20 @@ async def test_curtailment_get_events_async_builds_where(monkeypatch) -> None:
     assert captured["dataset"] == "events"
     assert captured["limit"] == 5
     assert captured["offset"] == 2
-    
+
     # Normalize whitespace for comparison
     where_clause = captured["where"]
     expected_conditions = [
         "der_name = 'SITE001'",
         "start_time_local >= '2024-01-01'",
         "start_time_local <= '2024-01-31'",
-        "driver = 'thermal'"
+        "driver = 'thermal'",
     ]
-    
+
     # Check all conditions are present
     for condition in expected_conditions:
         assert condition in where_clause, f"Missing condition: {condition}"
-    
+
     # Check they're joined with AND
     assert where_clause.count(" AND ") == 3
 

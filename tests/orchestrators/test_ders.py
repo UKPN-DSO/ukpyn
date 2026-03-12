@@ -1,6 +1,5 @@
 """Tests for DERS orchestrator naming and mappings."""
 
-from ukpyn import ders
 from ukpyn.orchestrators.ders import DERSOrchestrator
 from ukpyn.registry import DER_DATASETS, RESOURCES_DATASETS
 
