@@ -1,0 +1,52 @@
+site_name: ukpyn
+site_description: UK Power Networks Open Data Python client
+site_url: https://ukpyn.github.io/ukpyn/
+repo_url: https://github.com/ukpyn/ukpyn
+repo_name: ukpyn/ukpyn
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.top
+    - navigation.tracking
+    - toc.follow
+    - search.highlight
+    - search.share
+
+plugins:
+  - search
+  - mkdocs-jupyter:
+      include_source: true
+      execute: false
+
+nav:
+  - Home: index.md
+  - Start Here:
+      - Getting Started: getting-started.md
+      - Glossary: glossary.md
+  - Accessibility: accessibility.md
+  - Orchestrators: orchestrators.md
+  - Tutorials:
+      - Overview: tutorials.md
+      - 01 Getting Started: tutorials/01-getting-started.ipynb
+      - 02 Fetching Data: tutorials/02-fetching-data.ipynb
+      - 03 Analysis Patterns: tutorials/03-analysis-patterns.ipynb
+      - 04 LTDS Network Planning: tutorials/04-ltds-network-planning.ipynb
+      - 05 Flexibility Markets: tutorials/05-flexibility-markets.ipynb
+      - 06 Powerflow Timeseries: tutorials/06-powerflow-timeseries.ipynb
+      - 07 Curtailment Events: tutorials/07-curtailment-events.ipynb
+      - 08 Geospatial Data: tutorials/08-geospatial-data.ipynb
+      - 09 Pandapower CIM Import: tutorials/09-pandapower-cim-import.ipynb
+      - 10 Powerflow Quality Control: tutorials/10-powerflow-quality-control.ipynb
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - def_list
+  - toc:
+      permalink: true

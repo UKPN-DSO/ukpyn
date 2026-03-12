@@ -1,0 +1,52 @@
+"""Backward-compatible registry re-exports for orchestrator modules.
+
+Canonical dataset mappings live in ``ukpyn.dataset_registry``.
+This module exists to preserve historical import paths such as
+``from ukpyn.orchestrators.registry import LTDS_DATASETS``.
+"""
+
+from ..dataset_registry import (
+    ALL_DATASETS,
+    APPENDIX_G_DATASETS,
+    CONNECTIONS_DATASETS,
+    CURTAILMENT_DATASETS,
+    DER_DATASETS,
+    DFES_DATASETS,
+    DNOA_DATASETS,
+    EQUIPMENT_DATASETS,
+    FLEXIBILITY_DATASETS,
+    GEO_DATASETS,
+    LTDS_DATASETS,
+    NETWORK_DATASETS,
+    NETWORK_STATS_DATASETS,
+    OPERATIONS_DATASETS,
+    POWERFLOW_DATASETS,
+    PROFILES_DATASETS,
+    REFERENCE_DATASETS,
+    RESOURCES_DATASETS,
+    SENSITIVITY_DATASETS,
+    SMART_LCT_DATASETS,
+)
+
+__all__ = [
+    "ALL_DATASETS",
+    "LTDS_DATASETS",
+    "DFES_DATASETS",
+    "DNOA_DATASETS",
+    "NETWORK_STATS_DATASETS",
+    "NETWORK_DATASETS",
+    "POWERFLOW_DATASETS",
+    "FLEXIBILITY_DATASETS",
+    "CURTAILMENT_DATASETS",
+    "DER_DATASETS",
+    "RESOURCES_DATASETS",
+    "GEO_DATASETS",
+    "EQUIPMENT_DATASETS",
+    "CONNECTIONS_DATASETS",
+    "OPERATIONS_DATASETS",
+    "SENSITIVITY_DATASETS",
+    "SMART_LCT_DATASETS",
+    "PROFILES_DATASETS",
+    "APPENDIX_G_DATASETS",
+    "REFERENCE_DATASETS",
+]
