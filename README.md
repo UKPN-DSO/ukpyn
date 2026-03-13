@@ -10,7 +10,7 @@
 
 ## Documentation
 
-- **Docs site (GitHub Pages):** https://ukpyn.github.io/ukpyn/
+- **Docs site (GitHub Pages):** https://ukpn-dso.github.io/ukpyn/
 - **Tutorial notebooks:** [tutorials/](tutorials/)
 - **API source:** [src/ukpyn/](src/ukpyn/)
 - **Changelog:** [CHANGELOG.md](CHANGELOG.md)
@@ -70,7 +70,7 @@ pip install uv
 
 ```bash
 # Clone and enter the repository (if you haven't already)
-git clone https://github.com/ukpyn/ukpyn.git
+git clone https://github.com/UKPN-DSO/ukpyn.git
 cd ukpyn
 
 # Recommended: install using the lockfile
@@ -212,7 +212,7 @@ See [Contributing Guidelines](CONTRIBUTING.md) for full details.
 
 ```bash
 # Clone the repository
-git clone https://github.com/ukpyn/ukpyn.git
+git clone https://github.com/UKPN-DSO/ukpyn.git
 cd ukpyn
 
 # Install development dependencies
@@ -269,6 +269,6 @@ Redistributions and derivative works should retain attribution notices, includin
 ## Links
 
 - [UK Power Networks Open Data Portal](https://ukpowernetworks.opendatasoft.com)
-- [GitHub Repository](https://github.com/ukpyn/ukpyn)
+- [GitHub Repository](https://github.com/UKPN-DSO/ukpyn)
 - [PyPI Package](https://pypi.org/project/ukpyn/)
 - [Changelog](CHANGELOG.md)
