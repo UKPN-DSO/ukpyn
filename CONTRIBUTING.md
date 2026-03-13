@@ -14,7 +14,7 @@ This project is for both novice and experienced coders, so contributions that im
 ## Development Setup
 
 ```bash
-git clone https://github.com/ukpyn/ukpyn.git
+git clone https://github.com/UKPN-DSO/ukpyn.git
 cd ukpyn
 uv sync
 ```
@@ -50,7 +50,7 @@ In GitHub repository settings:
 1. Merge docs changes to `dev` through normal PR process
 2. Promote to `main` for release
 3. Confirm the `Docs (GitHub Pages)` workflow succeeds on `main`
-4. Verify published site at `https://ukpyn.github.io/ukpyn/`
+4. Verify published site at `https://ukpn-dso.github.io/ukpyn/`
 
 ## Branch Strategy
 

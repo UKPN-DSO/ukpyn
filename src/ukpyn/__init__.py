@@ -34,7 +34,9 @@ Usage:
     data = await ltds.get_async('table_3a')
 """
 
-__version__ = "0.1.0"
+from importlib.metadata import version
+
+__version__ = version("ukpyn")
 __author__ = "Dr Jamie M. Bright"
 
 # Import spatial query module
