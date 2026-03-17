@@ -217,7 +217,6 @@ class UKPNClient:
         limit: int = 10,
         offset: int = 0,
         where: str | None = None,
-        search: str | None = None,
         order_by: str | None = None,
         refine: dict[str, str] | None = None,
         exclude: dict[str, str] | None = None,
@@ -229,7 +228,6 @@ class UKPNClient:
             limit: Maximum number of datasets to return (default 10).
             offset: Number of datasets to skip for pagination.
             where: Filter expression (ODSQL).
-            search: Full-text search query.
             order_by: Field to sort by.
             refine: Facet refinement filters.
             exclude: Facet exclusion filters.
@@ -244,9 +242,6 @@ class UKPNClient:
 
         if where:
             params["where"] = where
-        if search:
-            params["q"] = search
-            params["search"] = search
         if order_by:
             params["order_by"] = order_by
         if refine:
