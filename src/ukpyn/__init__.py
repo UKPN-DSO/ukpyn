@@ -50,6 +50,7 @@ from .exceptions import (
     RateLimitError,
     ServerError,
     UKPNError,
+    UnrecognisedFieldError,
     ValidationError,
 )
 from .models import (
@@ -103,6 +104,7 @@ __all__ = [
     "RateLimitError",
     "NotFoundError",
     "ValidationError",
+    "UnrecognisedFieldError",
     "ServerError",
     # Models
     "Dataset",
