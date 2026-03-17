@@ -141,6 +141,11 @@ class UKPNClient:
                 retry_after=int(retry_after) if retry_after else None,
             )
         elif status_code == 400:
+            lowered = message.lower()
+            if "unknown field" in lowered or "invalid field" in lowered:
+                from .exceptions import UnrecognisedFieldError
+
+                raise UnrecognisedFieldError(message)
             raise ValidationError(message)
         elif status_code >= 500:
             raise ServerError(message)
@@ -212,7 +217,6 @@ class UKPNClient:
         limit: int = 10,
         offset: int = 0,
         where: str | None = None,
-        search: str | None = None,
         order_by: str | None = None,
         refine: dict[str, str] | None = None,
         exclude: dict[str, str] | None = None,
@@ -224,7 +228,6 @@ class UKPNClient:
             limit: Maximum number of datasets to return (default 10).
             offset: Number of datasets to skip for pagination.
             where: Filter expression (ODSQL).
-            search: Full-text search query.
             order_by: Field to sort by.
             refine: Facet refinement filters.
             exclude: Facet exclusion filters.
@@ -239,9 +242,6 @@ class UKPNClient:
 
         if where:
             params["where"] = where
-        if search:
-            params["q"] = search
-            params["search"] = search
         if order_by:
             params["order_by"] = order_by
         if refine:

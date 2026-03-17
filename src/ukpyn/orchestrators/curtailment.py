@@ -18,14 +18,9 @@ Usage:
 from datetime import date, datetime
 from typing import Any
 
+from ..dataset_registry import CURTAILMENT_DATASETS
 from ..models import RecordListResponse
 from .base import BaseOrchestrator, _run_sync
-
-# Curtailment dataset mappings (local to this module, not in registry)
-CURTAILMENT_DATASETS: dict[str, str] = {
-    "events": "ukpn-curtailment-events-site-specific",
-    "site_specific": "ukpn-curtailment-events-site-specific",
-}
 
 # Module-level list of available datasets
 available_datasets: list[str] = list(CURTAILMENT_DATASETS.keys())
