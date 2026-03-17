@@ -50,6 +50,37 @@ class ValidationError(UKPNError):
         super().__init__(message, status_code=400)
 
 
+class UnrecognisedFieldError(ValidationError):
+    """Raised when the API rejects a query due to an unknown field name.
+
+    This typically means the dataset schema has changed and the installed
+    version of *ukpyn* does not yet know about the new (or renamed) field.
+    Upgrading the package resolves this in most cases.
+    """
+
+    def __init__(
+        self,
+        message: str = "Request referenced an unrecognised field.",
+        *,
+        fields: list[str] | None = None,
+    ) -> None:
+        from importlib.metadata import version
+
+        try:
+            current = version("ukpyn")
+        except Exception:
+            current = "unknown"
+
+        hint = (
+            f" (ukpyn=={current}). "
+            "A newer release may support this field — try: "
+            "pip install --upgrade ukpyn"
+        )
+        full_message = message + hint
+        super().__init__(full_message)
+        self.fields = fields or []
+
+
 class ServerError(UKPNError):
     """Raised when the API server returns an error."""
 
