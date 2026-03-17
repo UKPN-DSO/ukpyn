@@ -6,6 +6,7 @@ from ukpyn.exceptions import (
     RateLimitError,
     ServerError,
     UKPNError,
+    UnrecognisedFieldError,
     ValidationError,
 )
 
@@ -71,3 +72,29 @@ def test_rate_limit_error_custom_message() -> None:
     error = RateLimitError("Custom limit message")
 
     assert str(error) == "[429] Custom limit message"
+
+
+def test_unrecognised_field_error_is_validation_error() -> None:
+    """UnrecognisedFieldError is a subclass of ValidationError."""
+    error = UnrecognisedFieldError("Unknown field 'foo'", fields=["foo"])
+
+    assert isinstance(error, ValidationError)
+    assert error.status_code == 400
+    assert error.fields == ["foo"]
+
+
+def test_unrecognised_field_error_includes_upgrade_hint() -> None:
+    """UnrecognisedFieldError message includes pip upgrade hint."""
+    error = UnrecognisedFieldError("Unknown field 'bar'")
+
+    msg = str(error)
+    assert "pip install --upgrade ukpyn" in msg
+    assert "ukpyn==" in msg
+
+
+def test_unrecognised_field_error_defaults() -> None:
+    """UnrecognisedFieldError has sensible defaults."""
+    error = UnrecognisedFieldError()
+
+    assert error.fields == []
+    assert "unrecognised field" in str(error).lower()

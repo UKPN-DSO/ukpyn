@@ -13,6 +13,7 @@ from ukpyn.exceptions import (
     RateLimitError,
     ServerError,
     UKPNError,
+    UnrecognisedFieldError,
     ValidationError,
 )
 
@@ -47,6 +48,24 @@ def test_handle_error_validation_with_non_json_body() -> None:
     response = httpx.Response(400, text="invalid request payload")
 
     with pytest.raises(ValidationError, match="invalid request payload"):
+        client._handle_error(response)
+
+
+def test_handle_error_unknown_field_raises_unrecognised_field_error() -> None:
+    """400 with 'unknown field' in the message should raise UnrecognisedFieldError."""
+    client = UKPNClient(api_key="k")
+
+    response = httpx.Response(400, json={"message": "Unknown field: foo_bar"})
+    with pytest.raises(UnrecognisedFieldError, match="foo_bar"):
+        client._handle_error(response)
+
+
+def test_handle_error_invalid_field_raises_unrecognised_field_error() -> None:
+    """400 with 'invalid field' in the message should raise UnrecognisedFieldError."""
+    client = UKPNClient(api_key="k")
+
+    response = httpx.Response(400, json={"message": "Invalid field name in select"})
+    with pytest.raises(UnrecognisedFieldError, match="pip install --upgrade ukpyn"):
         client._handle_error(response)
 
 
