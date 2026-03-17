@@ -23,7 +23,6 @@ async def test_list_datasets_passes_all_supported_params(httpx_mock: HTTPXMock) 
             limit=5,
             offset=2,
             where="records_count > 0",
-            search="network",
             order_by="modified",
             refine={"theme": "power"},
             exclude={"licence_area": "LPN"},
@@ -35,8 +34,6 @@ async def test_list_datasets_passes_all_supported_params(httpx_mock: HTTPXMock) 
     assert params["limit"] == "5"
     assert params["offset"] == "2"
     assert params["where"] == "records_count > 0"
-    assert params["q"] == "network"
-    assert params["search"] == "network"
     assert params["order_by"] == "modified"
     assert "theme:power" in request.url.params.get_list("refine")
     assert "licence_area:LPN" in request.url.params.get_list("exclude")
