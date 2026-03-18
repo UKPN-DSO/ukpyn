@@ -21,7 +21,7 @@ import asyncio
 from typing import Any
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator
+from .base import BaseOrchestrator, _install_module_repr
 from .registry import DNOA_DATASETS
 
 
@@ -230,3 +230,5 @@ def export(
 
 # List of available datasets for easy discovery
 available_datasets: list[str] = list(DNOA_DATASETS.keys())
+
+_install_module_repr(__name__, "DNOAOrchestrator", DNOA_DATASETS)
