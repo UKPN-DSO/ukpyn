@@ -16,15 +16,17 @@ import json
 import sys
 from pathlib import Path
 
+from ukpyn.client import UKPNClient
+from ukpyn.dataset_registry import ALL_DATASETS
+
 # Ensure src/ is importable when running the script directly
 _src = Path(__file__).resolve().parent.parent / "src"
 if str(_src) not in sys.path:
     sys.path.insert(0, str(_src))
 
-from ukpyn.client import UKPNClient
-from ukpyn.dataset_registry import ALL_DATASETS
-
-DEFAULT_OUTPUT = Path(__file__).resolve().parent.parent / "src" / "ukpyn" / "field_schemas.json"
+DEFAULT_OUTPUT = (
+    Path(__file__).resolve().parent.parent / "src" / "ukpyn" / "field_schemas.json"
+)
 
 
 async def fetch_all_schemas(
