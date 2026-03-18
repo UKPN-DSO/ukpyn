@@ -4,8 +4,9 @@ import math
 from dataclasses import fields
 from datetime import datetime
 
-import pandas as pd
 import pytest
+
+pd = pytest.importorskip("pandas")
 
 from ukpyn.utils.stats import (
     PeakAnalysis,
