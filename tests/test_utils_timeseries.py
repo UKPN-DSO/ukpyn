@@ -6,8 +6,6 @@ from typing import Any
 
 import pytest
 
-pd = pytest.importorskip("pandas")
-
 from ukpyn.utils.timeseries import (
     GapInfo,
     QualityReport,
@@ -24,6 +22,7 @@ from ukpyn.utils.timeseries import (
     summarize_redaction_by_period,
 )
 
+pd = pytest.importorskip("pandas")
 # =============================================================================
 # Test Fixtures
 # =============================================================================
