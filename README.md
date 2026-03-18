@@ -168,6 +168,8 @@ events = curtailment.get_events(start_date='2024-01-01')
 
 ## Learning Paths
 
+> **Note:** To run the tutorials, install the full set of dependencies with `uv pip install "ukpyn[all]"` (or `pip install "ukpyn[all]"`).
+
 - **New to Python or APIs?** Start with [01-getting-started](tutorials/01-getting-started.ipynb), then [02-fetching-data](tutorials/02-fetching-data.ipynb).
 - **Comfortable with Python?** Use [03-analysis-patterns](tutorials/03-analysis-patterns.ipynb) and the docs site.
 - **Power users?** Use async APIs and low-level client patterns documented in GitHub Pages docs.

@@ -20,7 +20,7 @@ from datetime import date, datetime
 from typing import Any
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _run_sync
+from .base import BaseOrchestrator, _install_module_repr, _run_sync
 from .registry import FLEXIBILITY_DATASETS
 
 # Module-level list of available datasets
@@ -446,3 +446,6 @@ def export(
             f.write(csv_data)
     """
     return _get_orchestrator().export(dataset, format=format, **kwargs)
+
+
+_install_module_repr(__name__, "FlexibilityOrchestrator", FLEXIBILITY_DATASETS)
