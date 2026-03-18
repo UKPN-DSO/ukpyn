@@ -25,7 +25,7 @@ import asyncio
 from typing import Any
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator
+from .base import BaseOrchestrator, _install_module_repr
 from .registry import DFES_DATASETS
 
 
@@ -277,3 +277,5 @@ def export(
 
 # List of available datasets for easy reference
 available_datasets: list[str] = list(DFES_DATASETS.keys())
+
+_install_module_repr(__name__, "DFESOrchestrator", DFES_DATASETS)

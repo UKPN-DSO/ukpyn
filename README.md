@@ -168,6 +168,8 @@ events = curtailment.get_events(start_date='2024-01-01')
 
 ## Learning Paths
 
+> **Note:** To run the tutorials, install the full set of dependencies with `uv pip install "ukpyn[all]"` (or `pip install "ukpyn[all]"`).
+
 - **New to Python or APIs?** Start with [01-getting-started](tutorials/01-getting-started.ipynb), then [02-fetching-data](tutorials/02-fetching-data.ipynb).
 - **Comfortable with Python?** Use [03-analysis-patterns](tutorials/03-analysis-patterns.ipynb) and the docs site.
 - **Power users?** Use async APIs and low-level client patterns documented in GitHub Pages docs.
@@ -204,7 +206,8 @@ We welcome contributions from beginners and experienced developers.
 
 See [Contributing Guidelines](CONTRIBUTING.md) for full details.
 
-- Open an issue to report bugs, request datasets, or suggest UX improvements.
+- **Found a bug or have a question?** Please [open an issue](https://github.com/ukpyn/ukpyn/issues) — it helps us improve ukpyn for everyone.
+- **Have ideas for better utilities?** Our `ukpyn.utils` module provides time series, statistical, and powerflow helpers — if you think we're missing something or could improve what's there, [tell us in an issue](https://github.com/ukpyn/ukpyn/issues). Community input shapes what we build next.
 - Open a pull request with focused changes and tests.
 - If you are new to open source, small documentation improvements are a great first contribution.
 

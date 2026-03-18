@@ -22,7 +22,7 @@ from typing import Any
 
 from ..models import RecordListResponse
 from ..registry import RESOURCES_DATASETS
-from .base import BaseOrchestrator
+from .base import BaseOrchestrator, _install_module_repr
 
 # Module-level list of available datasets
 available_datasets: list[str] = list(RESOURCES_DATASETS.keys())
@@ -352,3 +352,6 @@ def export(
             f.write(csv_data)
     """
     return _get_orchestrator().export(dataset, format=format, **kwargs)
+
+
+_install_module_repr(__name__, "ResourcesOrchestrator", RESOURCES_DATASETS)
