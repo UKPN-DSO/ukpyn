@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import asyncio
 import csv
 import json
 from collections.abc import Iterable
@@ -25,6 +26,8 @@ DEFAULT_METADATA_URL = (
 BEGIN_MARKER = "# BEGIN AUTO-GENERATED UNMANAGED DATASETS"
 END_MARKER = "# END AUTO-GENERATED UNMANAGED DATASETS"
 NETWORK_DATASETS_HEADER = "# NETWORK_DATASETS (Legacy - backward compatibility)"
+
+DEFAULT_SCHEMA_PATH = Path("src/ukpyn/field_schemas.json")
 
 
 @dataclass(frozen=True)
@@ -266,6 +269,25 @@ def load_field_schemas(schema_path: Path) -> dict[str, list[str]]:
     return json.loads(text)
 
 
+async def fetch_live_schemas(dataset_ids: Iterable[str]) -> dict[str, list[str]]:
+    """Fetch field names for each dataset ID from the live ODP API."""
+    from .client import UKPNClient
+
+    schemas: dict[str, list[str]] = {}
+    unique_ids = sorted(set(dataset_ids))
+
+    async with UKPNClient() as client:
+        for dataset_id in unique_ids:
+            try:
+                dataset = await client.get_dataset(dataset_id)
+                schemas[dataset_id] = sorted(dataset.field_ids)
+            except Exception:
+                # Dataset may have been removed from ODP; skip it
+                schemas[dataset_id] = []
+
+    return dict(sorted(schemas.items()))
+
+
 def diff_field_schemas(
     stored: dict[str, list[str]],
     live: dict[str, list[str]],
@@ -410,14 +432,13 @@ def synchronize_registry(
     report_path: Path,
     json_output_path: Path,
     schema_path: Path | None = None,
-    live_schemas: dict[str, list[str]] | None = None,
 ) -> SyncResult:
     """Run unmanaged-dataset synchronization end-to-end.
 
     When *schema_path* is provided the function also performs a field
-    schema audit: it loads the stored snapshot, diffs against
-    *live_schemas* (if given), appends findings to the report, and
-    updates the snapshot file.
+    schema audit: it fetches live field lists from the ODP API, diffs
+    against the stored snapshot, reports changes, and updates the
+    snapshot in-place.
     """
     registry_source = registry_path.read_text(encoding="utf-8")
     metadata_text = fetch_metadata_csv(metadata_url)
@@ -438,10 +459,19 @@ def synchronize_registry(
 
     # --- Field schema audit ---
     field_changes: list[FieldChange] = []
-    if schema_path is not None and live_schemas is not None:
+    if schema_path is not None:
         stored = load_field_schemas(schema_path)
-        field_changes = diff_field_schemas(stored, live_schemas)
-        update_field_snapshot(schema_path, live_schemas, stored)
+        if stored:
+            print(f"Fetching live field schemas for {len(stored)} datasets...")
+            live_schemas = asyncio.run(fetch_live_schemas(stored.keys()))
+            field_changes = diff_field_schemas(stored, live_schemas)
+            if field_changes:
+                update_field_snapshot(schema_path, live_schemas, stored)
+                print(f"Schema snapshot updated: {schema_path}")
+            else:
+                print("No field schema changes detected.")
+        else:
+            print(f"WARNING: {schema_path} is empty or missing, skipping field audit.")
 
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text(
@@ -503,14 +533,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--schema-path",
         type=Path,
-        default=None,
-        help="Path to field_schemas.json snapshot (enables field audit)",
+        default=DEFAULT_SCHEMA_PATH,
+        help=f"Path to field_schemas.json snapshot (default: {DEFAULT_SCHEMA_PATH})",
     )
     parser.add_argument(
-        "--live-schemas-path",
-        type=Path,
-        default=None,
-        help="Path to a freshly-fetched field schemas JSON (for diffing)",
+        "--skip-field-audit",
+        action="store_true",
+        default=False,
+        help="Skip the live field schema audit",
     )
     return parser.parse_args()
 
@@ -519,20 +549,14 @@ def main() -> int:
     """CLI entry point."""
     args = parse_args()
 
-    # Optionally load freshly-fetched live schemas for field audit
-    live_schemas: dict[str, list[str]] | None = None
-    if args.live_schemas_path and args.live_schemas_path.exists():
-        live_schemas = json.loads(
-            args.live_schemas_path.read_text(encoding="utf-8")
-        )
+    schema_path = None if args.skip_field_audit else args.schema_path
 
     result = synchronize_registry(
         registry_path=args.registry_path,
         metadata_url=args.metadata_url,
         report_path=args.report_path,
         json_output_path=args.json_output_path,
-        schema_path=args.schema_path,
-        live_schemas=live_schemas,
+        schema_path=schema_path,
     )
 
     print(f"registry_changed={str(result.changed).lower()}")
