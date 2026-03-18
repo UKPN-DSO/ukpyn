@@ -24,9 +24,7 @@ class _OrchestratorModule(types.ModuleType):
         return f"{self._orchestrator_name}(datasets=[{datasets}])"
 
     def __str__(self) -> str:
-        entries = ", ".join(
-            f"'{k}': '{v}'" for k, v in self._datasets.items()
-        )
+        entries = ", ".join(f"'{k}': '{v}'" for k, v in self._datasets.items())
         return f"{self._orchestrator_name}(datasets={{{entries}}})"
 
 
@@ -147,9 +145,7 @@ class BaseOrchestrator:
     def __str__(self) -> str:
         """Return a detailed summary including ODP dataset IDs."""
         name = type(self).__name__
-        entries = ", ".join(
-            f"'{k}': '{v}'" for k, v in self.DATASETS.items()
-        )
+        entries = ", ".join(f"'{k}': '{v}'" for k, v in self.DATASETS.items())
         return f"{name}(datasets={{{entries}}})"
 
     async def get_async(
