@@ -1,6 +1,6 @@
 {
   "dfes-network-headroom-report": [
-    "bulksupplypoin",
+    "bulksupplypoint",
     "category",
     "gridsupplypoint",
     "headroom_mw",
@@ -26,6 +26,7 @@
     "maxdemandwinter",
     "measuredresistance_ohm",
     "next_assessmentdate",
+    "parish",
     "postcode",
     "powertransformercount",
     "reversepower",
@@ -165,6 +166,8 @@
     "id",
     "licencearea",
     "load",
+    "maximum_demand_24_25_mw",
+    "maximum_demand_24_25_pf",
     "minimum_load_scaling_factor",
     "season",
     "substation",
@@ -471,6 +474,7 @@
   "ukpn-curtailment-events-site-specific": [
     "average_access_reduction_kw",
     "der_name",
+    "der_name_act",
     "driver",
     "duration_hours",
     "end_time_local",
