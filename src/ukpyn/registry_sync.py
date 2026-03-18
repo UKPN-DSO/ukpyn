@@ -28,12 +28,27 @@ NETWORK_DATASETS_HEADER = "# NETWORK_DATASETS (Legacy - backward compatibility)"
 
 
 @dataclass(frozen=True)
+class FieldChange:
+    """Detected schema change for a single dataset."""
+
+    dataset_id: str
+    added: list[str]
+    removed: list[str]
+
+
+@dataclass(frozen=True)
 class SyncResult:
     """Result of unmanaged dataset synchronization."""
 
     changed: bool
     new_dataset_ids: list[str]
     unmanaged_dataset_ids: list[str]
+    field_changes: list[FieldChange] = ()
+
+    def __post_init__(self) -> None:
+        # frozen dataclass workaround: coerce tuple default to list
+        if isinstance(self.field_changes, tuple):
+            object.__setattr__(self, "field_changes", list(self.field_changes))
 
 
 def fetch_metadata_csv(url: str) -> str:
@@ -238,6 +253,93 @@ def suggest_update_targets(dataset_id: str) -> list[str]:
     ]
 
 
+# =============================================================================
+# Field schema audit
+# =============================================================================
+
+
+def load_field_schemas(schema_path: Path) -> dict[str, list[str]]:
+    """Load the field schema snapshot from JSON."""
+    if not schema_path.exists():
+        return {}
+    text = schema_path.read_text(encoding="utf-8")
+    return json.loads(text)
+
+
+def diff_field_schemas(
+    stored: dict[str, list[str]],
+    live: dict[str, list[str]],
+) -> list[FieldChange]:
+    """Compare stored snapshot against live schemas and return changes.
+
+    Only datasets present in *both* dicts are compared; new or removed
+    datasets are outside the scope of this function (handled by the
+    unmanaged-dataset sync).
+    """
+    changes: list[FieldChange] = []
+    for dataset_id in sorted(stored):
+        if dataset_id not in live:
+            continue
+        stored_set = set(stored[dataset_id])
+        live_set = set(live[dataset_id])
+        added = sorted(live_set - stored_set)
+        removed = sorted(stored_set - live_set)
+        if added or removed:
+            changes.append(FieldChange(dataset_id=dataset_id, added=added, removed=removed))
+    return changes
+
+
+def update_field_snapshot(
+    schema_path: Path,
+    live: dict[str, list[str]],
+    stored: dict[str, list[str]],
+) -> None:
+    """Merge live fields into the stored snapshot and write back."""
+    merged = {**stored, **{k: sorted(v) for k, v in live.items()}}
+    schema_path.write_text(
+        json.dumps(dict(sorted(merged.items())), indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+def render_field_changes_report(changes: list[FieldChange]) -> str:
+    """Render a markdown section describing field schema changes."""
+    if not changes:
+        return ""
+
+    breaking = [c for c in changes if c.removed]
+    additive = [c for c in changes if c.added and not c.removed]
+
+    lines: list[str] = []
+    if breaking:
+        lines.append("")
+        lines.append("## Breaking field changes detected")
+        lines.append("")
+        lines.append(
+            "The following datasets have had fields **removed** on ODP. "
+            "Orchestrator queries referencing these fields will fail."
+        )
+        lines.append("")
+        for change in breaking:
+            lines.append(f"- **{change.dataset_id}**")
+            for field in change.removed:
+                targets = suggest_update_targets(change.dataset_id)
+                target_str = ", ".join(f"`{t}`" for t in targets)
+                lines.append(f"  - Removed: `{field}` — check {target_str}")
+            if change.added:
+                lines.append(f"  - Added: {', '.join(f'`{f}`' for f in change.added)}")
+
+    if additive:
+        lines.append("")
+        lines.append("## New fields detected (non-breaking)")
+        lines.append("")
+        for change in additive:
+            fields_str = ", ".join(f"`{f}`" for f in change.added)
+            lines.append(f"- **{change.dataset_id}**: {fields_str}")
+
+    return "\n".join(lines)
+
+
 def build_issue_report(new_dataset_ids: list[str], titles: dict[str, str]) -> str:
     """Build markdown issue body with findings and triage instructions."""
     now = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")
@@ -290,13 +392,33 @@ def build_issue_report(new_dataset_ids: list[str], titles: dict[str, str]) -> st
     return "\n".join(lines)
 
 
+def build_full_report(
+    new_dataset_ids: list[str],
+    titles: dict[str, str],
+    field_changes: list[FieldChange] | None = None,
+) -> str:
+    """Build combined issue report with dataset + field change sections."""
+    report = build_issue_report(new_dataset_ids, titles)
+    if field_changes:
+        report += "\n" + render_field_changes_report(field_changes)
+    return report
+
+
 def synchronize_registry(
     registry_path: Path,
     metadata_url: str,
     report_path: Path,
     json_output_path: Path,
+    schema_path: Path | None = None,
+    live_schemas: dict[str, list[str]] | None = None,
 ) -> SyncResult:
-    """Run unmanaged-dataset synchronization end-to-end."""
+    """Run unmanaged-dataset synchronization end-to-end.
+
+    When *schema_path* is provided the function also performs a field
+    schema audit: it loads the stored snapshot, diffs against
+    *live_schemas* (if given), appends findings to the report, and
+    updates the snapshot file.
+    """
     registry_source = registry_path.read_text(encoding="utf-8")
     metadata_text = fetch_metadata_csv(metadata_url)
     metadata_titles = parse_metadata_rows(metadata_text)
@@ -314,15 +436,32 @@ def synchronize_registry(
     if changed:
         registry_path.write_text(updated_source, encoding="utf-8")
 
+    # --- Field schema audit ---
+    field_changes: list[FieldChange] = []
+    if schema_path is not None and live_schemas is not None:
+        stored = load_field_schemas(schema_path)
+        field_changes = diff_field_schemas(stored, live_schemas)
+        update_field_snapshot(schema_path, live_schemas, stored)
+
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text(
-        build_issue_report(new_ids, metadata_titles), encoding="utf-8"
+        build_full_report(new_ids, metadata_titles, field_changes),
+        encoding="utf-8",
     )
 
     payload = {
         "new_dataset_ids": new_ids,
         "new_count": len(new_ids),
         "registry_changed": changed,
+        "field_changes": [
+            {
+                "dataset_id": c.dataset_id,
+                "added": c.added,
+                "removed": c.removed,
+            }
+            for c in field_changes
+        ],
+        "breaking_field_changes": sum(1 for c in field_changes if c.removed),
     }
     json_output_path.parent.mkdir(parents=True, exist_ok=True)
     json_output_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
@@ -331,6 +470,7 @@ def synchronize_registry(
         changed=changed,
         new_dataset_ids=new_ids,
         unmanaged_dataset_ids=merged_unmanaged,
+        field_changes=field_changes,
     )
 
 
@@ -360,23 +500,53 @@ def parse_args() -> argparse.Namespace:
         default=Path(".github/unmanaged-datasets.json"),
         help="Output JSON summary path",
     )
+    parser.add_argument(
+        "--schema-path",
+        type=Path,
+        default=None,
+        help="Path to field_schemas.json snapshot (enables field audit)",
+    )
+    parser.add_argument(
+        "--live-schemas-path",
+        type=Path,
+        default=None,
+        help="Path to a freshly-fetched field schemas JSON (for diffing)",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     """CLI entry point."""
     args = parse_args()
+
+    # Optionally load freshly-fetched live schemas for field audit
+    live_schemas: dict[str, list[str]] | None = None
+    if args.live_schemas_path and args.live_schemas_path.exists():
+        live_schemas = json.loads(
+            args.live_schemas_path.read_text(encoding="utf-8")
+        )
+
     result = synchronize_registry(
         registry_path=args.registry_path,
         metadata_url=args.metadata_url,
         report_path=args.report_path,
         json_output_path=args.json_output_path,
+        schema_path=args.schema_path,
+        live_schemas=live_schemas,
     )
 
     print(f"registry_changed={str(result.changed).lower()}")
     print(f"new_dataset_count={len(result.new_dataset_ids)}")
     if result.new_dataset_ids:
         print("new_dataset_ids=" + ",".join(result.new_dataset_ids))
+
+    if result.field_changes:
+        breaking = [c for c in result.field_changes if c.removed]
+        print(f"field_changes={len(result.field_changes)}")
+        print(f"breaking_field_changes={len(breaking)}")
+        for change in breaking:
+            print(f"  BREAKING: {change.dataset_id} removed={change.removed}")
+
     return 0
 
 
