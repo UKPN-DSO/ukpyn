@@ -1,0 +1,29 @@
+# ukpyn
+
+> Python client for the UK Power Networks Open Data Portal. Discover, fetch, filter, and analyse UKPN open datasets from Python.
+
+## Docs
+
+- [Getting Started](https://ukpyn.github.io/ukpyn/getting-started/): Installation, environment setup, and first API call
+- [Glossary](https://ukpyn.github.io/ukpyn/glossary/): Plain-language definitions of API, ODP, dataset, record, and other terms
+- [Orchestrators](https://ukpyn.github.io/ukpyn/orchestrators/): Domain-grouped entry points (ltds, dfes, dnoa, network, flexibility, curtailment, ders, gis, powerflow)
+- [Tutorials](https://ukpyn.github.io/ukpyn/tutorials/): Step-by-step Jupyter notebooks covering data fetching, analysis, geospatial, and powerflow patterns
+- [Accessibility](https://ukpyn.github.io/ukpyn/accessibility/): Keyboard navigation, screen-reader support, and inclusive design notes
+
+## Tutorials
+
+- [01 Getting Started](https://ukpyn.github.io/ukpyn/tutorials/01-getting-started/): First API call and basic record inspection
+- [02 Fetching Data](https://ukpyn.github.io/ukpyn/tutorials/02-fetching-data/): Filters, pagination, and exports
+- [03 Analysis Patterns](https://ukpyn.github.io/ukpyn/tutorials/03-analysis-patterns/): Common analysis workflows with pandas
+- [04 LTDS Network Planning](https://ukpyn.github.io/ukpyn/tutorials/04-ltds-network-planning/): Long Term Development Statement tables
+- [05 Flexibility Markets](https://ukpyn.github.io/ukpyn/tutorials/05-flexibility-markets/): Flexibility dispatch and market data
+- [06 Powerflow Timeseries](https://ukpyn.github.io/ukpyn/tutorials/06-powerflow-timeseries/): Time-series network loading data
+- [07 Curtailment Events](https://ukpyn.github.io/ukpyn/tutorials/07-curtailment-events/): Curtailment event datasets
+- [08 Geospatial Data](https://ukpyn.github.io/ukpyn/tutorials/08-geospatial-data/): Substations, lines, poles, and site geometry
+- [09 Pandapower CIM Import](https://ukpyn.github.io/ukpyn/tutorials/09-pandapower-cim-import/): Importing CIM models into pandapower
+- [10 Powerflow Quality Control](https://ukpyn.github.io/ukpyn/tutorials/10-powerflow-quality-control/): Data quality checks on powerflow records
+
+## Source
+
+- [GitHub](https://github.com/ukpyn/ukpyn): Source code, issues, and contributing guide
+- [PyPI](https://pypi.org/project/ukpyn/): Package installation

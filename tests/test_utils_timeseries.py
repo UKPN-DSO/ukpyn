@@ -4,7 +4,6 @@ from dataclasses import fields
 from datetime import datetime
 from typing import Any
 
-import pandas as pd
 import pytest
 
 from ukpyn.utils.timeseries import (
@@ -23,6 +22,7 @@ from ukpyn.utils.timeseries import (
     summarize_redaction_by_period,
 )
 
+pd = pytest.importorskip("pandas")
 # =============================================================================
 # Test Fixtures
 # =============================================================================
