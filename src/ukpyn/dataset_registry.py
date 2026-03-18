@@ -330,8 +330,7 @@ REFERENCE_DATASETS: dict[str, str] = {
 # Auto-generated from ODP metadata (domain-dataset0)
 # Last sync: 2026-03-18
 # =============================================================================
-UNMANAGED_DATASETS: dict[str, str] = {
-}
+UNMANAGED_DATASETS: dict[str, str] = {}
 # END AUTO-GENERATED UNMANAGED DATASETS
 
 # NETWORK_DATASETS (Legacy - backward compatibility)

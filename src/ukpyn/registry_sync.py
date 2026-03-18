@@ -307,7 +307,9 @@ def diff_field_schemas(
         added = sorted(live_set - stored_set)
         removed = sorted(stored_set - live_set)
         if added or removed:
-            changes.append(FieldChange(dataset_id=dataset_id, added=added, removed=removed))
+            changes.append(
+                FieldChange(dataset_id=dataset_id, added=added, removed=removed)
+            )
     return changes
 
 
