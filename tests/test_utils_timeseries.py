@@ -4,8 +4,9 @@ from dataclasses import fields
 from datetime import datetime
 from typing import Any
 
-import pandas as pd
 import pytest
+
+pd = pytest.importorskip("pandas")
 
 from ukpyn.utils.timeseries import (
     GapInfo,
