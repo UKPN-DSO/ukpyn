@@ -31,7 +31,7 @@ Usage:
 from typing import Any, Literal
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _run_sync
+from .base import BaseOrchestrator, _install_module_repr, _run_sync
 from .registry import POWERFLOW_DATASETS
 
 # Type definitions
@@ -1023,3 +1023,6 @@ def get_half_hourly_timeseries(
         debug=debug,
         **kwargs,
     )
+
+
+_install_module_repr(__name__, "PowerflowOrchestrator", POWERFLOW_DATASETS)
