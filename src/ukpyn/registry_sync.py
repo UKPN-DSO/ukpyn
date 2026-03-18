@@ -164,7 +164,12 @@ def render_unmanaged_section(dataset_ids: Iterable[str], titles: dict[str, str])
         lines.append(f"    # {title}")
         lines.append(f'    "{dataset_id}": "{dataset_id}",')
 
-    lines.extend(["}", END_MARKER])
+    if rows:
+        lines.extend(["}", END_MARKER])
+    else:
+        # Collapse to single-line empty dict to satisfy ruff/linter
+        lines[-1] = "UNMANAGED_DATASETS: dict[str, str] = {}"
+        lines.append(END_MARKER)
     return "\n".join(lines)
 
 
