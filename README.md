@@ -207,6 +207,7 @@ We welcome contributions from beginners and experienced developers.
 See [Contributing Guidelines](CONTRIBUTING.md) for full details.
 
 - **Found a bug or have a question?** Please [open an issue](https://github.com/ukpyn/ukpyn/issues) — it helps us improve ukpyn for everyone.
+- **Have ideas for better utilities?** Our `ukpyn.utils` module provides time series, statistical, and powerflow helpers — if you think we're missing something or could improve what's there, [tell us in an issue](https://github.com/ukpyn/ukpyn/issues). Community input shapes what we build next.
 - Open a pull request with focused changes and tests.
 - If you are new to open source, small documentation improvements are a great first contribution.
 
