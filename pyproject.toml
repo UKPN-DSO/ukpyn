@@ -10,11 +10,11 @@ readme = "README.md"
 license = "CC-BY-4.0"
 requires-python = ">=3.11"
 authors = [
-    { name = "Dr Jamie M. Bright", email = "jamie.bright@ukpowernetworks.co.uk" },
-    # Add additional contributors below
+    { name = "UK Power Networks DSO Data Science & Development Team", email = "dso.data@ukpowernetworks.co.uk" },
 ]
 maintainers = [
-    { name = "Dr Jamie M. Bright", email = "jamie.bright@ukpowernetworks.co.uk" },
+    { name = "Dr Jamie M. Bright" },
+    { name = "Brendon Stead" },
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",

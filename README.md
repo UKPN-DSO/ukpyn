@@ -206,7 +206,7 @@ We welcome contributions from beginners and experienced developers.
 
 See [Contributing Guidelines](CONTRIBUTING.md) for full details.
 
-- Open an issue to report bugs, request datasets, or suggest UX improvements.
+- **Found a bug or have a question?** Please [open an issue](https://github.com/ukpyn/ukpyn/issues) — it helps us improve ukpyn for everyone.
 - Open a pull request with focused changes and tests.
 - If you are new to open source, small documentation improvements are a great first contribution.
 
