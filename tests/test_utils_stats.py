@@ -6,8 +6,6 @@ from datetime import datetime
 
 import pytest
 
-pd = pytest.importorskip("pandas")
-
 from ukpyn.utils.stats import (
     PeakAnalysis,
     SeasonalProfile,
@@ -18,6 +16,7 @@ from ukpyn.utils.stats import (
     seasonal_pattern,
 )
 
+pd = pytest.importorskip("pandas")
 # =============================================================================
 # Test Fixtures
 # =============================================================================
