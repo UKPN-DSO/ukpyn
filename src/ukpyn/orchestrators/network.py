@@ -21,7 +21,7 @@ import asyncio
 from typing import Any, Literal
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator
+from .base import BaseOrchestrator, _install_module_repr
 from .registry import NETWORK_DATASETS
 
 # Type definitions
@@ -487,3 +487,6 @@ def export(
         >>> csv_data = network.export('statistics', format='csv')
     """
     return _get_orchestrator().export(dataset, format=format, **kwargs)
+
+
+_install_module_repr(__name__, "NetworkOrchestrator", NETWORK_DATASETS)

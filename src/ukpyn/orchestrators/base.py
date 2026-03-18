@@ -1,6 +1,8 @@
 """Base orchestrator class for dataset-specific modules."""
 
 import asyncio
+import sys
+import types
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any, TypeVar
 
@@ -9,6 +11,33 @@ from ..config import Config
 from ..models import Dataset, RecordListResponse
 
 T = TypeVar("T")
+
+
+class _OrchestratorModule(types.ModuleType):
+    """Module subclass that provides a useful repr for orchestrator modules."""
+
+    _orchestrator_name: str = ""
+    _datasets: dict[str, str] = {}
+
+    def __repr__(self) -> str:
+        datasets = ", ".join(self._datasets.keys())
+        return f"{self._orchestrator_name}(datasets=[{datasets}])"
+
+    def __str__(self) -> str:
+        entries = ", ".join(f"'{k}': '{v}'" for k, v in self._datasets.items())
+        return f"{self._orchestrator_name}(datasets={{{entries}}})"
+
+
+def _install_module_repr(
+    module_name: str,
+    orchestrator_name: str,
+    datasets: dict[str, str],
+) -> None:
+    """Give an orchestrator module a useful repr by changing its __class__."""
+    module = sys.modules[module_name]
+    module.__class__ = _OrchestratorModule
+    module._orchestrator_name = orchestrator_name
+    module._datasets = dict(datasets)
 
 
 def _run_sync(coro: Any) -> Any:
@@ -106,6 +135,18 @@ class BaseOrchestrator:
     def available_datasets(self) -> list[str]:
         """List all available friendly dataset names."""
         return list(self.DATASETS.keys())
+
+    def __repr__(self) -> str:
+        """Return a concise summary of this orchestrator."""
+        name = type(self).__name__
+        datasets = ", ".join(self.DATASETS.keys())
+        return f"{name}(datasets=[{datasets}])"
+
+    def __str__(self) -> str:
+        """Return a detailed summary including ODP dataset IDs."""
+        name = type(self).__name__
+        entries = ", ".join(f"'{k}': '{v}'" for k, v in self.DATASETS.items())
+        return f"{name}(datasets={{{entries}}})"
 
     async def get_async(
         self,

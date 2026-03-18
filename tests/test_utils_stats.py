@@ -4,7 +4,6 @@ import math
 from dataclasses import fields
 from datetime import datetime
 
-import pandas as pd
 import pytest
 
 from ukpyn.utils.stats import (
@@ -17,6 +16,7 @@ from ukpyn.utils.stats import (
     seasonal_pattern,
 )
 
+pd = pytest.importorskip("pandas")
 # =============================================================================
 # Test Fixtures
 # =============================================================================

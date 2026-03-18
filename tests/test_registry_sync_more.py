@@ -191,6 +191,8 @@ def test_main_uses_parse_and_sync(monkeypatch, capsys) -> None:
             "metadata_url": "https://example.com",
             "report_path": Path("report.md"),
             "json_output_path": Path("out.json"),
+            "schema_path": None,
+            "skip_field_audit": False,
         },
     )
 

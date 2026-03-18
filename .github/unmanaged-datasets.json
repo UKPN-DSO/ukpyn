@@ -1,0 +1,39 @@
+{
+  "new_dataset_ids": [],
+  "new_count": 0,
+  "registry_changed": true,
+  "field_changes": [
+    {
+      "dataset_id": "dfes-network-headroom-report",
+      "added": [
+        "bulksupplypoint"
+      ],
+      "removed": [
+        "bulksupplypoin"
+      ]
+    },
+    {
+      "dataset_id": "grid-and-primary-sites",
+      "added": [
+        "parish"
+      ],
+      "removed": []
+    },
+    {
+      "dataset_id": "ltds-table-3a-load-data-observed-transposed",
+      "added": [
+        "maximum_demand_24_25_mw",
+        "maximum_demand_24_25_pf"
+      ],
+      "removed": []
+    },
+    {
+      "dataset_id": "ukpn-curtailment-events-site-specific",
+      "added": [
+        "der_name_act"
+      ],
+      "removed": []
+    }
+  ],
+  "breaking_field_changes": 1
+}
