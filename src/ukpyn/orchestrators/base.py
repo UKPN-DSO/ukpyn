@@ -13,6 +13,25 @@ from ..models import Dataset, RecordListResponse
 T = TypeVar("T")
 
 
+def sync_pair(async_method: Any) -> Any:
+    """Decorator that auto-generates a sync wrapper for an async orchestrator method.
+
+    The sync method is named by stripping the ``_async`` suffix.  It is
+    installed automatically on the class via
+    ``BaseOrchestrator.__init_subclass__``.
+
+    Usage::
+
+        class MyOrchestrator(BaseOrchestrator):
+            @sync_pair
+            async def get_stuff_async(self, ...) -> RecordListResponse:
+                ...
+            # get_stuff() is created automatically
+    """
+    async_method._is_sync_pair = True
+    return async_method
+
+
 class _OrchestratorModule(types.ModuleType):
     """Module subclass that provides a useful repr for orchestrator modules."""
 
@@ -78,6 +97,31 @@ class BaseOrchestrator:
     """
 
     DATASETS: dict[str, str] = {}
+
+    def __init_subclass__(cls, **kwargs: Any) -> None:
+        """Auto-install sync wrappers for methods decorated with @sync_pair."""
+        super().__init_subclass__(**kwargs)
+        for name in list(vars(cls)):
+            method = vars(cls)[name]
+            if callable(method) and getattr(method, "_is_sync_pair", False):
+                if not name.endswith("_async"):
+                    continue
+                async_name = name
+                sync_name = name.removesuffix("_async")
+
+                def _make_sync(aname: str) -> Any:
+                    def sync_wrapper(self: Any, *args: Any, **kw: Any) -> Any:
+                        # Look up the async method on the instance so that
+                        # monkeypatching on an instance works correctly.
+                        async_method = getattr(self, aname)
+                        return _run_sync(async_method(*args, **kw))
+                    return sync_wrapper
+
+                wrapper = _make_sync(async_name)
+                wrapper.__name__ = sync_name
+                wrapper.__qualname__ = method.__qualname__.replace("_async", "")
+                wrapper.__doc__ = method.__doc__
+                setattr(cls, sync_name, wrapper)
 
     def __init__(
         self,

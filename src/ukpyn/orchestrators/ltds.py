@@ -25,7 +25,7 @@ Usage:
 from typing import Any
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _install_module_repr, _run_sync
+from .base import BaseOrchestrator, _install_module_repr, sync_pair
 from .registry import LTDS_DATASETS
 
 # Module-level list of available datasets
@@ -62,6 +62,7 @@ class LTDSOrchestrator(BaseOrchestrator):
     # Table 1 - Circuit Data
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_table_1_async(
         self,
         licence_area: str | None = None,
@@ -96,27 +97,11 @@ class LTDSOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_table_1(
-        self,
-        licence_area: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for get_table_1_async."""
-        return _run_sync(
-            self.get_table_1_async(
-                licence_area=licence_area,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Table 2A - Transformer Data (2-winding)
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_table_2a_async(
         self,
         licence_area: str | None = None,
@@ -161,29 +146,11 @@ class LTDSOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_table_2a(
-        self,
-        licence_area: str | None = None,
-        substation: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for get_table_2a_async."""
-        return _run_sync(
-            self.get_table_2a_async(
-                licence_area=licence_area,
-                substation=substation,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Table 2B - Transformer Data (3-winding)
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_table_2b_async(
         self,
         licence_area: str | None = None,
@@ -231,29 +198,11 @@ class LTDSOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_table_2b(
-        self,
-        licence_area: str | None = None,
-        substation: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for get_table_2b_async."""
-        return _run_sync(
-            self.get_table_2b_async(
-                licence_area=licence_area,
-                substation=substation,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Table 3A - Observed Peak Demand
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_table_3a_async(
         self,
         licence_area: str | None = None,
@@ -298,33 +247,11 @@ class LTDSOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_table_3a(
-        self,
-        licence_area: str | None = None,
-        year: int | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Synchronous wrapper for get_table_3a_async.
-
-        See get_table_3a_async for full documentation.
-        """
-        return _run_sync(
-            self.get_table_3a_async(
-                licence_area=licence_area,
-                year=year,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Table 3B - Forecast (True/Firm) Demand
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_table_3b_async(
         self,
         licence_area: str | None = None,
@@ -359,27 +286,11 @@ class LTDSOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_table_3b(
-        self,
-        licence_area: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for get_table_3b_async."""
-        return _run_sync(
-            self.get_table_3b_async(
-                licence_area=licence_area,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Table 4A - Three-Phase Fault Levels
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_table_4a_async(
         self,
         licence_area: str | None = None,
@@ -414,27 +325,11 @@ class LTDSOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_table_4a(
-        self,
-        licence_area: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for get_table_4a_async."""
-        return _run_sync(
-            self.get_table_4a_async(
-                licence_area=licence_area,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Table 4B - Earth Fault Levels
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_table_4b_async(
         self,
         licence_area: str | None = None,
@@ -469,27 +364,11 @@ class LTDSOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_table_4b(
-        self,
-        licence_area: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for get_table_4b_async."""
-        return _run_sync(
-            self.get_table_4b_async(
-                licence_area=licence_area,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Table 7 - Operational Restrictions
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_table_7_async(
         self,
         licence_area: str | None = None,
@@ -524,27 +403,11 @@ class LTDSOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_table_7(
-        self,
-        licence_area: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for get_table_7_async."""
-        return _run_sync(
-            self.get_table_7_async(
-                licence_area=licence_area,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Table 8 - Fault Data (>95th Percentile)
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_table_8_async(
         self,
         licence_area: str | None = None,
@@ -579,27 +442,11 @@ class LTDSOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_table_8(
-        self,
-        licence_area: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for get_table_8_async."""
-        return _run_sync(
-            self.get_table_8_async(
-                licence_area=licence_area,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Infrastructure Projects
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_projects_async(
         self,
         licence_area: str | None = None,
@@ -649,35 +496,11 @@ class LTDSOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_projects(
-        self,
-        licence_area: str | None = None,
-        local_authority: str | None = None,
-        expected_start_year: int | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Synchronous wrapper for get_projects_async.
-
-        See get_projects_async for full documentation.
-        """
-        return _run_sync(
-            self.get_projects_async(
-                licence_area=licence_area,
-                local_authority=local_authority,
-                expected_start_year=expected_start_year,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Table 5 - Generation
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_table_5_async(
         self,
         licence_area: str | None = None,
@@ -727,31 +550,11 @@ class LTDSOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_table_5(
-        self,
-        licence_area: str | None = None,
-        technology_type: str | None = None,
-        substation: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for get_table_5_async."""
-        return _run_sync(
-            self.get_table_5_async(
-                licence_area=licence_area,
-                technology_type=technology_type,
-                substation=substation,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Table 6 - New Connection Interest
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_table_6_async(
         self,
         licence_area: str | None = None,
@@ -796,29 +599,11 @@ class LTDSOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_table_6(
-        self,
-        licence_area: str | None = None,
-        substation: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for get_table_6_async."""
-        return _run_sync(
-            self.get_table_6_async(
-                licence_area=licence_area,
-                substation=substation,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # CIM - Common Information Model
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_cim_async(
         self,
         licence_area: str | None = None,
@@ -852,23 +637,6 @@ class LTDSOrchestrator(BaseOrchestrator):
             offset=offset,
             refine=refine if refine else None,
             **kwargs,
-        )
-
-    def get_cim(
-        self,
-        licence_area: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for get_cim_async."""
-        return _run_sync(
-            self.get_cim_async(
-                licence_area=licence_area,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
         )
 
 

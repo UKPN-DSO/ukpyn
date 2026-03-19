@@ -3,7 +3,7 @@
 from typing import Any, Literal
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _install_module_repr, _run_sync
+from .base import BaseOrchestrator, _install_module_repr, sync_pair
 from .registry import GEO_DATASETS
 
 # Type alias for voltage level parameter
@@ -36,6 +36,7 @@ class GISOrchestrator(BaseOrchestrator):
     # Primary Substations
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_primary_substations_async(
         self,
         site: str | None = None,
@@ -72,41 +73,11 @@ class GISOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_primary_substations(
-        self,
-        site: str | None = None,
-        licence_area: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Get primary substation areas synchronously.
-
-        Args:
-            site: Filter by site name
-            licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
-            limit: Maximum number of records to return
-            offset: Pagination offset
-            **kwargs: Additional query parameters
-
-        Returns:
-            RecordListResponse containing primary substation data
-        """
-        return _run_sync(
-            self.get_primary_substations_async(
-                site=site,
-                licence_area=licence_area,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Secondary Sites
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_secondary_sites_async(
         self,
         primary_substation: str | None = None,
@@ -143,38 +114,11 @@ class GISOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_secondary_sites(
-        self,
-        primary_substation: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Get secondary sites synchronously.
-
-        Args:
-            primary_substation: Filter by parent primary substation name
-            limit: Maximum number of records to return
-            offset: Pagination offset
-            **kwargs: Additional query parameters
-
-        Returns:
-            RecordListResponse containing secondary site data
-        """
-        return _run_sync(
-            self.get_secondary_sites_async(
-                primary_substation=primary_substation,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Overhead Lines
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_overhead_lines_async(
         self,
         voltage: VoltageLevel = "hv",
@@ -203,38 +147,11 @@ class GISOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_overhead_lines(
-        self,
-        voltage: VoltageLevel = "hv",
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Get overhead lines synchronously by voltage level.
-
-        Args:
-            voltage: Voltage level - 'hv' (high voltage) or 'lv' (low voltage)
-            limit: Maximum number of records to return
-            offset: Pagination offset
-            **kwargs: Additional query parameters
-
-        Returns:
-            RecordListResponse containing overhead line data
-        """
-        return _run_sync(
-            self.get_overhead_lines_async(
-                voltage=voltage,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Poles
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_poles_async(
         self,
         voltage: VoltageLevel = "hv",
@@ -263,38 +180,11 @@ class GISOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_poles(
-        self,
-        voltage: VoltageLevel = "hv",
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Get poles synchronously by voltage level.
-
-        Args:
-            voltage: Voltage level - 'hv' (high voltage) or 'lv' (low voltage)
-            limit: Maximum number of records to return
-            offset: Pagination offset
-            **kwargs: Additional query parameters
-
-        Returns:
-            RecordListResponse containing pole data
-        """
-        return _run_sync(
-            self.get_poles_async(
-                voltage=voltage,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # GeoJSON Export
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def export_geojson_async(
         self,
         dataset: str,
@@ -316,32 +206,11 @@ class GISOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def export_geojson(
-        self,
-        dataset: str,
-        **kwargs: Any,
-    ) -> bytes:
-        """
-        Export dataset as GeoJSON synchronously.
-
-        Args:
-            dataset: Dataset friendly name or ID
-            **kwargs: Additional export parameters
-
-        Returns:
-            GeoJSON data as bytes
-        """
-        return _run_sync(
-            self.export_geojson_async(
-                dataset=dataset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Shapefile Export
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def export_shapefile_async(
         self,
         dataset: str,
@@ -361,28 +230,6 @@ class GISOrchestrator(BaseOrchestrator):
             dataset=dataset,
             format="shapefile",
             **kwargs,
-        )
-
-    def export_shapefile(
-        self,
-        dataset: str,
-        **kwargs: Any,
-    ) -> bytes:
-        """
-        Export dataset as Shapefile synchronously.
-
-        Args:
-            dataset: Dataset friendly name or ID
-            **kwargs: Additional export parameters
-
-        Returns:
-            Shapefile data as bytes (ZIP archive)
-        """
-        return _run_sync(
-            self.export_shapefile_async(
-                dataset=dataset,
-                **kwargs,
-            )
         )
 
 

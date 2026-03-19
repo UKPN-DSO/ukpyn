@@ -20,7 +20,7 @@ from datetime import date, datetime
 from typing import Any
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _install_module_repr, _run_sync
+from .base import BaseOrchestrator, _install_module_repr, sync_pair
 from .registry import FLEXIBILITY_DATASETS
 
 # Module-level list of available datasets
@@ -92,6 +92,7 @@ class FlexibilityOrchestrator(BaseOrchestrator):
     # Dispatches - Flexibility Dispatch Events
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_dispatches_async(
         self,
         start_date: DateInput = None,
@@ -157,35 +158,11 @@ class FlexibilityOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_dispatches(
-        self,
-        start_date: DateInput = None,
-        end_date: DateInput = None,
-        product: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Synchronous wrapper for get_dispatches_async.
-
-        See get_dispatches_async for full documentation.
-        """
-        return _run_sync(
-            self.get_dispatches_async(
-                start_date=start_date,
-                end_date=end_date,
-                product=product,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Curtailment - Site-Specific Curtailment Events
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_curtailment_async(
         self,
         site_id: str | None = None,
@@ -248,31 +225,6 @@ class FlexibilityOrchestrator(BaseOrchestrator):
             offset=offset,
             where=where,
             **kwargs,
-        )
-
-    def get_curtailment(
-        self,
-        site_id: str | None = None,
-        start_date: DateInput = None,
-        end_date: DateInput = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Synchronous wrapper for get_curtailment_async.
-
-        See get_curtailment_async for full documentation.
-        """
-        return _run_sync(
-            self.get_curtailment_async(
-                site_id=site_id,
-                start_date=start_date,
-                end_date=end_date,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
         )
 
 

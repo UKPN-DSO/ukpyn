@@ -17,11 +17,10 @@ Usage:
     csv_bytes = dnoa.export('dnoa', format='csv')
 """
 
-import asyncio
 from typing import Any
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _install_module_repr
+from .base import BaseOrchestrator, _install_module_repr, sync_pair
 from .registry import DNOA_DATASETS
 
 
@@ -35,6 +34,7 @@ class DNOAOrchestrator(BaseOrchestrator):
 
     DATASETS = DNOA_DATASETS
 
+    @sync_pair
     async def get_assessment_async(
         self,
         licence_area: str | None = None,
@@ -44,7 +44,7 @@ class DNOAOrchestrator(BaseOrchestrator):
         **kwargs: Any,
     ) -> RecordListResponse:
         """
-        Get DNOA assessment records asynchronously.
+        Get DNOA assessment records.
 
         Args:
             licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN').
@@ -71,38 +71,6 @@ class DNOAOrchestrator(BaseOrchestrator):
             where=where,
             order_by=order_by,
             **kwargs,
-        )
-
-    def get_assessment(
-        self,
-        licence_area: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        order_by: str | None = None,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Synchronous wrapper for get_assessment_async.
-
-        Args:
-            licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN').
-                         If None, returns data for all licence areas.
-            limit: Maximum number of records to return.
-            offset: Pagination offset.
-            order_by: Sort field.
-            **kwargs: Additional query parameters.
-
-        Returns:
-            RecordListResponse containing DNOA assessment records.
-        """
-        return asyncio.run(
-            self.get_assessment_async(
-                licence_area=licence_area,
-                limit=limit,
-                offset=offset,
-                order_by=order_by,
-                **kwargs,
-            )
         )
 
 
