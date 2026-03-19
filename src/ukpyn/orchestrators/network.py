@@ -17,11 +17,10 @@ Usage:
     circuit_data = network.get_circuit_data(voltage='132kv', granularity='monthly')
 """
 
-import asyncio
 from typing import Any, Literal
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _install_module_repr
+from .base import BaseOrchestrator, _install_module_repr, sync_pair
 from .registry import NETWORK_DATASETS
 
 # Type definitions
@@ -51,6 +50,7 @@ class NetworkOrchestrator(BaseOrchestrator):
     # Circuit Data Methods
     # =========================================================================
 
+    @sync_pair
     async def get_circuit_data_async(
         self,
         voltage: VoltageLevel = "132kv",
@@ -126,37 +126,11 @@ class NetworkOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_circuit_data(
-        self,
-        voltage: VoltageLevel = "132kv",
-        granularity: Granularity = "monthly",
-        circuit_id: str | None = None,
-        start_date: str | None = None,
-        end_date: str | None = None,
-        limit: int = 100,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Synchronous wrapper for get_circuit_data_async.
-
-        See get_circuit_data_async for full documentation.
-        """
-        return asyncio.run(
-            self.get_circuit_data_async(
-                voltage=voltage,
-                granularity=granularity,
-                circuit_id=circuit_id,
-                start_date=start_date,
-                end_date=end_date,
-                limit=limit,
-                **kwargs,
-            )
-        )
-
     # =========================================================================
     # Statistics Methods
     # =========================================================================
 
+    @sync_pair
     async def get_statistics_async(
         self,
         year: int | None = None,
@@ -204,31 +178,11 @@ class NetworkOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_statistics(
-        self,
-        year: int | None = None,
-        region: str | None = None,
-        limit: int = 100,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Synchronous wrapper for get_statistics_async.
-
-        See get_statistics_async for full documentation.
-        """
-        return asyncio.run(
-            self.get_statistics_async(
-                year=year,
-                region=region,
-                limit=limit,
-                **kwargs,
-            )
-        )
-
     # =========================================================================
     # Demand Profiles Methods
     # =========================================================================
 
+    @sync_pair
     async def get_demand_profiles_async(
         self,
         profile_class: str | None = None,
@@ -267,25 +221,6 @@ class NetworkOrchestrator(BaseOrchestrator):
             limit=limit,
             offset=offset,
             **kwargs,
-        )
-
-    def get_demand_profiles(
-        self,
-        profile_class: str | None = None,
-        limit: int = 100,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Synchronous wrapper for get_demand_profiles_async.
-
-        See get_demand_profiles_async for full documentation.
-        """
-        return asyncio.run(
-            self.get_demand_profiles_async(
-                profile_class=profile_class,
-                limit=limit,
-                **kwargs,
-            )
         )
 
 

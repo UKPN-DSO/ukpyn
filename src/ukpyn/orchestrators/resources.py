@@ -17,12 +17,11 @@ Usage:
     ecr_data = await resources.get_embedded_capacity_async(min_capacity_mw=5.0)
 """
 
-import asyncio
 from typing import Any
 
 from ..models import RecordListResponse
 from ..registry import RESOURCES_DATASETS
-from .base import BaseOrchestrator, _install_module_repr
+from .base import BaseOrchestrator, _install_module_repr, sync_pair
 
 # Module-level list of available datasets
 available_datasets: list[str] = list(RESOURCES_DATASETS.keys())
@@ -52,6 +51,7 @@ class ResourcesOrchestrator(BaseOrchestrator):
     # Embedded Capacity Register (ECR)
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_embedded_capacity_async(
         self,
         technology_type: str | None = None,
@@ -100,35 +100,11 @@ class ResourcesOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_embedded_capacity(
-        self,
-        technology_type: str | None = None,
-        licence_area: str | None = None,
-        min_capacity_mw: float | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Synchronous wrapper for get_embedded_capacity_async.
-
-        See get_embedded_capacity_async for full documentation.
-        """
-        return asyncio.run(
-            self.get_embedded_capacity_async(
-                technology_type=technology_type,
-                licence_area=licence_area,
-                min_capacity_mw=min_capacity_mw,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
-        )
-
     # -------------------------------------------------------------------------
     # Large Demand List (LDL)
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_large_demand_async(
         self,
         licence_area: str | None = None,
@@ -169,29 +145,6 @@ class ResourcesOrchestrator(BaseOrchestrator):
             offset=offset,
             where=where,
             **kwargs,
-        )
-
-    def get_large_demand(
-        self,
-        licence_area: str | None = None,
-        min_demand_mw: float | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Synchronous wrapper for get_large_demand_async.
-
-        See get_large_demand_async for full documentation.
-        """
-        return asyncio.run(
-            self.get_large_demand_async(
-                licence_area=licence_area,
-                min_demand_mw=min_demand_mw,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
         )
 
 

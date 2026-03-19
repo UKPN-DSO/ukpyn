@@ -20,7 +20,7 @@ from typing import Any
 
 from ..dataset_registry import CURTAILMENT_DATASETS
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _install_module_repr, _run_sync
+from .base import BaseOrchestrator, _install_module_repr, sync_pair
 
 # Module-level list of available datasets
 available_datasets: list[str] = list(CURTAILMENT_DATASETS.keys())
@@ -89,6 +89,7 @@ class CurtailmentOrchestrator(BaseOrchestrator):
     # Events - Site-Specific Curtailment Events
     # -------------------------------------------------------------------------
 
+    @sync_pair
     async def get_events_async(
         self,
         site_id: str | None = None,
@@ -162,33 +163,6 @@ class CurtailmentOrchestrator(BaseOrchestrator):
             offset=offset,
             where=where,
             **kwargs,
-        )
-
-    def get_events(
-        self,
-        site_id: str | None = None,
-        start_date: DateInput = None,
-        end_date: DateInput = None,
-        driver: str | None = None,
-        limit: int = 100,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Synchronous wrapper for get_events_async.
-
-        See get_events_async for full documentation.
-        """
-        return _run_sync(
-            self.get_events_async(
-                site_id=site_id,
-                start_date=start_date,
-                end_date=end_date,
-                driver=driver,
-                limit=limit,
-                offset=offset,
-                **kwargs,
-            )
         )
 
 

@@ -31,7 +31,7 @@ Usage:
 from typing import Any, Literal
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _install_module_repr, _run_sync
+from .base import BaseOrchestrator, _install_module_repr, sync_pair
 from .registry import POWERFLOW_DATASETS
 
 # Type definitions
@@ -66,6 +66,7 @@ class PowerflowOrchestrator(BaseOrchestrator):
     # Circuit Time Series Methods
     # =========================================================================
 
+    @sync_pair
     async def get_circuit_timeseries_async(
         self,
         voltage: VoltageLevel = "132kv",
@@ -167,35 +168,11 @@ class PowerflowOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_circuit_timeseries(
-        self,
-        voltage: VoltageLevel = "132kv",
-        granularity: Granularity = "monthly",
-        circuit_id: str | None = None,
-        licence_area: str | None = None,
-        start_date: str | None = None,
-        end_date: str | None = None,
-        limit: int = 1000,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for get_circuit_timeseries_async."""
-        return _run_sync(
-            self.get_circuit_timeseries_async(
-                voltage=voltage,
-                granularity=granularity,
-                circuit_id=circuit_id,
-                licence_area=licence_area,
-                start_date=start_date,
-                end_date=end_date,
-                limit=limit,
-                **kwargs,
-            )
-        )
-
     # =========================================================================
     # Transformer Time Series Methods
     # =========================================================================
 
+    @sync_pair
     async def get_transformer_timeseries_async(
         self,
         transformer_type: TransformerType = "primary",
@@ -295,35 +272,11 @@ class PowerflowOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def get_transformer_timeseries(
-        self,
-        transformer_type: TransformerType = "primary",
-        granularity: Granularity = "monthly",
-        transformer_id: str | None = None,
-        licence_area: str | None = None,
-        start_date: str | None = None,
-        end_date: str | None = None,
-        limit: int = 1000,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for get_transformer_timeseries_async."""
-        return _run_sync(
-            self.get_transformer_timeseries_async(
-                transformer_type=transformer_type,
-                granularity=granularity,
-                transformer_id=transformer_id,
-                licence_area=licence_area,
-                start_date=start_date,
-                end_date=end_date,
-                limit=limit,
-                **kwargs,
-            )
-        )
-
     # =========================================================================
     # Substation Time Series Methods
     # =========================================================================
 
+    @sync_pair
     async def get_half_hourly_timeseries_async(
         self,
         substation: str,
@@ -667,69 +620,11 @@ class PowerflowOrchestrator(BaseOrchestrator):
 
         return RecordListResponse(records=all_records, total_count=len(all_records))
 
-    def get_half_hourly_timeseries(
-        self,
-        substation: str,
-        granularity: Granularity = "half_hourly",
-        licence_area: str | None = None,
-        start_date: str | None = None,
-        end_date: str | None = None,
-        limit: int = 100000,
-        debug: bool = False,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Get half-hourly time series data for all transformers at a substation.
-
-        This method automatically:
-        1. Queries LTDS Tables 2A and 2B to determine transformer types
-        2. Queries monthly powerflow data filtering by ltds_name (substation name)
-        3. Extracts tx_id values for the substation's transformers
-        4. Retrieves time series data for those specific transformers
-
-        Args:
-            substation: Substation name (e.g., 'Addenbrookes Primary 11kV')
-            granularity: Data granularity - 'monthly' or 'half_hourly'
-            licence_area: Licence area (EPN, SPN, LPN) - auto-detected if not provided
-            start_date: Start date (ISO format: YYYY-MM-DD)
-            end_date: End date (ISO format: YYYY-MM-DD)
-            limit: Maximum records (default 100000)
-            debug: If True, print detailed debug information
-            **kwargs: Additional query parameters
-
-        Returns:
-            RecordListResponse with time series data for all transformers
-
-        Example:
-            >>> from ukpyn.orchestrators import powerflow
-            >>> data = powerflow.get_half_hourly_timeseries(
-            ...     substation='Addenbrookes Primary 11kV',
-            ...     granularity='half_hourly',
-            ...     licence_area='EPN',
-            ...     start_date='2023-01-01',
-            ...     end_date='2024-01-01'
-            ... )
-
-        Note:
-            Monthly powerflow datasets contain ltds_name field for direct filtering.
-        """
-        return _run_sync(
-            self.get_half_hourly_timeseries_async(
-                substation=substation,
-                granularity=granularity,
-                licence_area=licence_area,
-                start_date=start_date,
-                end_date=end_date,
-                limit=limit,
-                debug=debug,
-                **kwargs,
-            )
-        )
-
     # =========================================================================
     # Discovery Methods
     # =========================================================================
 
+    @sync_pair
     async def discover_circuits_async(
         self,
         voltage: VoltageLevel = "132kv",
@@ -760,23 +655,7 @@ class PowerflowOrchestrator(BaseOrchestrator):
             **kwargs,
         )
 
-    def discover_circuits(
-        self,
-        voltage: VoltageLevel = "132kv",
-        licence_area: str | None = None,
-        limit: int = 1000,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for discover_circuits_async."""
-        return _run_sync(
-            self.discover_circuits_async(
-                voltage=voltage,
-                licence_area=licence_area,
-                limit=limit,
-                **kwargs,
-            )
-        )
-
+    @sync_pair
     async def discover_transformers_async(
         self,
         transformer_type: TransformerType = "primary",
@@ -802,23 +681,6 @@ class PowerflowOrchestrator(BaseOrchestrator):
             licence_area=licence_area,
             limit=limit,
             **kwargs,
-        )
-
-    def discover_transformers(
-        self,
-        transformer_type: TransformerType = "primary",
-        licence_area: str | None = None,
-        limit: int = 1000,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """Synchronous wrapper for discover_transformers_async."""
-        return _run_sync(
-            self.discover_transformers_async(
-                transformer_type=transformer_type,
-                licence_area=licence_area,
-                limit=limit,
-                **kwargs,
-            )
         )
 
 

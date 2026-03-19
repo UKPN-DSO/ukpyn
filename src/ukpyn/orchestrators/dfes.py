@@ -21,11 +21,10 @@ Usage:
     print(dfes.available_datasets)
 """
 
-import asyncio
 from typing import Any
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _install_module_repr
+from .base import BaseOrchestrator, _install_module_repr, sync_pair
 from .registry import DFES_DATASETS
 
 
@@ -49,6 +48,7 @@ class DFESOrchestrator(BaseOrchestrator):
 
     DATASETS = DFES_DATASETS
 
+    @sync_pair
     async def get_headroom_async(
         self,
         scenario: str | None = None,
@@ -112,40 +112,6 @@ class DFESOrchestrator(BaseOrchestrator):
             select=select,
             order_by=order_by,
             **kwargs,
-        )
-
-    def get_headroom(
-        self,
-        scenario: str | None = None,
-        year: int | None = None,
-        limit: int = 100,
-        **kwargs: Any,
-    ) -> RecordListResponse:
-        """
-        Synchronous wrapper for get_headroom_async.
-
-        Get network headroom data synchronously.
-
-        Args:
-            scenario: Filter by scenario name (e.g., 'Leading the Way')
-            year: Filter by projection year (e.g., 2030)
-            limit: Maximum number of records to return
-            **kwargs: Additional query parameters
-
-        Returns:
-            RecordListResponse containing headroom records
-
-        Example:
-            >>> from ukpyn.orchestrators import dfes
-            >>> data = dfes.get_headroom(scenario='Consumer Transformation', year=2035)
-        """
-        return asyncio.run(
-            self.get_headroom_async(
-                scenario=scenario,
-                year=year,
-                limit=limit,
-                **kwargs,
-            )
         )
 
 
