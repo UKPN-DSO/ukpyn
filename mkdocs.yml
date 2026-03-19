@@ -7,8 +7,8 @@ repo_name: ukpyn/ukpyn
 theme:
   name: material
   language: en
-  logo: assets/ukpn-dso-logo.png
-  favicon: assets/ukpn-dso-logo.png
+  logo: assets\dso_transparent_logo.png
+  favicon: assets\dso_transparent_logo.png
   features:
     - navigation.top
     - navigation.tracking
