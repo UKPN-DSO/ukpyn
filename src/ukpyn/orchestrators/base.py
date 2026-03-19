@@ -115,6 +115,7 @@ class BaseOrchestrator:
                         # monkeypatching on an instance works correctly.
                         async_method = getattr(self, aname)
                         return _run_sync(async_method(*args, **kw))
+
                     return sync_wrapper
 
                 wrapper = _make_sync(async_name)
