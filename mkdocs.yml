@@ -1,14 +1,14 @@
 site_name: ukpyn
 site_description: UK Power Networks Open Data Python client
-site_url: https://ukpyn.github.io/ukpyn/
-repo_url: https://github.com/ukpyn/ukpyn
-repo_name: ukpyn/ukpyn
+site_url: https://ukpn-dso.github.io/ukpyn/
+repo_url: https://github.com/UKPN-DSO/ukpyn
+repo_name: UKPN-DSO/ukpyn
 
 theme:
   name: material
   language: en
-  logo: assets\dso_transparent_logo.png
-  favicon: assets\dso_transparent_logo.png
+  logo: assets/dso_transparent_logo.png
+  favicon: assets/dso_transparent_logo.png
   features:
     - navigation.top
     - navigation.tracking

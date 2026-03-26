@@ -133,7 +133,8 @@ class LTDSOrchestrator(BaseOrchestrator):
             refine["licencearea"] = licence_area
 
         if substation is not None:
-            where_clauses.append(f"lv_substation LIKE '%{substation}%'")
+            _sub = substation.replace("'", "''")
+            where_clauses.append(f"lv_substation='{_sub}'")
 
         where = " AND ".join(where_clauses) if where_clauses else None
 
@@ -183,8 +184,9 @@ class LTDSOrchestrator(BaseOrchestrator):
 
         if substation is not None:
             # Table 2B has lv_substation_1 and lv_substation_2 (3-winding transformers)
+            _sub = substation.replace("'", "''")
             where_clauses.append(
-                f"(lv_substation_1 LIKE '%{substation}%' OR lv_substation_2 LIKE '%{substation}%')"
+                f"(lv_substation_1='{_sub}' OR lv_substation_2='{_sub}')"
             )
 
         where = " AND ".join(where_clauses) if where_clauses else None
@@ -537,7 +539,8 @@ class LTDSOrchestrator(BaseOrchestrator):
             where_clauses.append(f"technology_type LIKE '%{technology_type}%'")
 
         if substation is not None:
-            where_clauses.append(f"substation LIKE '%{substation}%'")
+            _sub = substation.replace("'", "''")
+            where_clauses.append(f"substation='{_sub}'")
 
         where = " AND ".join(where_clauses) if where_clauses else None
 
@@ -586,7 +589,8 @@ class LTDSOrchestrator(BaseOrchestrator):
             refine["licencearea"] = licence_area
 
         if substation is not None:
-            where_clauses.append(f"substation LIKE '%{substation}%'")
+            _sub = substation.replace("'", "''")
+            where_clauses.append(f"substation='{_sub}'")
 
         where = " AND ".join(where_clauses) if where_clauses else None
 

@@ -1,4 +1,4 @@
-"""Configuration management for the UKPN API client."""
+"""Configuration management for the UK Power Networks API client."""
 
 import os
 
@@ -15,8 +15,41 @@ DEFAULT_TIMEOUT: int = 30
 API_KEY_ENV_VAR: str = "UKPN_API_KEY"
 
 
+def check_api_key() -> None:
+    """Verify that an API key is available.
+
+    Checks the ``UKPN_API_KEY`` environment variable (loading any ``.env``
+    file first via *python-dotenv* when available) and raises
+    :class:`~ukpyn.exceptions.AuthenticationError` with actionable guidance
+    if the key is missing.
+
+    Call this at the top of scripts or notebooks for an immediate, clear
+    error instead of waiting for a 401 response from the API.
+
+    Raises:
+        AuthenticationError: If no API key is found.
+    """
+    # Best-effort .env loading so callers don't need to do it themselves.
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:  # python-dotenv is optional
+        pass
+
+    if not os.getenv(API_KEY_ENV_VAR):
+        from .exceptions import AuthenticationError
+
+        raise AuthenticationError(
+            f"{API_KEY_ENV_VAR} environment variable is not set. "
+            "Set it to your UK Power Networks Open Data API key.\n"
+            "  export UKPN_API_KEY='your-key-here'  # Linux / macOS\n"
+            "  $env:UKPN_API_KEY='your-key-here'    # PowerShell\n"
+            "Or add it to a .env file in your project root."
+        )
+
+
 class Config:
-    """Configuration class for UKPN API client settings."""
+    """Configuration class for UK Power Networks API client settings."""
 
     def __init__(
         self,
@@ -30,7 +63,7 @@ class Config:
         Args:
             api_key: API key for authentication. If not provided, will attempt
                      to load from UKPN_API_KEY environment variable.
-            base_url: Base URL for the API. Defaults to UKPN OpenDataSoft URL.
+            base_url: Base URL for the API. Defaults to UK Power Networks OpenDataSoft URL.
             timeout: Request timeout in seconds. Defaults to 30.
         """
         self._api_key = api_key or os.getenv(API_KEY_ENV_VAR)

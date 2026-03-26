@@ -78,7 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `quality_control()` - Comprehensive data quality assessment
 - **Example notebook** (`examples/forecasting.ipynb`)
   - End-to-end substation load forecasting workflow
-  - Data acquisition from UKPN Open Data Portal
+  - Data acquisition from UK Power Networks Open Data Portal
   - Quality control and anomaly detection
   - Feature engineering for ML models
   - Multiple forecasting models (Linear Regression, Random Forest, Gradient Boosting)

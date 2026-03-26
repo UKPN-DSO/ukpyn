@@ -45,4 +45,4 @@ the project repository with:
 - What happened and what you expected
 - Suggested improvement (if you have one)
 
-Project issues: https://github.com/ukpyn/ukpyn/issues
+Project issues: https://github.com/UKPN-DSO/ukpyn/issues

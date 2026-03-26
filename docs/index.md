@@ -7,7 +7,7 @@ with Python APIs, start with the guided path below and copy the examples exactly
 
 ## What ukpyn helps you do
 
-- Discover what datasets are available in UKPN's open portal
+- Discover what datasets are available in UK Power Network's open portal
 - Fetch records using simple Python functions
 - Filter results (for example by licence area or time)
 - Build reproducible analysis in notebooks
@@ -34,7 +34,7 @@ with Python APIs, start with the guided path below and copy the examples exactly
 
 - Python 3.11+
 - A virtual environment (conda or venv)
-- A UKPN ODP API key
+- A UK Power Networks ODP API key
 - Basic familiarity with running commands in your terminal
 
 If any of the above is new, use the fully worked setup in
@@ -51,6 +51,6 @@ If any of the above is new, use the fully worked setup in
 
 ## Links
 
-- Project: https://github.com/ukpyn/ukpyn
+- Project: https://github.com/UKPN-DSO/ukpyn
 - PyPI: https://pypi.org/project/ukpyn/
 - ODP: https://ukpowernetworks.opendatasoft.com

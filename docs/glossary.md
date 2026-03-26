@@ -37,7 +37,7 @@ requests to complete.
 
 ## Licence area
 
-A UKPN service region (such as EPN, LPN, or SPN) used to filter many datasets.
+A UK Power Networks service region (such as EPN, LPN, or SPN) used to filter many datasets.
 
 ## Filter
 

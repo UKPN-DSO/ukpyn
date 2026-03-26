@@ -211,6 +211,7 @@ async def test_ltds_async_where_builders_for_high_impact_tables(monkeypatch) -> 
 
     assert calls[0]["dataset"] == "table_5"
     assert "technology_type LIKE '%Solar%'" in calls[0]["where"]
+    assert "substation='ASHFORD'" in calls[0]["where"]
     assert calls[1]["dataset"] == "table_6"
     assert calls[2]["dataset"] == "projects"
     assert "local_authority LIKE '%Cambridge%'" in str(calls[2]["where"])
