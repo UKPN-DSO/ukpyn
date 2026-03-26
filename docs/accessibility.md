@@ -1,33 +1,26 @@
 # Accessibility
 
-ukpyn documentation is designed to support beginners and a wide range of access
-needs.
+The ukpyn documentation aims to be usable for beginners and accessible to people with a wide range of access needs. 
 
 ## Accessibility principles used on this site
 
 - Keep structure consistent across pages so navigation is predictable
-- Use clear headings and short sections for easier scanning
+- Use clear headings and short sections to support scanning
 - Prefer plain language and define domain terms
-- Keep color use theme-compatible and avoid relying on color alone
+- Keep colour use theme-compatible
+- Avoid relying on colour alone to convey meaning
 - Support keyboard-first use for core navigation and interaction
-
-## Keyboard navigation tips
-
-- Use `Tab` and `Shift+Tab` to move between links, controls, and search
-- Use `Enter` to activate a focused link or button
-- Use browser find (`Ctrl+F` / `Cmd+F`) to locate key terms quickly
-- Use the page table of contents to jump between sections
 
 ## Plain-language writing commitments
 
-We commit to:
+We aim to:
 
-- Defining specialist words in the [Glossary](glossary.md)
-- Explaining new concepts before using them in examples
-- Keeping sentences short where possible
-- Using descriptive link text instead of "click here"
+- Define specialist words in the [Glossary](glossary.md)
+- Explain new concepts before using them in examples
+- Keep sentences short where possible
+- Use descriptive link text instead of "click here"
 
-## Code-example accessibility guidance
+## Accessible code guidance
 
 - Keep examples small and runnable
 - Show complete command lines that can be copied directly
@@ -35,14 +28,20 @@ We commit to:
 - Avoid unnecessary abbreviations in variable names
 - Prefer stable formatting for code blocks and inline code
 
-## Report an accessibility issue
+## Keyboard navigation tips
 
-If something in these docs is hard to use or understand, please open an issue in
-the project repository with:
+- Use `Tab` and `Shift+Tab` to move between links, controls, and search
+- Use `Enter` to activate a focused link or button
+- Use browser find (`Ctrl+F` / `Cmd+F`) to locate key terms quickly
+- Use the page table of contents to jump between sections
+- Keyboard behaviour may vary slightly by browser, operating system, and assistive technology. 
+
+## Report an accessibility issue
 
 - The page URL
 - What assistive technology or browser you use (if relevant)
 - What happened and what you expected
 - Suggested improvement (if you have one)
 
-Project issues: https://github.com/UKPN-DSO/ukpyn/issues
+Project repository: 
+https://github.com/UKPN-DSO/ukpyn/issues
