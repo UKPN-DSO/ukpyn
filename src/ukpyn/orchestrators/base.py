@@ -38,9 +38,19 @@ class _OrchestratorModule(types.ModuleType):
     _orchestrator_name: str = ""
     _datasets: dict[str, str] = {}
 
+    def _public_functions(self) -> list[str]:
+        """Return sorted names of public function attributes defined in this module."""
+        return sorted(
+            name
+            for name, obj in vars(self).items()
+            if isinstance(obj, types.FunctionType)
+            and not name.startswith("_")
+            and obj.__module__ == self.__name__
+        )
+
     def __repr__(self) -> str:
-        datasets = ", ".join(self._datasets.keys())
-        return f"{self._orchestrator_name}(datasets=[{datasets}])"
+        methods = ", ".join(self._public_functions())
+        return f"{self._orchestrator_name}(methods=[{methods}])"
 
     def __str__(self) -> str:
         entries = ", ".join(f"'{k}': '{v}'" for k, v in self._datasets.items())
