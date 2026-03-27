@@ -11,8 +11,8 @@
 ## Documentation
 
 - **Docs site (GitHub Pages):** https://ukpn-dso.github.io/ukpyn/
-- **Tutorial notebooks:** [tutorials/](tutorials/)
-- **API source:** [src/ukpyn/](src/ukpyn/)
+- **Tutorials:** https://ukpn-dso.github.io/ukpyn/tutorials/
+- **API source:** https://github.com/UKPN-DSO/ukpyn/tree/main/src/ukpyn
 - **Changelog:** [CHANGELOG.md](CHANGELOG.md)
 
 ## Mission
