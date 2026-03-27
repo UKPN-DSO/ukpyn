@@ -34,7 +34,7 @@ jobs:
         run: |
           echo "## Build artifact checksums" >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
-          sha256sum dist/* | tee dist/SHA256SUMS >> "$GITHUB_STEP_SUMMARY"
+          (cd dist && sha256sum *) | tee dist/SHA256SUMS >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Attest build provenance
