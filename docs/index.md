@@ -49,9 +49,9 @@ If any of the above is new to you, use the fully worked setup in Getting Started
 
 ## Links
 
-- Project: https://github.com/UKPN-DSO/ukpyn
-- PyPI: https://pypi.org/project/ukpyn/
-- ODP: https://ukpowernetworks.opendatasoft.com
+- Project: [github.com/UKPN-DSO/ukpyn](https://github.com/UKPN-DSO/ukpyn)
+- PyPI: [pypi.org/project/ukpyn](https://pypi.org/project/ukpyn/)
+- ODP: [ukpowernetworks.opendatasoft.com](https://ukpowernetworks.opendatasoft.com)
 
 ## Important information 
 
