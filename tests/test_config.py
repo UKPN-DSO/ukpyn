@@ -1,6 +1,9 @@
 """Tests for configuration management."""
 
-from ukpyn.config import API_KEY_ENV_VAR, BASE_URL, Config
+import pytest
+
+from ukpyn.config import API_KEY_ENV_VAR, BASE_URL, Config, check_api_key
+from ukpyn.exceptions import AuthenticationError
 
 
 def test_config_defaults(monkeypatch) -> None:
@@ -71,3 +74,19 @@ def test_empty_api_key_not_considered_configured(monkeypatch) -> None:
 
     assert config.has_api_key is False
     assert "Authorization" not in config.get_headers()
+
+
+def test_check_api_key_raises_when_missing(monkeypatch) -> None:
+    """check_api_key raises AuthenticationError when key is not set."""
+    monkeypatch.delenv(API_KEY_ENV_VAR, raising=False)
+    monkeypatch.setattr("dotenv.load_dotenv", lambda: None)
+
+    with pytest.raises(AuthenticationError, match="UKPN_API_KEY"):
+        check_api_key()
+
+
+def test_check_api_key_passes_when_set(monkeypatch) -> None:
+    """check_api_key does not raise when key is set."""
+    monkeypatch.setenv(API_KEY_ENV_VAR, "test-key")
+
+    check_api_key()  # should not raise

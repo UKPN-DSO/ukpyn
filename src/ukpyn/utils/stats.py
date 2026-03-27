@@ -7,7 +7,7 @@ Provides functions for:
 - Peak analysis (peak_analysis)
 
 These utilities are designed to work with powerflow time series data
-from the UKPN Open Data Portal.
+from the UK Power Networks Open Data Portal.
 
 Note:
     These functions require pandas. Install with: pip install ukpyn[notebooks]

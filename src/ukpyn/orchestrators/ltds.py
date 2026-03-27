@@ -14,7 +14,7 @@ Usage:
     data = ltds.get('table_3a')
     table_3a = ltds.get_table_3a(licence_area='EPN')
     transformers = ltds.get_table_2a(licence_area='SPN')
-    generation = ltds.get_table_5(technology_type='Solar')
+    generation = ltds.get_table_5(fuel_type='Solar')
     projects = ltds.get_projects(local_authority='Cambridge')
 
     # Async access
@@ -30,6 +30,14 @@ from .registry import LTDS_DATASETS
 
 # Module-level list of available datasets
 available_datasets: list[str] = list(LTDS_DATASETS.keys())
+
+
+def _merge_where(built: str | None, extra: str | None) -> str | None:
+    """Combine an internally-built where clause with a user-supplied one."""
+    parts = [p for p in (built, extra) if p]
+    if not parts:
+        return None
+    return " AND ".join(parts)
 
 
 class LTDSOrchestrator(BaseOrchestrator):
@@ -133,9 +141,11 @@ class LTDSOrchestrator(BaseOrchestrator):
             refine["licencearea"] = licence_area
 
         if substation is not None:
-            where_clauses.append(f"lv_substation LIKE '%{substation}%'")
+            _sub = substation.replace("'", "''")
+            where_clauses.append(f"lv_substation='{_sub}'")
 
-        where = " AND ".join(where_clauses) if where_clauses else None
+        built_where = " AND ".join(where_clauses) if where_clauses else None
+        where = _merge_where(built_where, kwargs.pop("where", None))
 
         return await self.get_async(
             dataset="table_2a",
@@ -183,11 +193,13 @@ class LTDSOrchestrator(BaseOrchestrator):
 
         if substation is not None:
             # Table 2B has lv_substation_1 and lv_substation_2 (3-winding transformers)
+            _sub = substation.replace("'", "''")
             where_clauses.append(
-                f"(lv_substation_1 LIKE '%{substation}%' OR lv_substation_2 LIKE '%{substation}%')"
+                f"(lv_substation_1='{_sub}' OR lv_substation_2='{_sub}')"
             )
 
-        where = " AND ".join(where_clauses) if where_clauses else None
+        built_where = " AND ".join(where_clauses) if where_clauses else None
+        where = _merge_where(built_where, kwargs.pop("where", None))
 
         return await self.get_async(
             dataset="table_2b",
@@ -236,7 +248,8 @@ class LTDSOrchestrator(BaseOrchestrator):
         if year is not None:
             where_clauses.append(f"year = {year}")
 
-        where = " AND ".join(where_clauses) if where_clauses else None
+        built_where = " AND ".join(where_clauses) if where_clauses else None
+        where = _merge_where(built_where, kwargs.pop("where", None))
 
         return await self.get_async(
             dataset="table_3a",
@@ -485,7 +498,8 @@ class LTDSOrchestrator(BaseOrchestrator):
         if expected_start_year is not None:
             where_clauses.append(f"expected_start_year = {expected_start_year}")
 
-        where = " AND ".join(where_clauses) if where_clauses else None
+        built_where = " AND ".join(where_clauses) if where_clauses else None
+        where = _merge_where(built_where, kwargs.pop("where", None))
 
         return await self.get_async(
             dataset="projects",
@@ -504,7 +518,7 @@ class LTDSOrchestrator(BaseOrchestrator):
     async def get_table_5_async(
         self,
         licence_area: str | None = None,
-        technology_type: str | None = None,
+        fuel_type: str | None = None,
         substation: str | None = None,
         limit: int = 100,
         offset: int = 0,
@@ -518,7 +532,7 @@ class LTDSOrchestrator(BaseOrchestrator):
 
         Args:
             licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
-            technology_type: Filter by generation technology (e.g., 'Solar', 'Wind')
+            fuel_type: Filter by fuel type (e.g., 'Photovoltaic (>=1MW)', 'Wind')
             substation: Filter by substation name
             limit: Maximum records to return (default 100)
             offset: Pagination offset
@@ -533,13 +547,15 @@ class LTDSOrchestrator(BaseOrchestrator):
         if licence_area is not None:
             refine["licencearea"] = licence_area
 
-        if technology_type is not None:
-            where_clauses.append(f"technology_type LIKE '%{technology_type}%'")
+        if fuel_type is not None:
+            where_clauses.append(f"fuel_type LIKE '%{fuel_type}%'")
 
         if substation is not None:
-            where_clauses.append(f"substation LIKE '%{substation}%'")
+            _sub = substation.replace("'", "''")
+            where_clauses.append(f"substation='{_sub}'")
 
-        where = " AND ".join(where_clauses) if where_clauses else None
+        built_where = " AND ".join(where_clauses) if where_clauses else None
+        where = _merge_where(built_where, kwargs.pop("where", None))
 
         return await self.get_async(
             dataset="table_5",
@@ -586,9 +602,11 @@ class LTDSOrchestrator(BaseOrchestrator):
             refine["licencearea"] = licence_area
 
         if substation is not None:
-            where_clauses.append(f"substation LIKE '%{substation}%'")
+            _sub = substation.replace("'", "''")
+            where_clauses.append(f"substation='{_sub}'")
 
-        where = " AND ".join(where_clauses) if where_clauses else None
+        built_where = " AND ".join(where_clauses) if where_clauses else None
+        where = _merge_where(built_where, kwargs.pop("where", None))
 
         return await self.get_async(
             dataset="table_6",
@@ -606,7 +624,7 @@ class LTDSOrchestrator(BaseOrchestrator):
     @sync_pair
     async def get_cim_async(
         self,
-        licence_area: str | None = None,
+        licence_area: str | None = None,  # noqa: ARG002
         limit: int = 100,
         offset: int = 0,
         **kwargs: Any,
@@ -614,28 +632,25 @@ class LTDSOrchestrator(BaseOrchestrator):
         """
         Get CIM (Common Information Model) data asynchronously.
 
-        The CIM dataset provides a structured representation of the LTDS using
-        the Common Information Model, enabling interoperable data exchange and
-        network modelling across Distribution Network Operators (DNOs).
+        The CIM dataset is an attachment-only "Shared" dataset that requires
+        special access. It contains no tabular records — the CIM XML files are
+        provided as dataset attachments. This method queries the dataset endpoint
+        but will typically return zero records.
 
         Args:
-            licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
+            licence_area: Ignored — the CIM dataset has no ``licencearea`` field.
+                Accepted for call-site compatibility but not sent to the API.
             limit: Maximum records to return (default 100)
             offset: Pagination offset
             **kwargs: Additional query parameters
 
         Returns:
-            RecordListResponse containing CIM records
+            RecordListResponse (usually empty for this attachment-only dataset)
         """
-        refine = {}
-        if licence_area is not None:
-            refine["licencearea"] = licence_area
-
         return await self.get_async(
             dataset="cim",
             limit=limit,
             offset=offset,
-            refine=refine if refine else None,
             **kwargs,
         )
 
@@ -919,7 +934,7 @@ def get_table_4b(
 
 def get_table_5(
     licence_area: str | None = None,
-    technology_type: str | None = None,
+    fuel_type: str | None = None,
     substation: str | None = None,
     limit: int = 100,
     **kwargs: Any,
@@ -931,7 +946,7 @@ def get_table_5(
 
     Args:
         licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
-        technology_type: Filter by generation technology (e.g., 'Solar', 'Wind')
+        fuel_type: Filter by fuel type (e.g., 'Photovoltaic (>=1MW)', 'Wind')
         substation: Filter by substation name
         limit: Maximum records to return
         **kwargs: Additional query parameters
@@ -941,11 +956,11 @@ def get_table_5(
 
     Example:
         from ukpyn import ltds
-        solar_gen = ltds.get_table_5(technology_type='Solar')
+        solar_gen = ltds.get_table_5(fuel_type='Photovoltaic (>=1MW)')
     """
     return _get_orchestrator().get_table_5(
         licence_area=licence_area,
-        technology_type=technology_type,
+        fuel_type=fuel_type,
         substation=substation,
         limit=limit,
         **kwargs,
@@ -1052,17 +1067,21 @@ def get_cim(
 
     Convenience function using the default orchestrator.
 
+    The CIM dataset is an attachment-only "Shared" dataset (no tabular records).
+    This will typically return an empty result. Use the UKPN portal to request
+    access and download the CIM XML attachments directly.
+
     Args:
-        licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
+        licence_area: Ignored — kept for compatibility but not sent to the API.
         limit: Maximum records to return
         **kwargs: Additional query parameters
 
     Returns:
-        RecordListResponse containing CIM records
+        RecordListResponse (usually empty for this attachment-only dataset)
 
     Example:
         from ukpyn import ltds
-        cim_data = ltds.get_cim(licence_area='EPN')
+        cim_data = ltds.get_cim()
     """
     return _get_orchestrator().get_cim(
         licence_area=licence_area,
