@@ -218,6 +218,9 @@ agents.md
 plan.md
 codex.md
 
+# Large data files
+examples/ukpn-primary-transformer-power-flow-historic-half-hourly.csv
+
 # Tutorial-generated export artifacts
 tutorials/export.csv
 tutorials/export.xlsx
@@ -236,3 +239,7 @@ tutorials/network_model.xlsx
 tutorials/ukpn_network.xlsx
 tutorials/ukpn_network.json
 tutorials/primary_substations.geojson
+
+
+ukpyn-architecture.excalidraw
+ukpyn-architecture.png

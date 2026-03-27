@@ -1,6 +1,6 @@
 """DNOA (Distribution Network Options Assessment) orchestrator.
 
-Provides ergonomic access to UKPN Distribution Network Options Assessment data.
+Provides ergonomic access to UK Power Networks Distribution Network Options Assessment data.
 
 Usage:
     from ukpyn.orchestrators import dnoa

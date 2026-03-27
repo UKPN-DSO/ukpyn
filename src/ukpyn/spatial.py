@@ -1,11 +1,11 @@
 """Spatial query module for UK Power Networks data.
 
-Enables users to query across multiple UKPN datasets using geographic bounds.
+Enables users to query across multiple UK Power Networks datasets using geographic bounds.
 
 Usage:
     from ukpyn import spatial
 
-    # Query all UKPN data within a bounding box
+    # Query all UK Power Networks data within a bounding box
     results = spatial.query_bounds(
         bounds={"north": 51.6, "south": 51.4, "east": 0.1, "west": -0.2},
         datasets=["primary_substations", "secondary_sites", "hv_overhead_lines"],
@@ -100,7 +100,7 @@ async def query_bounds_async(
     **kwargs: Any,
 ) -> SpatialQueryResult:
     """
-    Query multiple UKPN datasets within geographic bounds.
+    Query multiple UK Power Networks datasets within geographic bounds.
 
     Args:
         bounds: Bounding box with north, south, east, west coordinates (WGS84)
@@ -192,7 +192,7 @@ def query_bounds(
     **kwargs: Any,
 ) -> SpatialQueryResult:
     """
-    Query multiple UKPN datasets within geographic bounds (synchronous).
+    Query multiple UK Power Networks datasets within geographic bounds (synchronous).
 
     Args:
         bounds: Bounding box with north, south, east, west coordinates (WGS84)
