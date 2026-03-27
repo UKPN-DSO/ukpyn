@@ -67,4 +67,4 @@ jobs:
         run: cd dist && sha256sum --check SHA256SUMS
 
       - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@76f52bc884231f62b54027e44d48d264ac019d21 # v1.12.4
+        uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
