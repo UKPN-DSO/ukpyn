@@ -176,6 +176,7 @@ class UKPNClient:
         """
         if not self._config.has_api_key:
             from .config import check_api_key
+
             check_api_key()  # raises AuthenticationError with guidance
 
         client = await self._get_client()
@@ -210,6 +211,7 @@ class UKPNClient:
         """
         if not self._config.has_api_key:
             from .config import check_api_key
+
             check_api_key()  # raises AuthenticationError with guidance
 
         client = await self._get_client()
