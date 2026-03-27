@@ -1,7 +1,7 @@
 """Weather data integration via earthkit-data.
 
 Provides access to weather data (temperature, wind, solar irradiance) that can
-be aligned with UKPN network data for forecasting and analysis.
+be aligned with UK Power Networks network data for forecasting and analysis.
 
 Requires: pip install ukpyn[weather]
 
@@ -47,7 +47,7 @@ class WeatherContrib(BaseContrib):
     """Weather data integration using earthkit-data.
 
     Provides methods to fetch weather data from Copernicus/ERA5 and
-    align it with UKPN network locations.
+    align it with UK Power Networks network locations.
     """
 
     def __init__(self) -> None:

@@ -1,8 +1,8 @@
-"""Custom exceptions for the UKPN API client."""
+"""Custom exceptions for the UK Power Networks API client."""
 
 
 class UKPNError(Exception):
-    """Base exception for UKPN API errors."""
+    """Base exception for UK Power Networks API errors."""
 
     def __init__(self, message: str, status_code: int | None = None) -> None:
         self.message = message

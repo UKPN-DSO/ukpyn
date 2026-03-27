@@ -24,7 +24,7 @@ def api_key() -> str:
 
 @pytest.fixture(scope="session")
 def api_key_available() -> bool:
-    """Check if UKPN API key is available from environment/.env."""
+    """Check if UK Power Networks API key is available from environment/.env."""
     return bool((os.getenv("UKPN_API_KEY") or "").strip())
 
 
@@ -42,7 +42,7 @@ def run_slow_notebook_tests() -> bool:
 
 @pytest.fixture
 def base_url() -> str:
-    """Provide the base URL for the UKPN API."""
+    """Provide the base URL for the UK Power Networks API."""
     return TEST_BASE_URL
 
 

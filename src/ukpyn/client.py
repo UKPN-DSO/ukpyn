@@ -174,6 +174,11 @@ class UKPNClient:
         Raises:
             UKPNError: On API errors.
         """
+        if not self._config.has_api_key:
+            from .config import check_api_key
+
+            check_api_key()  # raises AuthenticationError with guidance
+
         client = await self._get_client()
         response = await client.request(method, path, params=params, **kwargs)
 
@@ -204,6 +209,11 @@ class UKPNClient:
         Raises:
             UKPNError: On API errors.
         """
+        if not self._config.has_api_key:
+            from .config import check_api_key
+
+            check_api_key()  # raises AuthenticationError with guidance
+
         client = await self._get_client()
         response = await client.request(method, path, params=params, **kwargs)
 

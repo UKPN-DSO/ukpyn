@@ -13,7 +13,7 @@ We recommend always using the latest version of ukpyn for the best security upda
 If you discover a security vulnerability in this project, please report it responsibly:
 
 1. **Do NOT** open a public GitHub issue for security vulnerabilities
-2. Email the UKPN team with details of the vulnerability
+2. Email the UK Power Networks team with details of the vulnerability
 3. Include:
    - Description of the vulnerability
    - Steps to reproduce
