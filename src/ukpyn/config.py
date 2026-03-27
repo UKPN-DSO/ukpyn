@@ -32,6 +32,7 @@ def check_api_key() -> None:
     # Best-effort .env loading so callers don't need to do it themselves.
     try:
         from dotenv import load_dotenv
+
         load_dotenv()
     except ImportError:  # python-dotenv is optional
         pass

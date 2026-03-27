@@ -624,7 +624,7 @@ class LTDSOrchestrator(BaseOrchestrator):
     @sync_pair
     async def get_cim_async(
         self,
-        licence_area: str | None = None,
+        licence_area: str | None = None,  # noqa: ARG002
         limit: int = 100,
         offset: int = 0,
         **kwargs: Any,
