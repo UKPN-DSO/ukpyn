@@ -43,7 +43,7 @@ __author__ = "Dr Jamie M. Bright"
 # Import utility modules
 from . import spatial, utils
 from .client import UKPNClient
-from .config import Config
+from .config import Config, check_api_key
 from .exceptions import (
     AuthenticationError,
     NotFoundError,
@@ -98,6 +98,7 @@ __all__ = [
     "UKPNClient",
     # Config
     "Config",
+    "check_api_key",
     # Exceptions
     "UKPNError",
     "AuthenticationError",

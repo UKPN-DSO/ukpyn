@@ -27,7 +27,7 @@ examples/
 
 ## Guidelines
 
-- **Use only open data** - All examples must work with publicly available UKPN data
+- **Use only open data** - All examples must work with publicly available UK Power Networks data
 - **Document clearly** - Explain what the example demonstrates
 - **Keep it focused** - One example, one concept
 - **Test your code** - Ensure it runs successfully
