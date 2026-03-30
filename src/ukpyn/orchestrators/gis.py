@@ -3,7 +3,7 @@
 from typing import Any, Literal
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _install_module_repr, sync_pair
+from .base import BaseOrchestrator, _install_module_repr, resolve_licence_area, sync_pair
 from .registry import GEO_DATASETS
 
 # Type alias for voltage level parameter
@@ -63,7 +63,7 @@ class GISOrchestrator(BaseOrchestrator):
         if site:
             refine["sitefunctionallocation"] = site
         if licence_area:
-            refine["licencearea"] = licence_area
+            refine["licencearea"] = resolve_licence_area(licence_area)
 
         return await self.get_async(
             dataset="grid-and-primary-sites",

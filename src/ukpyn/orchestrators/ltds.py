@@ -25,7 +25,7 @@ Usage:
 from typing import Any
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _install_module_repr, sync_pair
+from .base import BaseOrchestrator, _install_module_repr, resolve_licence_area, sync_pair
 from .registry import LTDS_DATASETS
 
 # Module-level list of available datasets
@@ -95,7 +95,7 @@ class LTDSOrchestrator(BaseOrchestrator):
         """
         refine = {}
         if licence_area is not None:
-            refine["licencearea"] = licence_area
+            refine["licencearea"] = resolve_licence_area(licence_area)
 
         return await self.get_async(
             dataset="table_1",
@@ -138,7 +138,7 @@ class LTDSOrchestrator(BaseOrchestrator):
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            refine["licencearea"] = licence_area
+            refine["licencearea"] = resolve_licence_area(licence_area)
 
         if substation is not None:
             _sub = substation.replace("'", "''")
@@ -189,7 +189,7 @@ class LTDSOrchestrator(BaseOrchestrator):
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            refine["licencearea"] = licence_area
+            refine["licencearea"] = resolve_licence_area(licence_area)
 
         if substation is not None:
             # Table 2B has lv_substation_1 and lv_substation_2 (3-winding transformers)
@@ -243,7 +243,7 @@ class LTDSOrchestrator(BaseOrchestrator):
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            refine["licencearea"] = licence_area
+            refine["licencearea"] = resolve_licence_area(licence_area)
 
         if year is not None:
             where_clauses.append(f"year = {year}")
@@ -289,7 +289,7 @@ class LTDSOrchestrator(BaseOrchestrator):
         """
         refine = {}
         if licence_area is not None:
-            refine["licencearea"] = licence_area
+            refine["licencearea"] = resolve_licence_area(licence_area)
 
         return await self.get_async(
             dataset="table_3b",
@@ -328,7 +328,7 @@ class LTDSOrchestrator(BaseOrchestrator):
         """
         refine = {}
         if licence_area is not None:
-            refine["licencearea"] = licence_area
+            refine["licencearea"] = resolve_licence_area(licence_area)
 
         return await self.get_async(
             dataset="table_4a",
@@ -367,7 +367,7 @@ class LTDSOrchestrator(BaseOrchestrator):
         """
         refine = {}
         if licence_area is not None:
-            refine["licencearea"] = licence_area
+            refine["licencearea"] = resolve_licence_area(licence_area)
 
         return await self.get_async(
             dataset="table_4b",
@@ -406,7 +406,7 @@ class LTDSOrchestrator(BaseOrchestrator):
         """
         refine = {}
         if licence_area is not None:
-            refine["licencearea"] = licence_area
+            refine["licencearea"] = resolve_licence_area(licence_area)
 
         return await self.get_async(
             dataset="table_7",
@@ -445,7 +445,7 @@ class LTDSOrchestrator(BaseOrchestrator):
         """
         refine = {}
         if licence_area is not None:
-            refine["licencearea"] = licence_area
+            refine["licencearea"] = resolve_licence_area(licence_area)
 
         return await self.get_async(
             dataset="table_8",
@@ -545,7 +545,7 @@ class LTDSOrchestrator(BaseOrchestrator):
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            refine["licencearea"] = licence_area
+            refine["licencearea"] = resolve_licence_area(licence_area)
 
         if fuel_type is not None:
             where_clauses.append(f"fuel_type LIKE '%{fuel_type}%'")
@@ -599,7 +599,7 @@ class LTDSOrchestrator(BaseOrchestrator):
         where_clauses: list[str] = []
 
         if licence_area is not None:
-            refine["licencearea"] = licence_area
+            refine["licencearea"] = resolve_licence_area(licence_area)
 
         if substation is not None:
             _sub = substation.replace("'", "''")
