@@ -12,6 +12,47 @@ from ..models import Dataset, RecordListResponse
 
 T = TypeVar("T")
 
+# ── Licence area abbreviation resolver ──────────────────────────────────
+_LICENCE_AREA_ALIASES: dict[str, str] = {
+    "EPN": "Eastern Power Networks (EPN)",
+    "SPN": "South Eastern Power Networks (SPN)",
+    "LPN": "London Power Networks (LPN)",
+}
+
+
+def resolve_licence_area(value: str | None) -> str | None:
+    """Expand a licence-area abbreviation to the full API value.
+
+    Accepts ``'EPN'``, ``'SPN'``, or ``'LPN'`` (case-insensitive) and
+    returns the full string the UKPN API expects.  If *value* is already
+    the full string or is ``None``, it is returned unchanged.
+    """
+    if value is None:
+        return None
+    return _LICENCE_AREA_ALIASES.get(value.strip().upper(), value)
+
+
+def validate_licence_area_abbrev(value: str | None) -> str | None:
+    """Ensure *value* is a recognised licence-area abbreviation.
+
+    Raises :class:`ValueError` with a helpful message when the caller
+    passes a full name instead of the short code.
+    """
+    if value is None:
+        return None
+    stripped = value.strip().upper()
+    if stripped in _LICENCE_AREA_ALIASES:
+        return stripped
+    # Check if the user passed the full name
+    _reverse = {v.upper(): k for k, v in _LICENCE_AREA_ALIASES.items()}
+    abbrev = _reverse.get(stripped)
+    if abbrev is not None:
+        raise ValueError(
+            f"This dataset uses abbreviated licence areas. "
+            f"Use '{abbrev}' instead of '{value}'."
+        )
+    return value
+
 
 def sync_pair(async_method: Any) -> Any:
     """Decorator that auto-generates a sync wrapper for an async orchestrator method.
