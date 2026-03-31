@@ -2,7 +2,7 @@
 
 ukpyn is the Python client for the UK Power Networks Open Data Portal (ODP).
 
-This documentation is designed for beginners first; you are new to orking with API's follow the guided path below and work through the examples step by step.
+This documentation is designed for beginners first; you are new to working with API's follow the guided path below and work through the examples step by step.
 
 ## What ukpyn helps you do
 
