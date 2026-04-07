@@ -20,7 +20,12 @@ Usage:
 from typing import Any
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _install_module_repr, sync_pair, validate_licence_area_abbrev
+from .base import (
+    BaseOrchestrator,
+    _install_module_repr,
+    sync_pair,
+    validate_licence_area_abbrev,
+)
 from .registry import DNOA_DATASETS
 
 
