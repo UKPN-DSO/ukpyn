@@ -176,17 +176,28 @@ events = curtailment.get_events(start_date='2024-01-01')
 
 ## Supported Domains
 
-ukpyn provides themed orchestrators for:
+ukpyn provides themed orchestrators for each major data category on the UK Power Networks Open Data Portal:
 
-- LTDS
-- DFES
-- DNOA
-- Network
-- Flexibility
-- Curtailment
-- DERS (with `resources` compatibility alias)
-- GIS
-- Powerflow
+- **`ltds`** — Long Term Development Statement tables, published twice yearly: circuit data, transformer specs, observed and forecast demand, fault levels, distributed generation, connection queues, operational restrictions, infrastructure projects, and CIM network models.
+- **`dfes`** — Distribution Future Energy Scenarios: network capacity headroom by scenario and local authority, and peak demand forecasts.
+- **`dnoa`** — Distribution Network Options Assessment: reinforcement and flexibility option assessments and low-voltage DNOA results.
+- **`network`** — Aggregated network performance metrics: annual statistics, network losses, power quality indicators, and IIS interruption data.
+- **`flexibility`** — Flexibility market records: dispatch events (when services were called) and tender procurement data.
+- **`curtailment`** — Site-specific curtailment event records: when generation or demand was curtailed by network instruction.
+- **`ders`** (alias: `resources`) — Distributed Energy Resources: embedded capacity register (≥ 1 MW and < 1 MW), large demand customer list, and embedded power stations.
+- **`gis`** — Geospatial / infrastructure assets: substation sites and coverage areas, overhead lines by voltage, poles and towers, licence boundaries, and IDNO areas.
+- **`powerflow`** — Half-hourly and monthly operational time series for circuits and transformers at 132 kV, 33 kV (split by EPN/SPN), and primary (33/11 kV).
+
+Additional dataset groups are accessible directly via the registry (no dedicated orchestrator required):
+
+- **Equipment** — Grid, primary, secondary, and super-grid transformer specifications and secondary site utilisation.
+- **Connections** — Connection queue insights, GSP-level status and narratives, wide area planning status, and modification applications.
+- **Operations** — Real-time constraint meter readings, constraint breach history, EHV outages, live faults, and rota disconnection schedules.
+- **Sensitivity** — Network sensitivity factors for import and export.
+- **Smart Meter & LCT** — Smart meter consumption at substation and LV feeder level, installation volumes, and low carbon technology deployment by LSOA and secondary substation.
+- **Profiles** — Standard electricity demand profiles, technology-specific generation profiles, and data centre demand profiles.
+- **Appendix G** — Active Network Management (ANM) configuration: settings, aggregated views, project progression, and site-specific conditions.
+- **Reference** — Supporting metadata: local authority boundaries, business glossary, data roadmap, data maturity scores, and EV chargepoint register.
 
 See full API usage patterns in the docs site: https://ukpn-dso.github.io/ukpyn/
 
