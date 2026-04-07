@@ -31,11 +31,7 @@ The registry now includes these entries in auto-generated `UNMANAGED_DATASETS` f
 
 ## Breaking field changes detected
 
-The following datasets have had fields **removed** on ODP. Orchestrator queries referencing these fields will fail.
-
-- **dfes-network-headroom-report**
-  - Removed: `bulksupplypoin` — check `src/ukpyn/orchestrators/dfes.py`
-  - Added: `bulksupplypoint`
+No breaking field changes are currently pending.
 
 ## New fields detected (non-breaking)
 
