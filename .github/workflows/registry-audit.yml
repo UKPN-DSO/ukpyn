@@ -124,7 +124,7 @@ jobs:
 
       - name: Check for existing open triage issue
         id: existing-issue
-        if: steps.sync.outputs.new_count != '0'
+        if: steps.sync.outputs.new_count > 0
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           script: |
@@ -143,7 +143,7 @@ jobs:
             core.setOutput('exists', existing ? 'true' : 'false');
 
       - name: Create triage issue for new unmanaged datasets
-        if: steps.sync.outputs.new_count != '0' && steps.existing-issue.outputs.exists != 'true'
+        if: steps.sync.outputs.new_count > 0 && steps.existing-issue.outputs.exists != 'true'
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         env:
           MAINTAINERS: JamieMBright
