@@ -4,15 +4,6 @@
   "registry_changed": true,
   "field_changes": [
     {
-      "dataset_id": "dfes-network-headroom-report",
-      "added": [
-        "bulksupplypoint"
-      ],
-      "removed": [
-        "bulksupplypoin"
-      ]
-    },
-    {
       "dataset_id": "grid-and-primary-sites",
       "added": [
         "parish"
@@ -35,5 +26,5 @@
       "removed": []
     }
   ],
-  "breaking_field_changes": 1
+  "breaking_field_changes": 0
 }
