@@ -3,7 +3,12 @@
 from typing import Any, Literal
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _install_module_repr, resolve_licence_area, sync_pair
+from .base import (
+    BaseOrchestrator,
+    _install_module_repr,
+    resolve_licence_area,
+    sync_pair,
+)
 from .registry import GEO_DATASETS
 
 # Type alias for voltage level parameter

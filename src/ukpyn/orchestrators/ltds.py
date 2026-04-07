@@ -25,7 +25,12 @@ Usage:
 from typing import Any
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _install_module_repr, resolve_licence_area, sync_pair
+from .base import (
+    BaseOrchestrator,
+    _install_module_repr,
+    resolve_licence_area,
+    sync_pair,
+)
 from .registry import LTDS_DATASETS
 
 # Module-level list of available datasets
