@@ -2,7 +2,11 @@
 
 import pytest
 
-from ukpyn.orchestrators.base import BaseOrchestrator, resolve_licence_area, validate_licence_area_abbrev
+from ukpyn.orchestrators.base import (
+    BaseOrchestrator,
+    resolve_licence_area,
+    validate_licence_area_abbrev,
+)
 
 
 class OrchestratorForTesting(BaseOrchestrator):
