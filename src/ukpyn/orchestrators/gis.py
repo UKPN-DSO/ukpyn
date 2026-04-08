@@ -1,8 +1,9 @@
 """GIS orchestrator for geospatial/infrastructure datasets."""
 
+import json
 from typing import Any, Literal
 
-from ..models import RecordListResponse
+from ..models import RecordListResponse, _ensure_z, _strip_z
 from .base import (
     BaseOrchestrator,
     _install_module_repr,
@@ -13,6 +14,9 @@ from .registry import GEO_DATASETS
 
 # Type alias for voltage level parameter
 VoltageLevel = Literal["hv", "lv"]
+
+# Type alias for coordinate dimensions parameter
+CoordinateDimensions = Literal["2d", "3d", "raw"]
 
 
 class GISOrchestrator(BaseOrchestrator):
@@ -193,23 +197,49 @@ class GISOrchestrator(BaseOrchestrator):
     async def export_geojson_async(
         self,
         dataset: str,
+        dimensions: CoordinateDimensions = "raw",
         **kwargs: Any,
     ) -> bytes:
         """
         Export dataset as GeoJSON asynchronously.
 
+        The ODP export path typically returns 3D geometries (with Z
+        elevation values), whereas the records API returns 2D point
+        dicts.  Use *dimensions* to normalise the output:
+
+        - ``"raw"`` (default) — return the GeoJSON exactly as the API
+          provides it (may be mixed 2D/3D).
+        - ``"2d"`` — strip Z values from all coordinates.
+        - ``"3d"`` — ensure every coordinate has a Z value (defaults
+          to 0.0 where missing).
+
         Args:
             dataset: Dataset friendly name or ID
+            dimensions: Coordinate dimensionality — ``"2d"``, ``"3d"``,
+                or ``"raw"`` (default, no transformation)
             **kwargs: Additional export parameters
 
         Returns:
             GeoJSON data as bytes
         """
-        return await self.export_async(
+        raw = await self.export_async(
             dataset=dataset,
             format="geojson",
             **kwargs,
         )
+
+        if dimensions == "raw":
+            return raw
+
+        transform = _strip_z if dimensions == "2d" else _ensure_z
+
+        geojson = json.loads(raw)
+        for feature in geojson.get("features", []):
+            geom = feature.get("geometry")
+            if geom and "coordinates" in geom:
+                feature["geometry"] = transform(geom)
+
+        return json.dumps(geojson).encode("utf-8")
 
     # -------------------------------------------------------------------------
     # Shapefile Export
@@ -398,6 +428,7 @@ def get_poles(
 
 def export_geojson(
     dataset: str,
+    dimensions: CoordinateDimensions = "raw",
     **kwargs: Any,
 ) -> bytes:
     """
@@ -407,12 +438,14 @@ def export_geojson(
 
     Args:
         dataset: Dataset friendly name or ID
+        dimensions: Coordinate dimensionality — ``"2d"``, ``"3d"``,
+            or ``"raw"`` (default, no transformation)
         **kwargs: Additional export parameters
 
     Returns:
         GeoJSON data as bytes
     """
-    return _get_geo_instance().export_geojson(dataset, **kwargs)
+    return _get_geo_instance().export_geojson(dataset, dimensions=dimensions, **kwargs)
 
 
 # Available datasets for this orchestrator
@@ -424,6 +457,7 @@ __all__ = [
     "GISOrchestrator",
     # Type hints
     "VoltageLevel",
+    "CoordinateDimensions",
     # Module-level convenience functions
     "get",
     "get_async",

@@ -66,6 +66,60 @@ orchestrator's `get_async(...)` method.
 - Time-series loading and flows → `powerflow`
 - Embedded generation / demand resources → `ders`
 
+## GIS orchestrator — geometry handling
+
+UKPN's ODP stores geometry in several different field formats across datasets.
+ukpyn normalises all of these so you don't have to.
+
+### Normalised geometry on every record
+
+Every `Record` object exposes a `.geometry` property that returns a standard
+GeoJSON geometry dict (or `None` if the record has no spatial data):
+
+```python
+from ukpyn import gis
+
+result = gis.get_primary_substations(licence_area="EPN", limit=5)
+for rec in result.records:
+    print(rec.geometry)  # {"type": "Point", "coordinates": [-0.12, 51.51]}
+```
+
+The property resolves geometry from whichever raw field the ODP happens to use,
+in priority order: `geo_shape` → `spatial_coordinates` → `geo_point_2d` →
+`geo_point` → `geopoint`. Point dicts like `{"lat": 51.5, "lon": -0.1}` are
+automatically converted to GeoJSON `Point` format.
+
+### Feature unwrapping
+
+Some datasets (e.g. poles) return `geo_shape` as a full GeoJSON Feature:
+```json
+{"type": "Feature", "geometry": {"type": "Point", "coordinates": [...]}, "properties": {}}
+```
+ukpyn automatically unwraps this to the bare geometry dict during parsing.
+
+### NaN sanitisation
+
+The ODP occasionally returns `NaN` for missing values in fields like
+`grid_site` or `grid_site_floc`. Python's `float('nan')` is invalid JSON and
+will break PostgreSQL, `json.dumps()`, and any serialisation step. ukpyn
+replaces `NaN` and `Infinity` with `None` on every record automatically.
+
+### Coordinate dimensions (2D vs 3D)
+
+The GeoJSON export path returns 3D geometries (with Z elevation), while the
+records API returns 2D points. Use the `dimensions` parameter to normalise:
+
+```python
+# Strip Z values for a flat 2D map
+geojson_bytes = gis.export_geojson("hv_overhead_lines", dimensions="2d")
+
+# Ensure all coordinates have Z (defaults to 0.0 where missing)
+geojson_bytes = gis.export_geojson("hv_overhead_lines", dimensions="3d")
+
+# Pass through as-is (default)
+geojson_bytes = gis.export_geojson("hv_overhead_lines", dimensions="raw")
+```
+
 ## Practical beginner workflow
 
 1. Pick one orchestrator tied to your question.
