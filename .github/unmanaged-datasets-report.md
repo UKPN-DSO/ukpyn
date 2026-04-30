@@ -1,7 +1,7 @@
 ## ODP metadata audit findings
 
 Detected **0** new dataset(s) not currently managed in the registry.
-Audit run: 2026-03-18 14:13 UTC
+Audit run: 2026-04-30 07:09 UTC
 
 <!-- unmanaged-datasets: -->
 
@@ -31,10 +31,1323 @@ The registry now includes these entries in auto-generated `UNMANAGED_DATASETS` f
 
 ## Breaking field changes detected
 
-No breaking field changes are currently pending.
+The following datasets have had fields **removed** on ODP. Orchestrator queries referencing these fields will fail.
 
-## New fields detected (non-breaking)
-
-- **grid-and-primary-sites**: `parish`
-- **ltds-table-3a-load-data-observed-transposed**: `maximum_demand_24_25_mw`, `maximum_demand_24_25_pf`
-- **ukpn-curtailment-events-site-specific**: `der_name_act`
+- **dfes-network-headroom-report**
+  - Removed: `bulksupplypoint` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `category` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `gridsupplypoint` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `headroom_mw` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `scenario` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `spatial_coordinates` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `substation_name` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `voltage_kv` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `year` — check `src/ukpyn/orchestrators/dfes.py`
+- **grid-and-primary-sites**
+  - Removed: `assessmentdate` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `calculatedresistance` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `county` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `datecommissioned` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `gridref` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `last_report` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `local_authority` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `local_authority_code` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `maxdemandsummer` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `maxdemandwinter` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `measuredresistance_ohm` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `next_assessmentdate` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `parish` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `postcode` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `powertransformercount` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `reversepower` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `siteclassification` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `sitename` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `sitetype` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `sitevoltage` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `spatial_coordinates` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `street` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `suburb` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `towncity` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `transratingsummer` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `transratingwinter` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `what3words` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **low-carbon-technologies**
+  - Removed: `category` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `connectionstatus` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `exportrating` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `exportrating_mw` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `importrating` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `lct_connections` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `primary` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `primaryname` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `spatial_coordinates` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `type` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ltds-table-1-circuit-data**
+  - Removed: `circuit_length` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `fromnode` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `fromsubstation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `fromsubstation_sitefunctionallocation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `gridsupplypoint` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `linename` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `operating_voltage` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `positive_sequence_impedance_r_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `positive_sequence_impedance_x_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `rating_amps_summer` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `rating_amps_winter` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `susceptance_b_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `tonode` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `tosubstation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+- **ltds-table-2a-transformer-2w**
+  - Removed: `gridsupplypoint` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `hv_node` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `hv_substation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `lv_node` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `lv_substation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `method_of_earthing_hv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `method_of_earthing_lv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `positive_sequence_impedance_r_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `positive_sequence_impedance_x_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `reverse_power_capability_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `tap_range_max_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `tap_range_min_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `transformer_rating_mva_summer` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `transformer_rating_mva_winter` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `vector_group` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `voltage_hv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `voltage_lv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `zero_sequence_impedance_x_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+- **ltds-table-2b-transformer-data-3w**
+  - Removed: `gridsupplypoint` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `hv_node` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `hv_substation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `lv_node_1` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `lv_node_2` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `lv_substation_1` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `lv_substation_2` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `method_of_earthing_hv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `method_of_earthing_lv1` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `method_of_earthing_lv2` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `positive_sequence_impedance_r_hv_lv1_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `positive_sequence_impedance_r_hv_lv2_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `positive_sequence_impedance_r_lv1_lv2_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `positive_sequence_impedance_x_hv_lv1_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `positive_sequence_impedance_x_hv_lv2_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `positive_sequence_impedance_x_lv1_lv2_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `reverse_power_capability_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `tap_range_max_percent_hv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `tap_range_max_percent_lv1` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `tap_range_max_percent_lv2` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `tap_range_min_percent_hv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `tap_range_min_percent_lv1` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `tap_range_min_percent_lv2` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `transformer_rating_mva_summer_hv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `transformer_rating_mva_summer_lv1` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `transformer_rating_mva_summer_lv2` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `transformer_rating_mva_winter_hv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `transformer_rating_mva_winter_lv1` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `transformer_rating_mva_winter_lv2` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `vector_group_hv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `vector_group_lv1` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `vector_group_lv2` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `voltage_hv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `voltage_lv_1` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `voltage_lv_2` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `zero_sequence_impedance_x_hv_lv1_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `zero_sequence_impedance_x_hv_lv2_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `zero_sequence_impedance_x_lv1_lv2_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+- **ltds-table-3a-load-data-observed**
+  - Removed: `firm_capacity_mw` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `forecast_m_d_mw_25_26` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `forecast_m_d_mw_26_27` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `forecast_m_d_mw_27_28` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `forecast_m_d_mw_28_29` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `forecast_m_d_mw_29_30` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `functional_location` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `gridsupplypoint` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `maximum_demand_24_25_mw` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `maximum_demand_24_25_pf` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `minimum_load_scaling_factor` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `season` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `substation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `unutilised_capacity_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+- **ltds-table-3a-load-data-observed-transposed**
+  - Removed: `firm_capacity_mw` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `functional_location` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `gridsupplypoint` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `load` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `maximum_demand_24_25_mw` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `maximum_demand_24_25_pf` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `minimum_load_scaling_factor` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `season` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `substation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `unutilised_capacity_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `year` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+- **ltds-table-3b-load-data-true**
+  - Removed: `firm_capacity_mw` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `forecast_m_d_mw_25_26` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `forecast_m_d_mw_26_27` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `forecast_m_d_mw_27_28` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `forecast_m_d_mw_28_29` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `forecast_m_d_mw_29_30` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `functional_location` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `gridsupplypoint` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `maximum_demand_24_25_mw` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `maximum_demand_24_25_pf` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `minimum_load_scaling_factor` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `season` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `substation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+- **ltds-table-4a-3ph-fault-level**
+  - Removed: `existing_system_fault_currents_peak_make_ka` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `existing_system_fault_currents_rms_break_ka` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `fault_rating_peak_break_ka` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `fault_rating_peak_make_ka` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `gridsupplypoint` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `nodename` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `substation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `system_impedance_r_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `system_impedance_x_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `voltage_level_kv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+- **ltds-table-4b-earth-fault-level**
+  - Removed: `existing_system_fault_currents_peak_make_ka` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `existing_system_fault_currents_rms_break_ka` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `fault_rating_peak_break_ka` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `fault_rating_peak_make_ka` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `gridsupplypoint` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `nodename` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `substation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `system_impedance_r_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `system_impedance_x_percent` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `voltage_level_kv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+- **ltds-table-5-generation**
+  - Removed: `connected_accepted` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `connection_voltage_kv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `fuel_type` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `gridsupplypoint` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `installedcapacity_mva` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `spatial_coordinates` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `substation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+- **ltds-table-6-interest-connections**
+  - Removed: `demand_numbers_received_total_capacity` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `demand_numbers_received_total_number` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `generation_numbers_received_total_capacity` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `generation_numbers_received_total_number` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `gridsupplypoint` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `proposed_connection_voltage_kv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `spatial_coordinates` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `status_of_connection` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `substation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+- **ltds-table-7-operational-restrictions**
+  - Removed: `fault_level_operational_restrictions` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `gridsupplypoint` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `substation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+- **ltds-table-8-gt-95-perc-fault-data**
+  - Removed: `gridsupplypoint` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `node_name` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `respective_projects_mitigations_reviews` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `substation` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `voltage_level_kv` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+- **ozev-ukpn-national-chargepoint-register**
+  - Removed: `connector_type` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `geo_point` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `latitude` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `longitude` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `rated_output_kw` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `what3words` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-132kv-circuit-operational-data-half-hourly**
+  - Removed: `active_power_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `feeder_description` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `ltds_line_name` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `timestamp` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+- **ukpn-132kv-circuit-operational-data-monthly**
+  - Removed: `active_power_month_max_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_mean_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_min_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p05_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p10_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p50_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p90_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p95_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `category` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_max_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_mean_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_min_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p05_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p10_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p50_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p90_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p95_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `feeder_description` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `from_ltds_node` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `grid_supply_point` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `licence_area` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `ltds_line_name` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `nominal_voltage` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `redacted` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `timestamp` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `to_ltds_node` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+- **ukpn-132kv-overhead-lines**
+  - Removed: `dno` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `local_authority` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-132kv-poles-towers**
+  - Removed: `asset_ref` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `dno` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `local_authority` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `route_fl` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `route_name` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `what3words` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-33kv-circuit-operational-data-half-hourly-epn**
+  - Removed: `active_power_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `feeder_description` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `ltds_line_name` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `timestamp` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+- **ukpn-33kv-circuit-operational-data-half-hourly-spn**
+  - Removed: `active_power_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `feeder_description` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `ltds_line_name` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `timestamp` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+- **ukpn-33kv-circuit-operational-data-monthly**
+  - Removed: `active_power_month_max_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_mean_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_min_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p05_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p10_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p50_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p90_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p95_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `category` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_max_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_mean_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_min_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p05_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p10_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p50_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p90_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p95_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `feeder_description` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `from_ltds_node` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `grid_supply_point` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `licence_area` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `ltds_line_name` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `nominal_voltage` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `redacted` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `timestamp` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `to_ltds_node` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+- **ukpn-33kv-overhead-lines**
+  - Removed: `dno` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `local_authority` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-33kv-poles-towers**
+  - Removed: `dno` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `local_authority` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `route_fl` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `route_name` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `what3words` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-appendix-g**
+  - Removed: `connection_status` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `contract_status` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `date_of_connection` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `date_of_non_firm_accelerated_connection` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `developer_capacity_mw` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `gsp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `position` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `previously_offered_new_gsp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `site_name` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `technology` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `type_of_contract` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `unique_nodd_id` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-appendix-g-aggregated**
+  - Removed: `connecteddercapacitymw` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `faultlevelheadroom` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `gsp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `informationbasedon` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `materiality` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `tia_threshold` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `total_gen_gate_2_queue_outcome` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `total_gen_in_scope_of_connections_reform` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `total_gen_pending_gated_process` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-appendix-g-project-progression**
+  - Removed: `cancellation_charges_apply` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `clock_start_date` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `date_of_last_signed_bca_containing_app_g` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `gsp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `last_project_progression_submission` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-appendix-g-site-specific-conditions**
+  - Removed: `emergency_instructions` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `gsp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `operational_visibility_and_commercial_control` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sgt_flexible_forward_power_flow_control_scheme` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sgt_reverse_power_flow_control_scheme` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `transmission_system_to_active_network_management_scheme` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `voltage_regulation_at_the_grid_supply_point` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-appendix-g-summary**
+  - Removed: `connstatus` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `dercapacity` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `gsp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `maxleadtime` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `numberofcustomers` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-business-glossary**
+  - Removed: `empty` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `glossary_term` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-connections-reform-local-authority**
+  - Removed: `category_renewables_and_storage_export_capacity_mw_connected_and_contracted` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `code` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `connected_export_capacity_mw` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `eligible_export_capacity_for_connections_reform_mw` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `export_capacity_now_in_the_transmission_queue_mw` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `geo_point` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `name` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `renewables_and_storage_export_capacity_mw_connected_and_contracted` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-constraint-breaches-history**
+  - Removed: `constraint_description` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `constraint_id` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `constraint_voltage_kv` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `duration_hours` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `end_time_local` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `end_time_utc` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `event_id` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `scheme` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `start_time_local` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `start_time_utc` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `total_der_access_reduction_kwh` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-constraints-real-time-meter-readings**
+  - Removed: `breach_flag` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `constraint_description` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `constraint_id` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `der_name` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `present_amps_value` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `release_limit_amps` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `timestamp` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `trim_amps` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `utilisation_percentage` — check `src/ukpyn/orchestrators/network.py`
+- **ukpn-curtailment-events-site-specific**
+  - Removed: `average_access_reduction_kw` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+  - Removed: `der_name` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+  - Removed: `der_name_act` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+  - Removed: `driver` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+  - Removed: `duration_hours` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+  - Removed: `end_time_local` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+  - Removed: `end_time_utc` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+  - Removed: `estimated_energy_lost_kwh` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+  - Removed: `event_id` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+  - Removed: `peak_access_reduction_kw` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+  - Removed: `public_flag` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+  - Removed: `scheme` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+  - Removed: `start_time_local` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+  - Removed: `start_time_utc` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+  - Removed: `total_der_access_reduction_kwh` — check `src/ukpyn/orchestrators/curtailment.py`, `tutorials/07-curtailment-events.ipynb`
+- **ukpn-data-best-practice-live-maturity**
+  - Removed: `avg_percent_score_23_24` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `avg_percent_score_24_25` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `maturity_23_24` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `maturity_24_25` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `ofgem_target` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `percent_score_23_24` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `percent_score_24_25` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `principle` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `short_description` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-data-centre-demand-profiles**
+  - Removed: `anonymised_data_centre_name` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `cleansed_voltage_level` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `dc_type` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `hh_utilisation_ratio` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `local_timestamp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `utc_timestamp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-dfes-by-local-authorities**
+  - Removed: `geo_point` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `lad22cd` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `lad22nm` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `licence_area` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `lsoa21cd` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_bev_buses` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_bev_coaches` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_bev_hgvs` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_bev_minibuses` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_bev_motorcycles` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_bev_phvs` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_bev_taxis` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_domestic_air_conditioning_units` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_domestic_batteries_kw` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_domestic_district_heating` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_domestic_electric_resistive_heating` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_domestic_heat_pumps` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_domestic_hybrid_heat_pumps` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_electric_cars_hybrid_and_full_electric` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_electric_vans_hybrid_and_full_electric` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_non_domestic_air_conditioning_units` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_non_domestic_district_heating` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_non_domestic_electric_resistive_heating` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_non_domestic_heat_pumps` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `number_of_non_domestic_hybrid_heat_pumps` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `pathway` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `sum_of_ic_battery_capacity_kw` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `sum_of_small_rooftop_solar_generation_less_than_or_equal_to_4_kw` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `sum_of_solar_generation_large_rooftop_less_than_4_kw_and_greater_than_or_equal_to_150_kw` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `year` — check `src/ukpyn/orchestrators/dfes.py`
+- **ukpn-dfes-peak-demand-scenarios**
+  - Removed: `dno` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `firm_capacity_mw` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `functional_location` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `gsp` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `id` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `maximum_demand_2023_24_mw` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `maximum_demand_2023_24_pf` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `minimum_load_scaling_factor` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `peak_demand_mw` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `scenario` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `season` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `substation` — check `src/ukpyn/orchestrators/dfes.py`
+  - Removed: `year` — check `src/ukpyn/orchestrators/dfes.py`
+- **ukpn-dnoa**
+  - Removed: `area` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `constraint_description` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `constraint_occurrence_year` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `constraint_season` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `current_status` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `customers_served` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `dnoa_result` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `dnoa_result_description` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `dnoa_result_history_2023` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `dnoa_result_history_2024` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `dnoa_result_history_2025` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `flexibility_procurement_2024_25` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `flexibility_procurement_2025_26` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `flexibility_procurement_2026_27` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `flexibility_procurement_2027_28` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `flexibility_procurement_2028_29` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `functional_location` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `postcode` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `site` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `spatial_coordinates` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `substation_title` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `traditional_solution` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `type` — check `src/ukpyn/orchestrators/dnoa.py`
+- **ukpn-ehv-network-outages**
+  - Removed: `circuitid` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `dno` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `enddate` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `endtime` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `outageid` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `outagetype` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `plannedstatus` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `plantype` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `spatial_coordinates` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `startdate` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `starttime` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `substationname` — check `src/ukpyn/orchestrators/network.py`
+- **ukpn-embedded-capacity-register**
+  - Removed: `accepted_to_connect_registered_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `address_line_1` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `address_line_2` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `already_connected_registered_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `bulk_supply_point` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `change_to_maximum_export_capacity_mva` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `change_to_maximum_export_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `change_to_maximum_import_capacity_mva` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `change_to_maximum_import_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `chp_cogeneration_2_yes_no` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `chp_cogeneration_3_yes_no` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `chp_cogeneration_yes_no` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `connection_status` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `country` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `county` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `customer_name` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `customer_site` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `date_accepted` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `date_connected` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `distribution_reinforcement_reference` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `distribution_service_provider_y_n` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_conversion_technology_1` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_conversion_technology_2` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_conversion_technology_3` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_source_1` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_source_2` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_source_3` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_source_energy_conversion_technology_1_registered_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_source_energy_conversion_technology_2_registered_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_source_energy_conversion_technology_3_registered_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `export_mpan_msid` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `flexible_connection_yes_no` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `grid_supply_point` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `import_mpan_msid` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `in_a_connection_queue_y_n` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `last_updated` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `latitude` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `licence_area` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `local_authority` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `location_x_coordinate_eastings_where_data_is_held` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `location_y_coordinate_northings_where_data_is_held` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `longitude` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `maximum_export_capacity_mva` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `maximum_export_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `maximum_import_capacity_mva` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `maximum_import_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `point_of_connection_poc_voltage_kv` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `postcode` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `primary` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `primary_resource_type_group` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `reference` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `spatialcoordinates_customer` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `storage_capacity_1_mwh` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `storage_capacity_2_mwh` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `storage_capacity_3_mwh` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `storage_duration_1_hours` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `storage_duration_2_hours` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `storage_duration_3_hours` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `target_energisation_date` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `town_city` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `transmission_reinforcement_reference` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `transmission_service_provider_y_n` — check `src/ukpyn/orchestrators/ders.py`
+- **ukpn-embedded-capacity-register-1-under-1mw**
+  - Removed: `accepted_to_connect_registered_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `address_line_1` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `address_line_2` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `already_connected_maximum_export_capacity_mva` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `already_connected_maximum_export_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `already_connected_maximum_import_capacity_mva` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `already_connected_maximum_import_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `already_connected_registered_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `bulk_supply_point` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `change_to_maximum_export_capacity_mva` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `change_to_maximum_export_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `change_to_maximum_import_capacity_mva` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `change_to_maximum_import_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `chp_cogeneration_2_yes_no` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `chp_cogeneration_3_yes_no` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `chp_cogeneration_yes_no` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `connection_status` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `country` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `county` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `customer_name` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `customer_site` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `date_accepted` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `date_connected` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `distribution_reinforcement_reference` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `distribution_service_provider_y_n` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_conversion_technology_1` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_conversion_technology_2` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_conversion_technology_3` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_source_1` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_source_2` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_source_3` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_source_energy_conversion_technology_1_registered_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_source_energy_conversion_technology_2_registered_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `energy_source_energy_conversion_technology_3_registered_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `export_mpan_msid` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `flexible_connection_yes_no` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `grid_supply_point` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `import_mpan_msid` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `in_a_connection_queue_y_n` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `last_updated` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `latitude` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `licence_area` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `location_x_coordinate_eastings_where_data_is_held` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `location_y_coordinate_northings_where_data_is_held` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `longitude` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `point_of_connection_poc_voltage_kv` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `postcode` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `primary` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `primary_resource_type_group` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `reference` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `spatial_coordinates` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `storage_capacity_1_mwh` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `storage_capacity_2_mwh` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `storage_capacity_3_mwh` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `storage_duration_1_hours` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `storage_duration_2_hours` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `storage_duration_3_hours` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `target_energisation_date` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `town_city` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `transmission_reinforcement_reference` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `transmission_service_provider_y_n` — check `src/ukpyn/orchestrators/ders.py`
+- **ukpn-epn-area-operational-boundaries**
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `ops_area` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-external-facing-tracker**
+  - Removed: `dataset_title` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `description` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `estimated_actual_date_for_publication` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `id` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `link_to_dataset` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `link_to_triage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `portal_status` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `raw_processed` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `refresh_rate` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `triage_outcome` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-flexibility-dispatches**
+  - Removed: `availability_mw_req` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `availability_mwh_req` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `availability_price` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `company_name` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `dispatch_method` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `dispatch_type` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `end_time_local` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `end_time_utc` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `fu_id` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `hours_requested` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `product` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `start_time_local` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `start_time_utc` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `technology` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `time_utc` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `utilisation_mw_req` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `utilisation_mwh_req` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `utilisation_price` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `zone` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+- **ukpn-flexibility-tender-data**
+  - Removed: `competition_pot` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `flexibility_zone` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `geo_point` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `local_authority_code` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `local_authority_name` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `postcode` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+  - Removed: `tender_round` — check `src/ukpyn/orchestrators/flexibility.py`, `tutorials/05-flexibility-markets.ipynb`
+- **ukpn-grid-postcode-area**
+  - Removed: `demand` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `demandrag` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `dno` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `firmcapacitysummer` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `firmcapacitywinter` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `grid_site` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `grid_site_floc` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `grid_supply_point` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `grid_supply_point_floc` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `seasonofconstraint` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-grid-supply-points**
+  - Removed: `dno` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `grid_supply_point` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `grid_supply_point_floc` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-grid-transformer-operational-data-half-hourly**
+  - Removed: `active_power_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `timestamp` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `tx_id` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+- **ukpn-grid-transformer-operational-data-monthly**
+  - Removed: `active_power_month_max_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_mean_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_min_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p05_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p10_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p50_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p90_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p95_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `category` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_max_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_mean_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_min_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p05_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p10_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p50_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p90_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p95_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `grid_supply_point` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `hv_ltds_node` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `licence_area` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `ltds_name` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `lv_ltds_node` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `nominal_voltage` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `redacted` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `timestamp` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `tx_description` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `tx_id` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+- **ukpn-grid-transformers**
+  - Removed: `dno` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `equipment` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `functionallocation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `functionallocationname` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `make` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `model` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `onanrating_kva` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `operationalvoltage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `primary_winding_voltage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `reverse_power_capability` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `secondary_winding_voltage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sitedesc` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sitetype` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `spatial_coordinates` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `tertiary_winding_voltage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `type` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `what3words` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-gsp-insights**
+  - Removed: `comment` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `dataset` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `gsp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `gsp_for_internal_purposes` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `regulatory_year` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `units` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `value` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-gsp-narrative**
+  - Removed: `gsp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `narrative` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-gsp-project-status**
+  - Removed: `gate_1` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `gate_2_phase_1` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `gate_2_phase_2` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `gate_2_protected_26_27` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `gsp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `has_not_undergone_gated_process` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `measure` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sortby` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `technology_type` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-hv-overhead-lines-shapefile**
+  - Removed: `dno` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `local_authority` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-hv-poles**
+  - Removed: `asset_ref` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `dno` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `id` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `local_authority` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `what3words` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-idno-areas**
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `geometry_wkt_epsg4326` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-iis**
+  - Removed: `cause_code` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `cont_cause_code` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `customers_restored` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `damage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `ee_coding` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `ee_coding_only_for_additional_incidents` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `end_date_time` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `incident_count` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `incident_reference` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `incident_to_be_excluded_from_iis` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `licence_area` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `mei_code` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `regulatory_year` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `reinteruption_stage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `restoration_stage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `spatial_coordinates` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `start_date_time` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `substation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `unique_identifier` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-large-demand-list**
+  - Removed: `anonymised_name` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `application_date` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `demand_technology_type` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `grid_supply_point` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `licence_area` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `required_import_capacity_kva` — check `src/ukpyn/orchestrators/ders.py`
+- **ukpn-large-embedded-power-stations**
+  - Removed: `connection_status` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `contract_status` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `date_of_connection` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `date_of_non_firm_accelerated_connection` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `developer_capacity_mw` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `gsp` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `previously_offered_new_gsp` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `site_name` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `technology` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `type_of_contract` — check `src/ukpyn/orchestrators/ders.py`
+  - Removed: `unique_nodd_id` — check `src/ukpyn/orchestrators/ders.py`
+- **ukpn-licence-boundaries**
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `landschlue` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `name` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-live-faults**
+  - Removed: `creationdatetime` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `estimatedrestorationdate` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `fullpostcodedata` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `geopoint` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `incidentcategory` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `incidentcategorycustomerfriendlydescription` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `incidentdescription` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `incidentpriority` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `incidentreference` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `incidentscount` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `incidenttype` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `incidenttypename` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `incidenttypetbcestimatedfriendlydescription` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `mainmessage` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `message` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `nocallsreported` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `nocustomeraffected` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `noplannedcustomers` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `operatingzone` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `planneddate` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `plannedincidentreason` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `plannedincidents` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `postcodesaffected` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `powercuttype` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `receiveddate` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `restoreddatetime` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `restoredincidents` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `statusid` — check `src/ukpyn/orchestrators/network.py`
+  - Removed: `unplannedincidents` — check `src/ukpyn/orchestrators/network.py`
+- **ukpn-local-authorities**
+  - Removed: `code` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `council_type` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `cty23cd` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `cty23nm` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `lad24cd` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `lad24nm` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `lad24nmw` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `name` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `rgn23cd` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `rgn23nm` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-low-carbon-technologies-lsoa**
+  - Removed: `exportrating` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `geo_point` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `importrating` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `lct_connections` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `local_authority` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `local_authority_code` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `lsoa11nm` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `lsoa21cd` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `type` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-low-carbon-technologies-secondary**
+  - Removed: `category` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `export` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `functionallocation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `geopoint` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `import` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `latitude` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `lct_connections` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `licencearea` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `localauthority` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `longitude` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `primary_functionallocation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `primaryfeeder` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `secondarysubstationalias` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `status` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `type` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-low-voltage-dnoa**
+  - Removed: `area` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `constraint_year` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `deferred_transformer_size_kva` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `dnoa_result` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `floc` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `geopoint` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `tr11_flex_capacity_awarded_kw` — check `src/ukpyn/orchestrators/dnoa.py`
+  - Removed: `tr11_flex_capacity_awarded_mw` — check `src/ukpyn/orchestrators/dnoa.py`
+- **ukpn-lpn-area-operational-boundaries**
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `ops_area` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-ltds-infrastructure-projects**
+  - Removed: `asset_type_or_quantity` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `associated_gsp` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `connectivity_voltage` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `dno` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `expected_completion_year` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `expected_start_year` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `justification_for_the_need` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `local_authority` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `ltds_name` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `site_functional_location` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `source` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `spatial_coordinates` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `substation_or_circuit_ple_name` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+  - Removed: `what3words` — check `src/ukpyn/orchestrators/ltds.py`, `tutorials/04-ltds-network-planning.ipynb`
+- **ukpn-lv-overhead-lines-shapefile**
+  - Removed: `dno` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `local_authority` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-lv-poles**
+  - Removed: `dno` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `local_authority` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `what3words` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-modification-application**
+  - Removed: `dno` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `gsp_s_where_applications_were_originally_made` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `longest_modapp_quoted_date_for_demand_project_offered` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `longest_modapp_quoted_date_for_demand_project_offered_then_cancelled` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `longest_modapp_quoted_date_for_demand_project_signed` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `most_recent_date_of_issue_for_longest_modapp_quoted_date_for_demand_project_offered` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `most_recent_date_of_issue_for_longest_modapp_quoted_date_for_demand_project_offered_then_cancelled` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `most_recent_date_of_issue_for_longest_modapp_quoted_date_for_demand_project_signed` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `new_node_triggered_for_demand` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `of_submitted_offers_at_gsp_awaiting_an_outcome` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `proposed_point_of_connection_gsp_from_modapp_outcome` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `site_functional_location` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-network-losses**
+  - Removed: `date` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `dno` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `loss_r1` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `loss_r10` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `loss_r2` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `loss_r20` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `loss_r3` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `loss_r30` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `loss_regulatory_reporting` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `loss_regulatory_reporting0` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `loss_rf` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `loss_rf0` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `loss_sf` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `loss_sf0` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `units_entering_r1` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `units_entering_r2` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `units_entering_r3` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `units_entering_regulatory_reporting` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `units_entering_rf` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `units_entering_sf` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `units_exiting_r1` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `units_exiting_r2` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `units_exiting_r3` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `units_exiting_regulatory_reporting` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `units_exiting_rf` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `units_exiting_sf` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-network-statistics**
+  - Removed: `132kv_ehv_cables_ohl` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `132kv_ehv_cables_ug` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `132kv_ehv_switchgear` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `132kv_ehv_transformers` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `area_size_sq_km` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `bridges` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `distribution_switchgear` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `grid_substation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `hv_cables_overhead_lines` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `hv_cables_underground` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `licence_area` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `link_boxes` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `load_density` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `lv_cables_overhead_lines` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `lv_cables_underground` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `main_substations_grid_primary` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `no_of_customers` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `peak_demand` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `poles_total` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `primary_substation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `scs_remote_control` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `secondary_substations_gm` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `secondary_substations_pm` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `secondary_transformers` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `secondary_transformers_gm` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `secondary_transformers_pm` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `towers_total` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `tunnels` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `y_poles_11kv` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `y_poles_132kv` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `y_poles_33kv` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `y_poles_lv` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `y_towers_132kv` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `y_towers_33kv` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `y_towers_66kv` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-overall-queue-insights**
+  - Removed: `contracted_ders_mw` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `status` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `technology` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-power-quality**
+  - Removed: `harmonic` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `highest` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `highestweek` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `latest` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `latestweek` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `phase` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sitename` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `spatial_coordinates` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `transformerfunctionallocation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-primary-transformer-power-flow-historic-half-hourly-epn**
+  - Removed: `active_power_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `timestamp` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `tx_id` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+- **ukpn-primary-transformer-power-flow-historic-half-hourly-spn**
+  - Removed: `active_power_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `timestamp` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `tx_id` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+- **ukpn-primary-transformer-power-flow-historic-monthly**
+  - Removed: `active_power_month_max_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_mean_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_min_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p05_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p10_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p50_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p90_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `active_power_month_p95_mw` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `category` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_max_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_mean_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_min_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p05_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p10_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p50_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p90_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `current_month_p95_amps` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `grid_supply_point` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `hv_ltds_node` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `licence_area` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `ltds_name` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `lv_ltds_node` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `nominal_voltage` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `redacted` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `timestamp` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `tx_description` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+  - Removed: `tx_id` — check `src/ukpyn/orchestrators/powerflow.py`, `tutorials/06-powerflow-timeseries.ipynb`
+- **ukpn-primary-transformers**
+  - Removed: `dno` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `equipment` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `functionallocation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `functionallocationname` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `make` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `model` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `onanrating_kva` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `operationalvoltage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `primary_winding_voltage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `reverse_power_capability` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `secondary_winding_voltage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sitedesc` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sitetype` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `spatial_coordinates` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `tertiary_winding_voltage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `type` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `what3words` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-rota-load-disconnection**
+  - Removed: `1` — check `src/ukpyn/orchestrators/network.py`
+- **ukpn-secondary-site-transformers**
+  - Removed: `dno` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `equipment_class` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `equipment_number` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `geopoint` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `manufacturer` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `onanrating` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `opvolts` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `primarywinding` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `secondarysitefunctionallocation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `secondarywinding` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `transformerfunctionallocation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-secondary-site-utilisation**
+  - Removed: `functionallocation` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `predicted_year_of_reinforcement` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `source` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `utilisation_band` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-secondary-sites**
+  - Removed: `accessstreet` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `buildingaddress` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `buildingpostcode` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `buildinguprn` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `companyarea` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `confinedspace` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `customer_count` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `demand_headroom` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `dno` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `functionallocation` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geopoint` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `gridref` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `indooroutdoor` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `latitude` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `llsoacode` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `llsoaname` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `localauthority` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `localauthoritycode` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `longitude` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `numberoftransformers` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `onanrating` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `parishcode` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `parishname` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `postcode` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `predicted_year_of_reinforcement` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `primaryfeeder` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `primaryfeederfunctionallocation` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `source` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `substationalias` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `substationdesign` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `substationvoltage` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `utilisation_band` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `what3words` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-sensitivity-factors-export**
+  - Removed: `branch` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `grid_supply_point` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `is_zero` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `node_name` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sensitivity_factor` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-sensitivity-factors-import**
+  - Removed: `branch` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `grid_supply_point` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `is_zero` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `node_name` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sensitivity_factor` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-smart-meter-consumption-lv-feeder**
+  - Removed: `aggregated_device_count_active` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `aggregated_device_count_reactive` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `data_collection_log_timestamp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `dataset_id` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `dno` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `dno_alias` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `geopoint` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `insert_time` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `last_modified_time` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `lv_feeder_id` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `primary_consumption_active_import` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `secondary_consumption_active_import` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `secondary_substation_id` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `total_consumption_active_import` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `total_consumption_reactive_import` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-smart-meter-consumption-substation**
+  - Removed: `aggregated_device_count_active` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `aggregated_device_count_reactive` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `data_collection_log_timestamp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `dataset_id` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `dno` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `dno_alias` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `geopoint` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `insert_time` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `last_modified_time` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `primary_consumption_active_import` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `secondary_consumption_active_import` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `secondary_substation_id` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `total_consumption_active_import` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `total_consumption_reactive_import` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-smart-meter-installation-volumes**
+  - Removed: `geo_point` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `la_district_code` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `la_district_name` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `local_authority` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `local_authority_code` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `local_authority_geo_shape` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `not_smart` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `percentage_smart` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `smart` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-spn-area-operational-boundaries**
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `ops_bounda` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn-standard-profiles-electricity-demand**
+  - Removed: `commercial` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `datacentre` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `domestic` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `ev_charging` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `industrial` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `network_rail` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `non_variable` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `solar_and_storage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `solar_and_wind_and_storage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `storage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `timestamp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-standard-technology-profiles-generation**
+  - Removed: `gas_large` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `gas_small` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `non_variable` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `solar` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `solar_and_storage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `solar_and_wind` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `solar_and_wind_and_storage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `storage` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `timestamp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `wind` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-super-grid-transformer**
+  - Removed: `activepower_avg` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `activepower_max` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `activepower_min` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `current_avg` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `current_max` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `current_min` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `date` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `gsp` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `reactivepower_avg` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `reactivepower_max` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `reactivepower_min` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `sgt` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `voltage_avg` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `voltage_max` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `voltage_min` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn-wide-planning-status**
+  - Removed: `contracted_ders_mw` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `generation_type` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+  - Removed: `status` — check `src/ukpyn/orchestrators/registry.py`, `src/ukpyn/orchestrators/base.py`, `README.md`
+- **ukpn_primary_postcode_area**
+  - Removed: `demand` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `demandrag` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `dno` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `firmcapacitysummer` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `firmcapacitywinter` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `grid_site` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `grid_site_floc` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `grid_supply_point` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `grid_supply_point_floc` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `operational_zone` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `primary` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `primary_floc` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `seasonofconstraint` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+- **ukpn_secondary_postcode_area**
+  - Removed: `customer_count` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `demand_headroom` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `dno` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_point_2d` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `geo_shape` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `onanrating` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `predicted_year_of_reinforcement` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `sitefunctionallocation` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `sitefunctionallocationclean` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `source` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
+  - Removed: `utilisation_band` — check `src/ukpyn/orchestrators/gis.py`, `tutorials/08-geospatial-data.ipynb`
