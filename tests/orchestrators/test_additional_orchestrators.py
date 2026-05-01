@@ -130,7 +130,7 @@ async def test_dnoa_get_assessment_async_where(monkeypatch) -> None:
     await orchestrator.get_assessment_async(licence_area="SPN", order_by="year")
 
     assert captured["dataset"] == "dnoa"
-    assert captured["where"] == "licence_area = 'SPN'"
+    assert captured["where"] == "area = 'SPN'"
     assert captured["order_by"] == "year"
 
 

@@ -132,7 +132,7 @@ async def test_gis_async_methods_select_dataset_keys(monkeypatch) -> None:
     assert calls[0]["dataset"] == "grid-and-primary-sites"
     assert calls[0]["refine"] == {
         "sitetype": "Primary Substation",
-        "licencearea": "EPN",
+        "licencearea": "Eastern Power Networks (EPN)",
     }
     assert calls[1]["dataset"] == "ukpn-secondary-sites"
     assert calls[1]["where"] == "primaryfeederfunctionallocation = 'A'"

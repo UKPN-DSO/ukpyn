@@ -2,7 +2,11 @@
 
 import pytest
 
-from ukpyn.orchestrators.base import BaseOrchestrator
+from ukpyn.orchestrators.base import (
+    BaseOrchestrator,
+    resolve_licence_area,
+    validate_licence_area_abbrev,
+)
 
 
 class OrchestratorForTesting(BaseOrchestrator):
@@ -146,3 +150,62 @@ class TestBaseOrchestratorEmptyDatasets:
             orchestrator.resolve_dataset_id("any_name")
 
         assert "Unknown dataset" in str(exc_info.value)
+
+
+class TestResolveLicenceArea:
+    """Tests for resolve_licence_area helper."""
+
+    @pytest.mark.parametrize(
+        "abbrev, expected",
+        [
+            ("EPN", "Eastern Power Networks (EPN)"),
+            ("SPN", "South Eastern Power Networks (SPN)"),
+            ("LPN", "London Power Networks (LPN)"),
+        ],
+    )
+    def test_abbreviation_expanded(self, abbrev: str, expected: str) -> None:
+        assert resolve_licence_area(abbrev) == expected
+
+    @pytest.mark.parametrize("abbrev", ["epn", "Epn", "ePn"])
+    def test_case_insensitive(self, abbrev: str) -> None:
+        assert resolve_licence_area(abbrev) == "Eastern Power Networks (EPN)"
+
+    def test_full_name_passthrough(self) -> None:
+        full = "Eastern Power Networks (EPN)"
+        assert resolve_licence_area(full) == full
+
+    def test_none_returns_none(self) -> None:
+        assert resolve_licence_area(None) is None
+
+    def test_unknown_value_passthrough(self) -> None:
+        assert resolve_licence_area("Other Area") == "Other Area"
+
+    def test_whitespace_stripped(self) -> None:
+        assert resolve_licence_area("  EPN  ") == "Eastern Power Networks (EPN)"
+
+
+class TestValidateLicenceAreaAbbrev:
+    """Tests for validate_licence_area_abbrev helper."""
+
+    @pytest.mark.parametrize("abbrev", ["EPN", "SPN", "LPN"])
+    def test_valid_abbreviation_returned(self, abbrev: str) -> None:
+        assert validate_licence_area_abbrev(abbrev) == abbrev
+
+    @pytest.mark.parametrize("abbrev", ["epn", "Spn", "lpN"])
+    def test_case_insensitive(self, abbrev: str) -> None:
+        result = validate_licence_area_abbrev(abbrev)
+        assert result == abbrev.strip().upper()
+
+    def test_none_returns_none(self) -> None:
+        assert validate_licence_area_abbrev(None) is None
+
+    def test_full_name_raises_value_error(self) -> None:
+        with pytest.raises(ValueError, match="Use 'EPN'"):
+            validate_licence_area_abbrev("Eastern Power Networks (EPN)")
+
+    def test_full_name_spn_raises(self) -> None:
+        with pytest.raises(ValueError, match="Use 'SPN'"):
+            validate_licence_area_abbrev("South Eastern Power Networks (SPN)")
+
+    def test_unknown_value_passthrough(self) -> None:
+        assert validate_licence_area_abbrev("Other") == "Other"

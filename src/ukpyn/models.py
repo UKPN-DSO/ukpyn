@@ -1,10 +1,128 @@
 """Pydantic models for OpenDataSoft API v2.1 responses."""
 
+import math
 from datetime import datetime
 from html import escape
 from typing import Any
 
 from pydantic import AliasChoices, BaseModel, Field, model_validator
+
+# ── Geometry field names in priority order ──────────────────────────────
+_GEO_FIELDS: tuple[str, ...] = (
+    "geo_shape",
+    "spatial_coordinates",
+    "geo_point_2d",
+    "geo_point",
+    "geopoint",
+)
+
+
+def _sanitize_nan(value: Any) -> Any:
+    """Recursively replace NaN / Infinity float values with None.
+
+    UKPN's ODP occasionally returns ``NaN`` for missing values.  Python's
+    ``float('nan')`` is valid in a dict but *invalid* JSON — every
+    downstream consumer (PostgreSQL JSONB, ``json.dumps``, etc.) will
+    reject it.  This helper walks a value tree and normalises such
+    sentinels to ``None``.
+    """
+    if isinstance(value, float) and (math.isnan(value) or math.isinf(value)):
+        return None
+    if isinstance(value, dict):
+        return {k: _sanitize_nan(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_sanitize_nan(item) for item in value]
+    return value
+
+
+def _unwrap_feature(value: Any) -> Any:
+    """Unwrap a GeoJSON Feature to its geometry dict.
+
+    Some ODP datasets (e.g. poles) return ``geo_shape`` as a full
+    GeoJSON *Feature* (``{"type": "Feature", "geometry": {...}, ...}``)
+    rather than just the geometry.  This normalises to the bare geometry.
+    """
+    if (
+        isinstance(value, dict)
+        and value.get("type") == "Feature"
+        and "geometry" in value
+    ):
+        return value["geometry"]
+    return value
+
+
+def _normalize_geometry_field(value: Any) -> Any:
+    """Unwrap Feature wrappers in known geometry fields."""
+    if not isinstance(value, dict):
+        return value
+    result = dict(value)
+    for field_name in _GEO_FIELDS:
+        if field_name in result:
+            result[field_name] = _unwrap_feature(result[field_name])
+    return result
+
+
+def _extract_geometry(fields: dict[str, Any] | None) -> dict[str, Any] | None:
+    """Extract a normalised GeoJSON geometry dict from record fields.
+
+    Tries each known geometry field in priority order and returns the
+    first usable value, normalised to a standard GeoJSON geometry dict.
+
+    Returns ``None`` when no geometry is found.
+    """
+    if not fields:
+        return None
+
+    for field_name in _GEO_FIELDS:
+        raw = fields.get(field_name)
+        if raw is None:
+            continue
+
+        raw = _unwrap_feature(raw)
+
+        # Already a GeoJSON geometry dict  (has "type" and "coordinates")
+        if isinstance(raw, dict) and "type" in raw and "coordinates" in raw:
+            return raw
+
+        # {"lat": ..., "lon": ...} point dict → GeoJSON Point
+        if isinstance(raw, dict):
+            lat = raw.get("lat")
+            lon = raw.get("lon")
+            if lat is not None and lon is not None:
+                return {
+                    "type": "Point",
+                    "coordinates": [float(lon), float(lat)],
+                }
+
+    return None
+
+
+def _strip_z(geometry: dict[str, Any]) -> dict[str, Any]:
+    """Return a copy of *geometry* with Z values removed from coordinates."""
+
+    def _strip(coords: Any) -> Any:
+        if isinstance(coords, list):
+            if coords and isinstance(coords[0], (int, float)):
+                return list(coords[:2])
+            return [_strip(c) for c in coords]
+        return coords
+
+    return {**geometry, "coordinates": _strip(geometry.get("coordinates", []))}
+
+
+def _ensure_z(geometry: dict[str, Any], z: float = 0.0) -> dict[str, Any]:
+    """Return a copy of *geometry* with Z values added where missing."""
+
+    def _add(coords: Any) -> Any:
+        if isinstance(coords, list):
+            if coords and isinstance(coords[0], (int, float)):
+                if len(coords) < 3:
+                    return list(coords) + [z]
+                return list(coords)
+            return [_add(c) for c in coords]
+        return coords
+
+    return {**geometry, "coordinates": _add(geometry.get("coordinates", []))}
 
 
 class Link(BaseModel):
@@ -318,6 +436,34 @@ class Record(BaseModel):
             return result
 
         return value
+
+    @model_validator(mode="after")
+    def _sanitize_fields(self) -> "Record":
+        """Sanitise record fields after initial parsing.
+
+        1. Replace ``NaN`` / ``Infinity`` with ``None`` — the ODP
+           occasionally returns these for missing values and they are
+           invalid JSON.
+        2. Unwrap GeoJSON ``Feature`` wrappers in geometry fields so
+           that downstream consumers always see a bare geometry dict.
+        """
+        if self.fields is not None:
+            self.fields = _sanitize_nan(self.fields)
+            self.fields = _normalize_geometry_field(self.fields)
+        return self
+
+    @property
+    def geometry(self) -> dict[str, Any] | None:
+        """Return a normalised GeoJSON geometry dict, or ``None``.
+
+        Resolves geometry from whichever raw field the ODP happens to
+        use (``geo_shape``, ``spatial_coordinates``, ``geo_point_2d``,
+        ``geo_point``, or ``geopoint``), and normalises ``{"lat", "lon"}``
+        point dicts to standard GeoJSON ``Point`` geometries.
+
+        Feature wrappers are automatically unwrapped.
+        """
+        return _extract_geometry(self.fields)
 
     def summary(self) -> str:
         """Return a human-readable summary of the record."""

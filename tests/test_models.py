@@ -527,3 +527,232 @@ class TestModelSerialization:
         json_str = dataset.model_dump_json()
         assert isinstance(json_str, str)
         assert "test-dataset" in json_str
+
+
+class TestRecordNanSanitisation:
+    """Tests for NaN / Infinity sanitisation in Record fields."""
+
+    def test_nan_replaced_with_none(self) -> None:
+        """NaN float values are replaced with None."""
+        record = Record(id="r1", fields={"grid_site": float("nan"), "name": "ok"})
+        assert record.fields["grid_site"] is None
+        assert record.fields["name"] == "ok"
+
+    def test_inf_replaced_with_none(self) -> None:
+        """Infinity float values are replaced with None."""
+        record = Record(id="r1", fields={"val": float("inf")})
+        assert record.fields["val"] is None
+
+    def test_neg_inf_replaced_with_none(self) -> None:
+        """Negative Infinity float values are replaced with None."""
+        record = Record(id="r1", fields={"val": float("-inf")})
+        assert record.fields["val"] is None
+
+    def test_nested_nan_replaced(self) -> None:
+        """NaN inside nested dicts/lists is sanitised."""
+        record = Record(
+            id="r1",
+            fields={
+                "nested": {"a": float("nan"), "b": [1, float("nan"), 3]},
+            },
+        )
+        assert record.fields["nested"]["a"] is None
+        assert record.fields["nested"]["b"] == [1, None, 3]
+
+    def test_normal_floats_preserved(self) -> None:
+        """Normal float values pass through untouched."""
+        record = Record(id="r1", fields={"val": 3.14})
+        assert record.fields["val"] == 3.14
+
+    def test_none_fields_not_touched(self) -> None:
+        """Record with None fields does not raise."""
+        record = Record(id="r1", fields=None)
+        assert record.fields is None
+
+
+class TestFeatureUnwrap:
+    """Tests for GeoJSON Feature → Geometry unwrapping."""
+
+    def test_geo_shape_feature_unwrapped(self) -> None:
+        """geo_shape wrapped in a Feature is unwrapped to bare geometry."""
+        record = Record(
+            id="r1",
+            fields={
+                "geo_shape": {
+                    "type": "Feature",
+                    "geometry": {"type": "Point", "coordinates": [0.1, 51.5]},
+                    "properties": {"foo": "bar"},
+                },
+            },
+        )
+        assert record.fields["geo_shape"] == {
+            "type": "Point",
+            "coordinates": [0.1, 51.5],
+        }
+
+    def test_bare_geometry_unchanged(self) -> None:
+        """geo_shape that is already a bare geometry is not modified."""
+        geom = {"type": "Point", "coordinates": [0.1, 51.5]}
+        record = Record(id="r1", fields={"geo_shape": geom})
+        assert record.fields["geo_shape"] == geom
+
+    def test_non_geo_fields_not_unwrapped(self) -> None:
+        """Fields that aren't geo fields are not touched by Feature unwrap."""
+        feature_like = {
+            "type": "Feature",
+            "geometry": {"type": "Point", "coordinates": [0, 0]},
+        }
+        record = Record(id="r1", fields={"some_other_field": feature_like})
+        assert record.fields["some_other_field"] == feature_like
+
+
+class TestRecordGeometry:
+    """Tests for Record.geometry property."""
+
+    def test_geometry_from_geo_shape(self) -> None:
+        """Geometry resolved from geo_shape field."""
+        geom = {"type": "Point", "coordinates": [0.1, 51.5]}
+        record = Record(id="r1", fields={"geo_shape": geom})
+        assert record.geometry == geom
+
+    def test_geometry_from_spatial_coordinates(self) -> None:
+        """Geometry resolved from spatial_coordinates field."""
+        geom = {"type": "Point", "coordinates": [-0.12, 51.51]}
+        record = Record(id="r1", fields={"spatial_coordinates": geom})
+        assert record.geometry == geom
+
+    def test_geometry_from_geo_point_2d_dict(self) -> None:
+        """lat/lon dict in geo_point_2d is converted to GeoJSON Point."""
+        record = Record(
+            id="r1", fields={"geo_point_2d": {"lat": 51.5, "lon": -0.1}}
+        )
+        assert record.geometry == {
+            "type": "Point",
+            "coordinates": [-0.1, 51.5],
+        }
+
+    def test_geometry_from_geopoint_dict(self) -> None:
+        """lat/lon dict in geopoint is converted to GeoJSON Point."""
+        record = Record(
+            id="r1", fields={"geopoint": {"lat": 51.5, "lon": -0.1}}
+        )
+        assert record.geometry == {
+            "type": "Point",
+            "coordinates": [-0.1, 51.5],
+        }
+
+    def test_geometry_from_geo_point(self) -> None:
+        """lat/lon dict in geo_point is converted to GeoJSON Point."""
+        record = Record(
+            id="r1", fields={"geo_point": {"lat": 51.5, "lon": -0.1}}
+        )
+        assert record.geometry == {
+            "type": "Point",
+            "coordinates": [-0.1, 51.5],
+        }
+
+    def test_geometry_priority_order(self) -> None:
+        """geo_shape takes priority over geo_point_2d."""
+        geom = {"type": "Polygon", "coordinates": [[[0, 0], [1, 0], [1, 1], [0, 0]]]}
+        record = Record(
+            id="r1",
+            fields={
+                "geo_shape": geom,
+                "geo_point_2d": {"lat": 51.5, "lon": -0.1},
+            },
+        )
+        assert record.geometry == geom
+
+    def test_geometry_none_when_no_geo_fields(self) -> None:
+        """geometry is None when record has no geo fields."""
+        record = Record(id="r1", fields={"name": "SubstationA"})
+        assert record.geometry is None
+
+    def test_geometry_none_when_fields_none(self) -> None:
+        """geometry is None when fields is None."""
+        record = Record(id="r1", fields=None)
+        assert record.geometry is None
+
+    def test_geometry_unwraps_feature_in_geo_shape(self) -> None:
+        """geometry property works when geo_shape was a Feature wrapper."""
+        record = Record(
+            id="r1",
+            fields={
+                "geo_shape": {
+                    "type": "Feature",
+                    "geometry": {"type": "Point", "coordinates": [0.1, 51.5]},
+                    "properties": {},
+                },
+            },
+        )
+        assert record.geometry == {"type": "Point", "coordinates": [0.1, 51.5]}
+
+    def test_geometry_skips_none_fields(self) -> None:
+        """Geometry resolution skips None-valued geo fields gracefully."""
+        record = Record(
+            id="r1",
+            fields={
+                "geo_shape": None,
+                "geo_point_2d": {"lat": 51.5, "lon": -0.1},
+            },
+        )
+        assert record.geometry == {
+            "type": "Point",
+            "coordinates": [-0.1, 51.5],
+        }
+
+
+class TestStripZ:
+    """Tests for _strip_z coordinate dimension helper."""
+
+    def test_strip_z_from_point(self) -> None:
+        from ukpyn.models import _strip_z
+
+        geom = {"type": "Point", "coordinates": [0.1, 51.5, 10.0]}
+        result = _strip_z(geom)
+        assert result["coordinates"] == [0.1, 51.5]
+
+    def test_strip_z_from_linestring(self) -> None:
+        from ukpyn.models import _strip_z
+
+        geom = {
+            "type": "LineString",
+            "coordinates": [[0, 1, 10], [2, 3, 20]],
+        }
+        result = _strip_z(geom)
+        assert result["coordinates"] == [[0, 1], [2, 3]]
+
+    def test_strip_z_noop_on_2d(self) -> None:
+        from ukpyn.models import _strip_z
+
+        geom = {"type": "Point", "coordinates": [0.1, 51.5]}
+        result = _strip_z(geom)
+        assert result["coordinates"] == [0.1, 51.5]
+
+
+class TestEnsureZ:
+    """Tests for _ensure_z coordinate dimension helper."""
+
+    def test_ensure_z_adds_z_to_point(self) -> None:
+        from ukpyn.models import _ensure_z
+
+        geom = {"type": "Point", "coordinates": [0.1, 51.5]}
+        result = _ensure_z(geom)
+        assert result["coordinates"] == [0.1, 51.5, 0.0]
+
+    def test_ensure_z_preserves_existing_z(self) -> None:
+        from ukpyn.models import _ensure_z
+
+        geom = {"type": "Point", "coordinates": [0.1, 51.5, 10.0]}
+        result = _ensure_z(geom)
+        assert result["coordinates"] == [0.1, 51.5, 10.0]
+
+    def test_ensure_z_on_linestring(self) -> None:
+        from ukpyn.models import _ensure_z
+
+        geom = {
+            "type": "LineString",
+            "coordinates": [[0, 1], [2, 3]],
+        }
+        result = _ensure_z(geom)
+        assert result["coordinates"] == [[0, 1, 0.0], [2, 3, 0.0]]

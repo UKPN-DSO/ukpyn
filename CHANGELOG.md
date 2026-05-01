@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- `Record.geometry` property — normalised GeoJSON geometry accessor that resolves from whichever raw field the ODP uses (`geo_shape`, `spatial_coordinates`, `geo_point_2d`, `geo_point`, `geopoint`) and converts `{"lat", "lon"}` dicts to standard GeoJSON `Point`
+- `dimensions` parameter on `GISOrchestrator.export_geojson()` — choose `"2d"` (strip Z), `"3d"` (ensure Z), or `"raw"` (default, pass-through) to normalise coordinate dimensionality
+
+### Fixed
+- NaN / Infinity values in record fields are now sanitised to `None` on parse — ODP occasionally returns `float('nan')` which is invalid JSON and breaks all downstream consumers
+- GeoJSON `Feature` wrappers in geometry fields (e.g. `geo_shape` on poles datasets) are automatically unwrapped to bare geometry dicts
+
 ## [0.1.10]
 ### Chore
 - Tidied up pyroject.toml for clarity on dependencies

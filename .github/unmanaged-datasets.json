@@ -5,35 +5,1802 @@
   "field_changes": [
     {
       "dataset_id": "dfes-network-headroom-report",
-      "added": [
-        "bulksupplypoint"
-      ],
+      "added": [],
       "removed": [
-        "bulksupplypoin"
+        "bulksupplypoint",
+        "category",
+        "gridsupplypoint",
+        "headroom_mw",
+        "licencearea",
+        "scenario",
+        "sitefunctionallocation",
+        "spatial_coordinates",
+        "substation_name",
+        "voltage_kv",
+        "year"
       ]
     },
     {
       "dataset_id": "grid-and-primary-sites",
-      "added": [
-        "parish"
-      ],
-      "removed": []
+      "added": [],
+      "removed": [
+        "assessmentdate",
+        "calculatedresistance",
+        "county",
+        "datecommissioned",
+        "gridref",
+        "last_report",
+        "licencearea",
+        "local_authority",
+        "local_authority_code",
+        "maxdemandsummer",
+        "maxdemandwinter",
+        "measuredresistance_ohm",
+        "next_assessmentdate",
+        "parish",
+        "postcode",
+        "powertransformercount",
+        "reversepower",
+        "siteclassification",
+        "sitefunctionallocation",
+        "sitename",
+        "sitetype",
+        "sitevoltage",
+        "spatial_coordinates",
+        "street",
+        "suburb",
+        "towncity",
+        "transratingsummer",
+        "transratingwinter",
+        "what3words"
+      ]
+    },
+    {
+      "dataset_id": "low-carbon-technologies",
+      "added": [],
+      "removed": [
+        "category",
+        "connectionstatus",
+        "exportrating",
+        "exportrating_mw",
+        "importrating",
+        "lct_connections",
+        "licencearea",
+        "primary",
+        "primaryname",
+        "sitefunctionallocation",
+        "spatial_coordinates",
+        "type"
+      ]
+    },
+    {
+      "dataset_id": "ltds-table-1-circuit-data",
+      "added": [],
+      "removed": [
+        "circuit_length",
+        "fromnode",
+        "fromsubstation",
+        "fromsubstation_sitefunctionallocation",
+        "gridsupplypoint",
+        "id",
+        "licencearea",
+        "linename",
+        "operating_voltage",
+        "positive_sequence_impedance_r_percent",
+        "positive_sequence_impedance_x_percent",
+        "rating_amps_summer",
+        "rating_amps_winter",
+        "susceptance_b_percent",
+        "tonode",
+        "tosubstation"
+      ]
+    },
+    {
+      "dataset_id": "ltds-table-2a-transformer-2w",
+      "added": [],
+      "removed": [
+        "gridsupplypoint",
+        "hv_node",
+        "hv_substation",
+        "id",
+        "licencearea",
+        "lv_node",
+        "lv_substation",
+        "method_of_earthing_hv",
+        "method_of_earthing_lv",
+        "positive_sequence_impedance_r_percent",
+        "positive_sequence_impedance_x_percent",
+        "reverse_power_capability_percent",
+        "sitefunctionallocation",
+        "tap_range_max_percent",
+        "tap_range_min_percent",
+        "transformer_rating_mva_summer",
+        "transformer_rating_mva_winter",
+        "vector_group",
+        "voltage_hv",
+        "voltage_lv",
+        "zero_sequence_impedance_x_percent"
+      ]
+    },
+    {
+      "dataset_id": "ltds-table-2b-transformer-data-3w",
+      "added": [],
+      "removed": [
+        "gridsupplypoint",
+        "hv_node",
+        "hv_substation",
+        "id",
+        "licencearea",
+        "lv_node_1",
+        "lv_node_2",
+        "lv_substation_1",
+        "lv_substation_2",
+        "method_of_earthing_hv",
+        "method_of_earthing_lv1",
+        "method_of_earthing_lv2",
+        "positive_sequence_impedance_r_hv_lv1_percent",
+        "positive_sequence_impedance_r_hv_lv2_percent",
+        "positive_sequence_impedance_r_lv1_lv2_percent",
+        "positive_sequence_impedance_x_hv_lv1_percent",
+        "positive_sequence_impedance_x_hv_lv2_percent",
+        "positive_sequence_impedance_x_lv1_lv2_percent",
+        "reverse_power_capability_percent",
+        "sitefunctionallocation",
+        "tap_range_max_percent_hv",
+        "tap_range_max_percent_lv1",
+        "tap_range_max_percent_lv2",
+        "tap_range_min_percent_hv",
+        "tap_range_min_percent_lv1",
+        "tap_range_min_percent_lv2",
+        "transformer_rating_mva_summer_hv",
+        "transformer_rating_mva_summer_lv1",
+        "transformer_rating_mva_summer_lv2",
+        "transformer_rating_mva_winter_hv",
+        "transformer_rating_mva_winter_lv1",
+        "transformer_rating_mva_winter_lv2",
+        "vector_group_hv",
+        "vector_group_lv1",
+        "vector_group_lv2",
+        "voltage_hv",
+        "voltage_lv_1",
+        "voltage_lv_2",
+        "zero_sequence_impedance_x_hv_lv1_percent",
+        "zero_sequence_impedance_x_hv_lv2_percent",
+        "zero_sequence_impedance_x_lv1_lv2_percent"
+      ]
+    },
+    {
+      "dataset_id": "ltds-table-3a-load-data-observed",
+      "added": [],
+      "removed": [
+        "firm_capacity_mw",
+        "forecast_m_d_mw_25_26",
+        "forecast_m_d_mw_26_27",
+        "forecast_m_d_mw_27_28",
+        "forecast_m_d_mw_28_29",
+        "forecast_m_d_mw_29_30",
+        "functional_location",
+        "gridsupplypoint",
+        "id",
+        "licencearea",
+        "maximum_demand_24_25_mw",
+        "maximum_demand_24_25_pf",
+        "minimum_load_scaling_factor",
+        "season",
+        "substation",
+        "unutilised_capacity_percent"
+      ]
     },
     {
       "dataset_id": "ltds-table-3a-load-data-observed-transposed",
-      "added": [
+      "added": [],
+      "removed": [
+        "firm_capacity_mw",
+        "functional_location",
+        "gridsupplypoint",
+        "id",
+        "licencearea",
+        "load",
         "maximum_demand_24_25_mw",
-        "maximum_demand_24_25_pf"
-      ],
-      "removed": []
+        "maximum_demand_24_25_pf",
+        "minimum_load_scaling_factor",
+        "season",
+        "substation",
+        "unutilised_capacity_percent",
+        "year"
+      ]
+    },
+    {
+      "dataset_id": "ltds-table-3b-load-data-true",
+      "added": [],
+      "removed": [
+        "firm_capacity_mw",
+        "forecast_m_d_mw_25_26",
+        "forecast_m_d_mw_26_27",
+        "forecast_m_d_mw_27_28",
+        "forecast_m_d_mw_28_29",
+        "forecast_m_d_mw_29_30",
+        "functional_location",
+        "gridsupplypoint",
+        "id",
+        "licencearea",
+        "maximum_demand_24_25_mw",
+        "maximum_demand_24_25_pf",
+        "minimum_load_scaling_factor",
+        "season",
+        "substation"
+      ]
+    },
+    {
+      "dataset_id": "ltds-table-4a-3ph-fault-level",
+      "added": [],
+      "removed": [
+        "existing_system_fault_currents_peak_make_ka",
+        "existing_system_fault_currents_rms_break_ka",
+        "fault_rating_peak_break_ka",
+        "fault_rating_peak_make_ka",
+        "gridsupplypoint",
+        "id",
+        "licencearea",
+        "nodename",
+        "sitefunctionallocation",
+        "substation",
+        "system_impedance_r_percent",
+        "system_impedance_x_percent",
+        "voltage_level_kv"
+      ]
+    },
+    {
+      "dataset_id": "ltds-table-4b-earth-fault-level",
+      "added": [],
+      "removed": [
+        "existing_system_fault_currents_peak_make_ka",
+        "existing_system_fault_currents_rms_break_ka",
+        "fault_rating_peak_break_ka",
+        "fault_rating_peak_make_ka",
+        "gridsupplypoint",
+        "id",
+        "licencearea",
+        "nodename",
+        "sitefunctionallocation",
+        "substation",
+        "system_impedance_r_percent",
+        "system_impedance_x_percent",
+        "voltage_level_kv"
+      ]
+    },
+    {
+      "dataset_id": "ltds-table-5-generation",
+      "added": [],
+      "removed": [
+        "connected_accepted",
+        "connection_voltage_kv",
+        "fuel_type",
+        "gridsupplypoint",
+        "id",
+        "installedcapacity_mva",
+        "licencearea",
+        "sitefunctionallocation",
+        "spatial_coordinates",
+        "substation"
+      ]
+    },
+    {
+      "dataset_id": "ltds-table-6-interest-connections",
+      "added": [],
+      "removed": [
+        "demand_numbers_received_total_capacity",
+        "demand_numbers_received_total_number",
+        "generation_numbers_received_total_capacity",
+        "generation_numbers_received_total_number",
+        "gridsupplypoint",
+        "id",
+        "licencearea",
+        "proposed_connection_voltage_kv",
+        "sitefunctionallocation",
+        "spatial_coordinates",
+        "status_of_connection",
+        "substation"
+      ]
+    },
+    {
+      "dataset_id": "ltds-table-7-operational-restrictions",
+      "added": [],
+      "removed": [
+        "fault_level_operational_restrictions",
+        "gridsupplypoint",
+        "id",
+        "licencearea",
+        "sitefunctionallocation",
+        "substation"
+      ]
+    },
+    {
+      "dataset_id": "ltds-table-8-gt-95-perc-fault-data",
+      "added": [],
+      "removed": [
+        "gridsupplypoint",
+        "id",
+        "licencearea",
+        "node_name",
+        "respective_projects_mitigations_reviews",
+        "sitefunctionallocation",
+        "substation",
+        "voltage_level_kv"
+      ]
+    },
+    {
+      "dataset_id": "ozev-ukpn-national-chargepoint-register",
+      "added": [],
+      "removed": [
+        "connector_type",
+        "geo_point",
+        "latitude",
+        "longitude",
+        "rated_output_kw",
+        "what3words"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-132kv-circuit-operational-data-half-hourly",
+      "added": [],
+      "removed": [
+        "active_power_mw",
+        "current_amps",
+        "feeder_description",
+        "ltds_line_name",
+        "timestamp"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-132kv-circuit-operational-data-monthly",
+      "added": [],
+      "removed": [
+        "active_power_month_max_mw",
+        "active_power_month_mean_mw",
+        "active_power_month_min_mw",
+        "active_power_month_p05_mw",
+        "active_power_month_p10_mw",
+        "active_power_month_p50_mw",
+        "active_power_month_p90_mw",
+        "active_power_month_p95_mw",
+        "category",
+        "current_month_max_amps",
+        "current_month_mean_amps",
+        "current_month_min_amps",
+        "current_month_p05_amps",
+        "current_month_p10_amps",
+        "current_month_p50_amps",
+        "current_month_p90_amps",
+        "current_month_p95_amps",
+        "feeder_description",
+        "from_ltds_node",
+        "grid_supply_point",
+        "licence_area",
+        "ltds_line_name",
+        "nominal_voltage",
+        "redacted",
+        "timestamp",
+        "to_ltds_node"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-132kv-overhead-lines",
+      "added": [],
+      "removed": [
+        "dno",
+        "geo_point_2d",
+        "geo_shape",
+        "local_authority"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-132kv-poles-towers",
+      "added": [],
+      "removed": [
+        "asset_ref",
+        "dno",
+        "geo_point_2d",
+        "geo_shape",
+        "id",
+        "local_authority",
+        "route_fl",
+        "route_name",
+        "what3words"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-33kv-circuit-operational-data-half-hourly-epn",
+      "added": [],
+      "removed": [
+        "active_power_mw",
+        "current_amps",
+        "feeder_description",
+        "ltds_line_name",
+        "timestamp"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-33kv-circuit-operational-data-half-hourly-spn",
+      "added": [],
+      "removed": [
+        "active_power_mw",
+        "current_amps",
+        "feeder_description",
+        "ltds_line_name",
+        "timestamp"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-33kv-circuit-operational-data-monthly",
+      "added": [],
+      "removed": [
+        "active_power_month_max_mw",
+        "active_power_month_mean_mw",
+        "active_power_month_min_mw",
+        "active_power_month_p05_mw",
+        "active_power_month_p10_mw",
+        "active_power_month_p50_mw",
+        "active_power_month_p90_mw",
+        "active_power_month_p95_mw",
+        "category",
+        "current_month_max_amps",
+        "current_month_mean_amps",
+        "current_month_min_amps",
+        "current_month_p05_amps",
+        "current_month_p10_amps",
+        "current_month_p50_amps",
+        "current_month_p90_amps",
+        "current_month_p95_amps",
+        "feeder_description",
+        "from_ltds_node",
+        "grid_supply_point",
+        "licence_area",
+        "ltds_line_name",
+        "nominal_voltage",
+        "redacted",
+        "timestamp",
+        "to_ltds_node"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-33kv-overhead-lines",
+      "added": [],
+      "removed": [
+        "dno",
+        "geo_point_2d",
+        "geo_shape",
+        "id",
+        "local_authority"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-33kv-poles-towers",
+      "added": [],
+      "removed": [
+        "dno",
+        "geo_point_2d",
+        "geo_shape",
+        "id",
+        "local_authority",
+        "route_fl",
+        "route_name",
+        "what3words"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-appendix-g",
+      "added": [],
+      "removed": [
+        "connection_status",
+        "contract_status",
+        "date_of_connection",
+        "date_of_non_firm_accelerated_connection",
+        "developer_capacity_mw",
+        "gsp",
+        "position",
+        "previously_offered_new_gsp",
+        "site_name",
+        "technology",
+        "type_of_contract",
+        "unique_nodd_id"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-appendix-g-aggregated",
+      "added": [],
+      "removed": [
+        "connecteddercapacitymw",
+        "faultlevelheadroom",
+        "gsp",
+        "informationbasedon",
+        "materiality",
+        "tia_threshold",
+        "total_gen_gate_2_queue_outcome",
+        "total_gen_in_scope_of_connections_reform",
+        "total_gen_pending_gated_process"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-appendix-g-project-progression",
+      "added": [],
+      "removed": [
+        "cancellation_charges_apply",
+        "clock_start_date",
+        "date_of_last_signed_bca_containing_app_g",
+        "gsp",
+        "last_project_progression_submission"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-appendix-g-site-specific-conditions",
+      "added": [],
+      "removed": [
+        "emergency_instructions",
+        "gsp",
+        "operational_visibility_and_commercial_control",
+        "sgt_flexible_forward_power_flow_control_scheme",
+        "sgt_reverse_power_flow_control_scheme",
+        "transmission_system_to_active_network_management_scheme",
+        "voltage_regulation_at_the_grid_supply_point"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-appendix-g-summary",
+      "added": [],
+      "removed": [
+        "connstatus",
+        "dercapacity",
+        "gsp",
+        "maxleadtime",
+        "numberofcustomers"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-business-glossary",
+      "added": [],
+      "removed": [
+        "empty",
+        "glossary_term"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-connections-reform-local-authority",
+      "added": [],
+      "removed": [
+        "category_renewables_and_storage_export_capacity_mw_connected_and_contracted",
+        "code",
+        "connected_export_capacity_mw",
+        "eligible_export_capacity_for_connections_reform_mw",
+        "export_capacity_now_in_the_transmission_queue_mw",
+        "geo_point",
+        "geo_shape",
+        "name",
+        "renewables_and_storage_export_capacity_mw_connected_and_contracted"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-constraint-breaches-history",
+      "added": [],
+      "removed": [
+        "constraint_description",
+        "constraint_id",
+        "constraint_voltage_kv",
+        "duration_hours",
+        "end_time_local",
+        "end_time_utc",
+        "event_id",
+        "scheme",
+        "start_time_local",
+        "start_time_utc",
+        "total_der_access_reduction_kwh"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-constraints-real-time-meter-readings",
+      "added": [],
+      "removed": [
+        "breach_flag",
+        "constraint_description",
+        "constraint_id",
+        "der_name",
+        "present_amps_value",
+        "release_limit_amps",
+        "timestamp",
+        "trim_amps",
+        "utilisation_percentage"
+      ]
     },
     {
       "dataset_id": "ukpn-curtailment-events-site-specific",
-      "added": [
-        "der_name_act"
-      ],
-      "removed": []
+      "added": [],
+      "removed": [
+        "average_access_reduction_kw",
+        "der_name",
+        "der_name_act",
+        "driver",
+        "duration_hours",
+        "end_time_local",
+        "end_time_utc",
+        "estimated_energy_lost_kwh",
+        "event_id",
+        "peak_access_reduction_kw",
+        "public_flag",
+        "scheme",
+        "start_time_local",
+        "start_time_utc",
+        "total_der_access_reduction_kwh"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-data-best-practice-live-maturity",
+      "added": [],
+      "removed": [
+        "avg_percent_score_23_24",
+        "avg_percent_score_24_25",
+        "maturity_23_24",
+        "maturity_24_25",
+        "ofgem_target",
+        "percent_score_23_24",
+        "percent_score_24_25",
+        "principle",
+        "short_description"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-data-centre-demand-profiles",
+      "added": [],
+      "removed": [
+        "anonymised_data_centre_name",
+        "cleansed_voltage_level",
+        "dc_type",
+        "hh_utilisation_ratio",
+        "local_timestamp",
+        "utc_timestamp"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-dfes-by-local-authorities",
+      "added": [],
+      "removed": [
+        "geo_point",
+        "lad22cd",
+        "lad22nm",
+        "licence_area",
+        "lsoa21cd",
+        "number_of_bev_buses",
+        "number_of_bev_coaches",
+        "number_of_bev_hgvs",
+        "number_of_bev_minibuses",
+        "number_of_bev_motorcycles",
+        "number_of_bev_phvs",
+        "number_of_bev_taxis",
+        "number_of_domestic_air_conditioning_units",
+        "number_of_domestic_batteries_kw",
+        "number_of_domestic_district_heating",
+        "number_of_domestic_electric_resistive_heating",
+        "number_of_domestic_heat_pumps",
+        "number_of_domestic_hybrid_heat_pumps",
+        "number_of_electric_cars_hybrid_and_full_electric",
+        "number_of_electric_vans_hybrid_and_full_electric",
+        "number_of_non_domestic_air_conditioning_units",
+        "number_of_non_domestic_district_heating",
+        "number_of_non_domestic_electric_resistive_heating",
+        "number_of_non_domestic_heat_pumps",
+        "number_of_non_domestic_hybrid_heat_pumps",
+        "pathway",
+        "sum_of_ic_battery_capacity_kw",
+        "sum_of_small_rooftop_solar_generation_less_than_or_equal_to_4_kw",
+        "sum_of_solar_generation_large_rooftop_less_than_4_kw_and_greater_than_or_equal_to_150_kw",
+        "year"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-dfes-peak-demand-scenarios",
+      "added": [],
+      "removed": [
+        "dno",
+        "firm_capacity_mw",
+        "functional_location",
+        "gsp",
+        "id",
+        "maximum_demand_2023_24_mw",
+        "maximum_demand_2023_24_pf",
+        "minimum_load_scaling_factor",
+        "peak_demand_mw",
+        "scenario",
+        "season",
+        "substation",
+        "year"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-dnoa",
+      "added": [],
+      "removed": [
+        "area",
+        "constraint_description",
+        "constraint_occurrence_year",
+        "constraint_season",
+        "current_status",
+        "customers_served",
+        "dnoa_result",
+        "dnoa_result_description",
+        "dnoa_result_history_2023",
+        "dnoa_result_history_2024",
+        "dnoa_result_history_2025",
+        "flexibility_procurement_2024_25",
+        "flexibility_procurement_2025_26",
+        "flexibility_procurement_2026_27",
+        "flexibility_procurement_2027_28",
+        "flexibility_procurement_2028_29",
+        "functional_location",
+        "postcode",
+        "site",
+        "spatial_coordinates",
+        "substation_title",
+        "traditional_solution",
+        "type"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-ehv-network-outages",
+      "added": [],
+      "removed": [
+        "circuitid",
+        "dno",
+        "enddate",
+        "endtime",
+        "outageid",
+        "outagetype",
+        "plannedstatus",
+        "plantype",
+        "sitefunctionallocation",
+        "spatial_coordinates",
+        "startdate",
+        "starttime",
+        "substationname"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-embedded-capacity-register",
+      "added": [],
+      "removed": [
+        "accepted_to_connect_registered_capacity_mw",
+        "address_line_1",
+        "address_line_2",
+        "already_connected_registered_capacity_mw",
+        "bulk_supply_point",
+        "change_to_maximum_export_capacity_mva",
+        "change_to_maximum_export_capacity_mw",
+        "change_to_maximum_import_capacity_mva",
+        "change_to_maximum_import_capacity_mw",
+        "chp_cogeneration_2_yes_no",
+        "chp_cogeneration_3_yes_no",
+        "chp_cogeneration_yes_no",
+        "connection_status",
+        "country",
+        "county",
+        "customer_name",
+        "customer_site",
+        "date_accepted",
+        "date_connected",
+        "distribution_reinforcement_reference",
+        "distribution_service_provider_y_n",
+        "energy_conversion_technology_1",
+        "energy_conversion_technology_2",
+        "energy_conversion_technology_3",
+        "energy_source_1",
+        "energy_source_2",
+        "energy_source_3",
+        "energy_source_energy_conversion_technology_1_registered_capacity_mw",
+        "energy_source_energy_conversion_technology_2_registered_capacity_mw",
+        "energy_source_energy_conversion_technology_3_registered_capacity_mw",
+        "export_mpan_msid",
+        "flexible_connection_yes_no",
+        "grid_supply_point",
+        "import_mpan_msid",
+        "in_a_connection_queue_y_n",
+        "last_updated",
+        "latitude",
+        "licence_area",
+        "local_authority",
+        "location_x_coordinate_eastings_where_data_is_held",
+        "location_y_coordinate_northings_where_data_is_held",
+        "longitude",
+        "maximum_export_capacity_mva",
+        "maximum_export_capacity_mw",
+        "maximum_import_capacity_mva",
+        "maximum_import_capacity_mw",
+        "point_of_connection_poc_voltage_kv",
+        "postcode",
+        "primary",
+        "primary_resource_type_group",
+        "reference",
+        "sitefunctionallocation",
+        "spatialcoordinates_customer",
+        "storage_capacity_1_mwh",
+        "storage_capacity_2_mwh",
+        "storage_capacity_3_mwh",
+        "storage_duration_1_hours",
+        "storage_duration_2_hours",
+        "storage_duration_3_hours",
+        "target_energisation_date",
+        "town_city",
+        "transmission_reinforcement_reference",
+        "transmission_service_provider_y_n"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-embedded-capacity-register-1-under-1mw",
+      "added": [],
+      "removed": [
+        "accepted_to_connect_registered_capacity_mw",
+        "address_line_1",
+        "address_line_2",
+        "already_connected_maximum_export_capacity_mva",
+        "already_connected_maximum_export_capacity_mw",
+        "already_connected_maximum_import_capacity_mva",
+        "already_connected_maximum_import_capacity_mw",
+        "already_connected_registered_capacity_mw",
+        "bulk_supply_point",
+        "change_to_maximum_export_capacity_mva",
+        "change_to_maximum_export_capacity_mw",
+        "change_to_maximum_import_capacity_mva",
+        "change_to_maximum_import_capacity_mw",
+        "chp_cogeneration_2_yes_no",
+        "chp_cogeneration_3_yes_no",
+        "chp_cogeneration_yes_no",
+        "connection_status",
+        "country",
+        "county",
+        "customer_name",
+        "customer_site",
+        "date_accepted",
+        "date_connected",
+        "distribution_reinforcement_reference",
+        "distribution_service_provider_y_n",
+        "energy_conversion_technology_1",
+        "energy_conversion_technology_2",
+        "energy_conversion_technology_3",
+        "energy_source_1",
+        "energy_source_2",
+        "energy_source_3",
+        "energy_source_energy_conversion_technology_1_registered_capacity_mw",
+        "energy_source_energy_conversion_technology_2_registered_capacity_mw",
+        "energy_source_energy_conversion_technology_3_registered_capacity_mw",
+        "export_mpan_msid",
+        "flexible_connection_yes_no",
+        "grid_supply_point",
+        "import_mpan_msid",
+        "in_a_connection_queue_y_n",
+        "last_updated",
+        "latitude",
+        "licence_area",
+        "location_x_coordinate_eastings_where_data_is_held",
+        "location_y_coordinate_northings_where_data_is_held",
+        "longitude",
+        "point_of_connection_poc_voltage_kv",
+        "postcode",
+        "primary",
+        "primary_resource_type_group",
+        "reference",
+        "sitefunctionallocation",
+        "spatial_coordinates",
+        "storage_capacity_1_mwh",
+        "storage_capacity_2_mwh",
+        "storage_capacity_3_mwh",
+        "storage_duration_1_hours",
+        "storage_duration_2_hours",
+        "storage_duration_3_hours",
+        "target_energisation_date",
+        "town_city",
+        "transmission_reinforcement_reference",
+        "transmission_service_provider_y_n"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-epn-area-operational-boundaries",
+      "added": [],
+      "removed": [
+        "geo_point_2d",
+        "geo_shape",
+        "ops_area"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-external-facing-tracker",
+      "added": [],
+      "removed": [
+        "dataset_title",
+        "description",
+        "estimated_actual_date_for_publication",
+        "id",
+        "link_to_dataset",
+        "link_to_triage",
+        "portal_status",
+        "raw_processed",
+        "refresh_rate",
+        "triage_outcome"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-flexibility-dispatches",
+      "added": [],
+      "removed": [
+        "availability_mw_req",
+        "availability_mwh_req",
+        "availability_price",
+        "company_name",
+        "dispatch_method",
+        "dispatch_type",
+        "end_time_local",
+        "end_time_utc",
+        "fu_id",
+        "hours_requested",
+        "product",
+        "start_time_local",
+        "start_time_utc",
+        "technology",
+        "time_utc",
+        "utilisation_mw_req",
+        "utilisation_mwh_req",
+        "utilisation_price",
+        "zone"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-flexibility-tender-data",
+      "added": [],
+      "removed": [
+        "competition_pot",
+        "flexibility_zone",
+        "geo_point",
+        "local_authority_code",
+        "local_authority_name",
+        "postcode",
+        "tender_round"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-grid-postcode-area",
+      "added": [],
+      "removed": [
+        "demand",
+        "demandrag",
+        "dno",
+        "firmcapacitysummer",
+        "firmcapacitywinter",
+        "geo_point_2d",
+        "geo_shape",
+        "grid_site",
+        "grid_site_floc",
+        "grid_supply_point",
+        "grid_supply_point_floc",
+        "seasonofconstraint"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-grid-supply-points",
+      "added": [],
+      "removed": [
+        "dno",
+        "geo_point_2d",
+        "geo_shape",
+        "grid_supply_point",
+        "grid_supply_point_floc"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-grid-transformer-operational-data-half-hourly",
+      "added": [],
+      "removed": [
+        "active_power_mw",
+        "current_amps",
+        "timestamp",
+        "tx_id"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-grid-transformer-operational-data-monthly",
+      "added": [],
+      "removed": [
+        "active_power_month_max_mw",
+        "active_power_month_mean_mw",
+        "active_power_month_min_mw",
+        "active_power_month_p05_mw",
+        "active_power_month_p10_mw",
+        "active_power_month_p50_mw",
+        "active_power_month_p90_mw",
+        "active_power_month_p95_mw",
+        "category",
+        "current_month_max_amps",
+        "current_month_mean_amps",
+        "current_month_min_amps",
+        "current_month_p05_amps",
+        "current_month_p10_amps",
+        "current_month_p50_amps",
+        "current_month_p90_amps",
+        "current_month_p95_amps",
+        "grid_supply_point",
+        "hv_ltds_node",
+        "licence_area",
+        "ltds_name",
+        "lv_ltds_node",
+        "nominal_voltage",
+        "redacted",
+        "timestamp",
+        "tx_description",
+        "tx_id"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-grid-transformers",
+      "added": [],
+      "removed": [
+        "dno",
+        "equipment",
+        "functionallocation",
+        "functionallocationname",
+        "make",
+        "model",
+        "onanrating_kva",
+        "operationalvoltage",
+        "primary_winding_voltage",
+        "reverse_power_capability",
+        "secondary_winding_voltage",
+        "sitedesc",
+        "sitefunctionallocation",
+        "sitetype",
+        "spatial_coordinates",
+        "tertiary_winding_voltage",
+        "type",
+        "what3words"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-gsp-insights",
+      "added": [],
+      "removed": [
+        "comment",
+        "dataset",
+        "gsp",
+        "gsp_for_internal_purposes",
+        "regulatory_year",
+        "units",
+        "value"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-gsp-narrative",
+      "added": [],
+      "removed": [
+        "gsp",
+        "narrative"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-gsp-project-status",
+      "added": [],
+      "removed": [
+        "gate_1",
+        "gate_2_phase_1",
+        "gate_2_phase_2",
+        "gate_2_protected_26_27",
+        "gsp",
+        "has_not_undergone_gated_process",
+        "measure",
+        "sortby",
+        "technology_type"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-hv-overhead-lines-shapefile",
+      "added": [],
+      "removed": [
+        "dno",
+        "geo_point_2d",
+        "geo_shape",
+        "local_authority"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-hv-poles",
+      "added": [],
+      "removed": [
+        "asset_ref",
+        "dno",
+        "geo_point_2d",
+        "geo_shape",
+        "id",
+        "local_authority",
+        "what3words"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-idno-areas",
+      "added": [],
+      "removed": [
+        "geo_point_2d",
+        "geometry_wkt_epsg4326"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-iis",
+      "added": [],
+      "removed": [
+        "cause_code",
+        "cont_cause_code",
+        "customers_restored",
+        "damage",
+        "ee_coding",
+        "ee_coding_only_for_additional_incidents",
+        "end_date_time",
+        "incident_count",
+        "incident_reference",
+        "incident_to_be_excluded_from_iis",
+        "licence_area",
+        "mei_code",
+        "regulatory_year",
+        "reinteruption_stage",
+        "restoration_stage",
+        "sitefunctionallocation",
+        "spatial_coordinates",
+        "start_date_time",
+        "substation",
+        "unique_identifier"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-large-demand-list",
+      "added": [],
+      "removed": [
+        "anonymised_name",
+        "application_date",
+        "demand_technology_type",
+        "grid_supply_point",
+        "licence_area",
+        "required_import_capacity_kva"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-large-embedded-power-stations",
+      "added": [],
+      "removed": [
+        "connection_status",
+        "contract_status",
+        "date_of_connection",
+        "date_of_non_firm_accelerated_connection",
+        "developer_capacity_mw",
+        "gsp",
+        "previously_offered_new_gsp",
+        "site_name",
+        "technology",
+        "type_of_contract",
+        "unique_nodd_id"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-licence-boundaries",
+      "added": [],
+      "removed": [
+        "geo_point_2d",
+        "geo_shape",
+        "landschlue",
+        "name"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-live-faults",
+      "added": [],
+      "removed": [
+        "creationdatetime",
+        "estimatedrestorationdate",
+        "fullpostcodedata",
+        "geopoint",
+        "incidentcategory",
+        "incidentcategorycustomerfriendlydescription",
+        "incidentdescription",
+        "incidentpriority",
+        "incidentreference",
+        "incidentscount",
+        "incidenttype",
+        "incidenttypename",
+        "incidenttypetbcestimatedfriendlydescription",
+        "mainmessage",
+        "message",
+        "nocallsreported",
+        "nocustomeraffected",
+        "noplannedcustomers",
+        "operatingzone",
+        "planneddate",
+        "plannedincidentreason",
+        "plannedincidents",
+        "postcodesaffected",
+        "powercuttype",
+        "receiveddate",
+        "restoreddatetime",
+        "restoredincidents",
+        "statusid",
+        "unplannedincidents"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-local-authorities",
+      "added": [],
+      "removed": [
+        "code",
+        "council_type",
+        "cty23cd",
+        "cty23nm",
+        "geo_point_2d",
+        "geo_shape",
+        "lad24cd",
+        "lad24nm",
+        "lad24nmw",
+        "name",
+        "rgn23cd",
+        "rgn23nm"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-low-carbon-technologies-lsoa",
+      "added": [],
+      "removed": [
+        "exportrating",
+        "geo_point",
+        "geo_shape",
+        "importrating",
+        "lct_connections",
+        "local_authority",
+        "local_authority_code",
+        "lsoa11nm",
+        "lsoa21cd",
+        "type"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-low-carbon-technologies-secondary",
+      "added": [],
+      "removed": [
+        "category",
+        "export",
+        "functionallocation",
+        "geopoint",
+        "import",
+        "latitude",
+        "lct_connections",
+        "licencearea",
+        "localauthority",
+        "longitude",
+        "primary_functionallocation",
+        "primaryfeeder",
+        "secondarysubstationalias",
+        "status",
+        "type"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-low-voltage-dnoa",
+      "added": [],
+      "removed": [
+        "area",
+        "constraint_year",
+        "deferred_transformer_size_kva",
+        "dnoa_result",
+        "floc",
+        "geopoint",
+        "sitefunctionallocation",
+        "tr11_flex_capacity_awarded_kw",
+        "tr11_flex_capacity_awarded_mw"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-lpn-area-operational-boundaries",
+      "added": [],
+      "removed": [
+        "geo_point_2d",
+        "geo_shape",
+        "ops_area"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-ltds-infrastructure-projects",
+      "added": [],
+      "removed": [
+        "asset_type_or_quantity",
+        "associated_gsp",
+        "connectivity_voltage",
+        "dno",
+        "expected_completion_year",
+        "expected_start_year",
+        "justification_for_the_need",
+        "local_authority",
+        "ltds_name",
+        "site_functional_location",
+        "source",
+        "spatial_coordinates",
+        "substation_or_circuit_ple_name",
+        "what3words"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-lv-overhead-lines-shapefile",
+      "added": [],
+      "removed": [
+        "dno",
+        "geo_point_2d",
+        "geo_shape",
+        "local_authority"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-lv-poles",
+      "added": [],
+      "removed": [
+        "dno",
+        "geo_point_2d",
+        "geo_shape",
+        "local_authority",
+        "what3words"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-modification-application",
+      "added": [],
+      "removed": [
+        "dno",
+        "geo_point_2d",
+        "gsp_s_where_applications_were_originally_made",
+        "longest_modapp_quoted_date_for_demand_project_offered",
+        "longest_modapp_quoted_date_for_demand_project_offered_then_cancelled",
+        "longest_modapp_quoted_date_for_demand_project_signed",
+        "most_recent_date_of_issue_for_longest_modapp_quoted_date_for_demand_project_offered",
+        "most_recent_date_of_issue_for_longest_modapp_quoted_date_for_demand_project_offered_then_cancelled",
+        "most_recent_date_of_issue_for_longest_modapp_quoted_date_for_demand_project_signed",
+        "new_node_triggered_for_demand",
+        "of_submitted_offers_at_gsp_awaiting_an_outcome",
+        "proposed_point_of_connection_gsp_from_modapp_outcome",
+        "site_functional_location"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-network-losses",
+      "added": [],
+      "removed": [
+        "date",
+        "dno",
+        "loss_r1",
+        "loss_r10",
+        "loss_r2",
+        "loss_r20",
+        "loss_r3",
+        "loss_r30",
+        "loss_regulatory_reporting",
+        "loss_regulatory_reporting0",
+        "loss_rf",
+        "loss_rf0",
+        "loss_sf",
+        "loss_sf0",
+        "units_entering_r1",
+        "units_entering_r2",
+        "units_entering_r3",
+        "units_entering_regulatory_reporting",
+        "units_entering_rf",
+        "units_entering_sf",
+        "units_exiting_r1",
+        "units_exiting_r2",
+        "units_exiting_r3",
+        "units_exiting_regulatory_reporting",
+        "units_exiting_rf",
+        "units_exiting_sf"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-network-statistics",
+      "added": [],
+      "removed": [
+        "132kv_ehv_cables_ohl",
+        "132kv_ehv_cables_ug",
+        "132kv_ehv_switchgear",
+        "132kv_ehv_transformers",
+        "area_size_sq_km",
+        "bridges",
+        "distribution_switchgear",
+        "grid_substation",
+        "hv_cables_overhead_lines",
+        "hv_cables_underground",
+        "licence_area",
+        "link_boxes",
+        "load_density",
+        "lv_cables_overhead_lines",
+        "lv_cables_underground",
+        "main_substations_grid_primary",
+        "no_of_customers",
+        "peak_demand",
+        "poles_total",
+        "primary_substation",
+        "scs_remote_control",
+        "secondary_substations_gm",
+        "secondary_substations_pm",
+        "secondary_transformers",
+        "secondary_transformers_gm",
+        "secondary_transformers_pm",
+        "towers_total",
+        "tunnels",
+        "y_poles_11kv",
+        "y_poles_132kv",
+        "y_poles_33kv",
+        "y_poles_lv",
+        "y_towers_132kv",
+        "y_towers_33kv",
+        "y_towers_66kv"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-overall-queue-insights",
+      "added": [],
+      "removed": [
+        "contracted_ders_mw",
+        "status",
+        "technology"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-power-quality",
+      "added": [],
+      "removed": [
+        "harmonic",
+        "highest",
+        "highestweek",
+        "latest",
+        "latestweek",
+        "phase",
+        "sitefunctionallocation",
+        "sitename",
+        "spatial_coordinates",
+        "transformerfunctionallocation"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-primary-transformer-power-flow-historic-half-hourly-epn",
+      "added": [],
+      "removed": [
+        "active_power_mw",
+        "current_amps",
+        "timestamp",
+        "tx_id"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-primary-transformer-power-flow-historic-half-hourly-spn",
+      "added": [],
+      "removed": [
+        "active_power_mw",
+        "current_amps",
+        "timestamp",
+        "tx_id"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-primary-transformer-power-flow-historic-monthly",
+      "added": [],
+      "removed": [
+        "active_power_month_max_mw",
+        "active_power_month_mean_mw",
+        "active_power_month_min_mw",
+        "active_power_month_p05_mw",
+        "active_power_month_p10_mw",
+        "active_power_month_p50_mw",
+        "active_power_month_p90_mw",
+        "active_power_month_p95_mw",
+        "category",
+        "current_month_max_amps",
+        "current_month_mean_amps",
+        "current_month_min_amps",
+        "current_month_p05_amps",
+        "current_month_p10_amps",
+        "current_month_p50_amps",
+        "current_month_p90_amps",
+        "current_month_p95_amps",
+        "grid_supply_point",
+        "hv_ltds_node",
+        "licence_area",
+        "ltds_name",
+        "lv_ltds_node",
+        "nominal_voltage",
+        "redacted",
+        "timestamp",
+        "tx_description",
+        "tx_id"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-primary-transformers",
+      "added": [],
+      "removed": [
+        "dno",
+        "equipment",
+        "functionallocation",
+        "functionallocationname",
+        "make",
+        "model",
+        "onanrating_kva",
+        "operationalvoltage",
+        "primary_winding_voltage",
+        "reverse_power_capability",
+        "secondary_winding_voltage",
+        "sitedesc",
+        "sitefunctionallocation",
+        "sitetype",
+        "spatial_coordinates",
+        "tertiary_winding_voltage",
+        "type",
+        "what3words"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-rota-load-disconnection",
+      "added": [],
+      "removed": [
+        "1"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-secondary-site-transformers",
+      "added": [],
+      "removed": [
+        "dno",
+        "equipment_class",
+        "equipment_number",
+        "geopoint",
+        "manufacturer",
+        "onanrating",
+        "opvolts",
+        "primarywinding",
+        "secondarysitefunctionallocation",
+        "secondarywinding",
+        "transformerfunctionallocation"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-secondary-site-utilisation",
+      "added": [],
+      "removed": [
+        "functionallocation",
+        "predicted_year_of_reinforcement",
+        "source",
+        "utilisation_band"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-secondary-sites",
+      "added": [],
+      "removed": [
+        "accessstreet",
+        "buildingaddress",
+        "buildingpostcode",
+        "buildinguprn",
+        "companyarea",
+        "confinedspace",
+        "customer_count",
+        "demand_headroom",
+        "dno",
+        "functionallocation",
+        "geopoint",
+        "gridref",
+        "indooroutdoor",
+        "latitude",
+        "llsoacode",
+        "llsoaname",
+        "localauthority",
+        "localauthoritycode",
+        "longitude",
+        "numberoftransformers",
+        "onanrating",
+        "parishcode",
+        "parishname",
+        "postcode",
+        "predicted_year_of_reinforcement",
+        "primaryfeeder",
+        "primaryfeederfunctionallocation",
+        "source",
+        "substationalias",
+        "substationdesign",
+        "substationvoltage",
+        "utilisation_band",
+        "what3words"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-sensitivity-factors-export",
+      "added": [],
+      "removed": [
+        "branch",
+        "grid_supply_point",
+        "is_zero",
+        "node_name",
+        "sensitivity_factor"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-sensitivity-factors-import",
+      "added": [],
+      "removed": [
+        "branch",
+        "grid_supply_point",
+        "is_zero",
+        "node_name",
+        "sensitivity_factor"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-smart-meter-consumption-lv-feeder",
+      "added": [],
+      "removed": [
+        "aggregated_device_count_active",
+        "aggregated_device_count_reactive",
+        "data_collection_log_timestamp",
+        "dataset_id",
+        "dno",
+        "dno_alias",
+        "geopoint",
+        "insert_time",
+        "last_modified_time",
+        "lv_feeder_id",
+        "primary_consumption_active_import",
+        "secondary_consumption_active_import",
+        "secondary_substation_id",
+        "total_consumption_active_import",
+        "total_consumption_reactive_import"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-smart-meter-consumption-substation",
+      "added": [],
+      "removed": [
+        "aggregated_device_count_active",
+        "aggregated_device_count_reactive",
+        "data_collection_log_timestamp",
+        "dataset_id",
+        "dno",
+        "dno_alias",
+        "geopoint",
+        "insert_time",
+        "last_modified_time",
+        "primary_consumption_active_import",
+        "secondary_consumption_active_import",
+        "secondary_substation_id",
+        "total_consumption_active_import",
+        "total_consumption_reactive_import"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-smart-meter-installation-volumes",
+      "added": [],
+      "removed": [
+        "geo_point",
+        "geo_shape",
+        "la_district_code",
+        "la_district_name",
+        "local_authority",
+        "local_authority_code",
+        "local_authority_geo_shape",
+        "not_smart",
+        "percentage_smart",
+        "smart"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-spn-area-operational-boundaries",
+      "added": [],
+      "removed": [
+        "geo_point_2d",
+        "geo_shape",
+        "ops_bounda"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-standard-profiles-electricity-demand",
+      "added": [],
+      "removed": [
+        "commercial",
+        "datacentre",
+        "domestic",
+        "ev_charging",
+        "industrial",
+        "network_rail",
+        "non_variable",
+        "solar_and_storage",
+        "solar_and_wind_and_storage",
+        "storage",
+        "timestamp"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-standard-technology-profiles-generation",
+      "added": [],
+      "removed": [
+        "gas_large",
+        "gas_small",
+        "non_variable",
+        "solar",
+        "solar_and_storage",
+        "solar_and_wind",
+        "solar_and_wind_and_storage",
+        "storage",
+        "timestamp",
+        "wind"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-super-grid-transformer",
+      "added": [],
+      "removed": [
+        "activepower_avg",
+        "activepower_max",
+        "activepower_min",
+        "current_avg",
+        "current_max",
+        "current_min",
+        "date",
+        "gsp",
+        "reactivepower_avg",
+        "reactivepower_max",
+        "reactivepower_min",
+        "sgt",
+        "voltage_avg",
+        "voltage_max",
+        "voltage_min"
+      ]
+    },
+    {
+      "dataset_id": "ukpn-wide-planning-status",
+      "added": [],
+      "removed": [
+        "contracted_ders_mw",
+        "generation_type",
+        "status"
+      ]
+    },
+    {
+      "dataset_id": "ukpn_primary_postcode_area",
+      "added": [],
+      "removed": [
+        "demand",
+        "demandrag",
+        "dno",
+        "firmcapacitysummer",
+        "firmcapacitywinter",
+        "geo_point_2d",
+        "geo_shape",
+        "grid_site",
+        "grid_site_floc",
+        "grid_supply_point",
+        "grid_supply_point_floc",
+        "operational_zone",
+        "primary",
+        "primary_floc",
+        "seasonofconstraint"
+      ]
+    },
+    {
+      "dataset_id": "ukpn_secondary_postcode_area",
+      "added": [],
+      "removed": [
+        "customer_count",
+        "demand_headroom",
+        "dno",
+        "geo_point_2d",
+        "geo_shape",
+        "onanrating",
+        "predicted_year_of_reinforcement",
+        "sitefunctionallocation",
+        "sitefunctionallocationclean",
+        "source",
+        "utilisation_band"
+      ]
     }
   ],
-  "breaking_field_changes": 1
+  "breaking_field_changes": 96
 }

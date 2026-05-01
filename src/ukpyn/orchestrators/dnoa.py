@@ -20,7 +20,12 @@ Usage:
 from typing import Any
 
 from ..models import RecordListResponse
-from .base import BaseOrchestrator, _install_module_repr, sync_pair
+from .base import (
+    BaseOrchestrator,
+    _install_module_repr,
+    sync_pair,
+    validate_licence_area_abbrev,
+)
 from .registry import DNOA_DATASETS
 
 
@@ -60,7 +65,8 @@ class DNOAOrchestrator(BaseOrchestrator):
         where_clauses = []
 
         if licence_area is not None:
-            where_clauses.append(f"licence_area = '{licence_area}'")
+            licence_area = validate_licence_area_abbrev(licence_area)
+            where_clauses.append(f"area = '{licence_area}'")
 
         where = " AND ".join(where_clauses) if where_clauses else None
 
