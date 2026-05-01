@@ -259,6 +259,101 @@ class TestGetDataset:
         assert result.metas is not None
 
 
+class TestGetFacets:
+    """Tests for get_facets method."""
+
+    @pytest.mark.asyncio
+    async def test_get_facets_success(
+        self,
+        httpx_mock: HTTPXMock,
+    ) -> None:
+        """Test successful retrieval of facets."""
+        httpx_mock.add_response(
+            json={
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "https://ukpowernetworks.opendatasoft.com/api/explore/v2.1/catalog/datasets/test-dataset/facets",
+                    },
+                ],
+                "facets": [
+                    {
+                        "name": "licence_area",
+                        "facets": [
+                            {
+                                "name": "Eastern Power Networks (EPN)",
+                                "count": 500,
+                                "state": "displayed",
+                                "value": "Eastern Power Networks (EPN)",
+                            },
+                            {
+                                "name": "London Power Networks (LPN)",
+                                "count": 300,
+                                "state": "displayed",
+                                "value": "London Power Networks (LPN)",
+                            },
+                        ],
+                    },
+                    {
+                        "name": "voltage",
+                        "facets": [
+                            {
+                                "name": "132kV",
+                                "count": 200,
+                                "state": "displayed",
+                                "value": "132kV",
+                            },
+                        ],
+                    },
+                ],
+            }
+        )
+
+        async with UKPNClient(api_key=TEST_API_KEY) as client:
+            result = await client.get_facets("test-dataset")
+
+        assert len(result.facets) == 2
+        assert result.facets[0].name == "licence_area"
+        assert len(result.facets[0].facets) == 2
+        assert result.facets[0].facets[0].name == "Eastern Power Networks (EPN)"
+        assert result.facets[0].facets[0].count == 500
+        assert result.facets[1].name == "voltage"
+        assert len(result.links) == 1
+
+    @pytest.mark.asyncio
+    async def test_get_facets_empty(
+        self,
+        httpx_mock: HTTPXMock,
+    ) -> None:
+        """Test facets response with no facet groups."""
+        httpx_mock.add_response(
+            json={
+                "links": [],
+                "facets": [],
+            }
+        )
+
+        async with UKPNClient(api_key=TEST_API_KEY) as client:
+            result = await client.get_facets("test-dataset")
+
+        assert len(result.facets) == 0
+
+    @pytest.mark.asyncio
+    async def test_get_facets_not_found(
+        self,
+        httpx_mock: HTTPXMock,
+    ) -> None:
+        """Test facets for nonexistent dataset raises NotFoundError."""
+        httpx_mock.add_response(
+            json={"message": "Dataset not found"},
+            status_code=404,
+        )
+
+        async with UKPNClient(api_key=TEST_API_KEY) as client:
+            with pytest.raises(NotFoundError):
+                await client.get_facets("nonexistent-dataset")
+
+
 class TestErrorHandling:
     """Tests for error handling."""
 

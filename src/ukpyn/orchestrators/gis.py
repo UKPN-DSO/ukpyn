@@ -3,7 +3,7 @@
 import json
 from typing import Any, Literal
 
-from ..models import RecordListResponse, _ensure_z, _strip_z
+from ..models import FacetListResponse, RecordListResponse, _ensure_z, _strip_z
 from .base import (
     BaseOrchestrator,
     _install_module_repr,
@@ -450,6 +450,21 @@ def export_geojson(
 
 # Available datasets for this orchestrator
 available_datasets: list[str] = list(GEO_DATASETS.keys())
+
+
+def get_facets(dataset: str) -> FacetListResponse:
+    """
+    Get facet values for a GIS dataset.
+
+    Convenience function using the default orchestrator.
+
+    Args:
+        dataset: Dataset name
+
+    Returns:
+        FacetListResponse containing facet groups and their values.
+    """
+    return _get_geo_instance().get_facets(dataset)
 
 
 __all__ = [
