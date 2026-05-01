@@ -244,6 +244,7 @@ def export(
 # List of available datasets for easy reference
 available_datasets: list[str] = list(DFES_DATASETS.keys())
 
+
 def get_facets(dataset: str) -> FacetListResponse:
     """
     Get facet values for a DFES dataset.

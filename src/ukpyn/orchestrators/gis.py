@@ -476,6 +476,7 @@ __all__ = [
     # Module-level convenience functions
     "get",
     "get_async",
+    "get_facets",
     "get_primary_substations",
     "get_secondary_sites",
     "get_overhead_lines",

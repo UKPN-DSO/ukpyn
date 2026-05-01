@@ -205,6 +205,7 @@ def export(
 # List of available datasets for easy discovery
 available_datasets: list[str] = list(DNOA_DATASETS.keys())
 
+
 def get_facets(dataset: str) -> FacetListResponse:
     """
     Get facet values for a DNOA dataset.
