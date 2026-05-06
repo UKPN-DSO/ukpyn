@@ -9,6 +9,7 @@ from ukpyn.exceptions import AuthenticationError
 def test_config_defaults(monkeypatch) -> None:
     """Config uses package defaults when not overridden."""
     monkeypatch.delenv(API_KEY_ENV_VAR, raising=False)
+    monkeypatch.setattr("ukpyn.config.load_dotenv", lambda: None)
 
     config = Config()
 
@@ -49,6 +50,7 @@ def test_config_base_url_trailing_slash_removed() -> None:
 def test_headers_without_api_key(monkeypatch) -> None:
     """Headers omit Authorization when key is not configured."""
     monkeypatch.delenv(API_KEY_ENV_VAR, raising=False)
+    monkeypatch.setattr("ukpyn.config.load_dotenv", lambda: None)
     config = Config()
 
     headers = config.get_headers()
@@ -70,6 +72,7 @@ def test_headers_with_api_key() -> None:
 def test_empty_api_key_not_considered_configured(monkeypatch) -> None:
     """Empty API key should not be considered configured."""
     monkeypatch.delenv(API_KEY_ENV_VAR, raising=False)
+    monkeypatch.setattr("ukpyn.config.load_dotenv", lambda: None)
     config = Config(api_key="")
 
     assert config.has_api_key is False
@@ -79,7 +82,7 @@ def test_empty_api_key_not_considered_configured(monkeypatch) -> None:
 def test_check_api_key_raises_when_missing(monkeypatch) -> None:
     """check_api_key raises AuthenticationError when key is not set."""
     monkeypatch.delenv(API_KEY_ENV_VAR, raising=False)
-    monkeypatch.setattr("dotenv.load_dotenv", lambda: None)
+    monkeypatch.setattr("ukpyn.config.load_dotenv", lambda: None)
 
     with pytest.raises(AuthenticationError, match="UKPN_API_KEY"):
         check_api_key()
@@ -90,3 +93,19 @@ def test_check_api_key_passes_when_set(monkeypatch) -> None:
     monkeypatch.setenv(API_KEY_ENV_VAR, "test-key")
 
     check_api_key()  # should not raise
+
+
+def test_config_reads_api_key_from_dotenv(monkeypatch) -> None:
+    """Config loads API key from a local .env before building headers."""
+    monkeypatch.delenv(API_KEY_ENV_VAR, raising=False)
+
+    def fake_load_dotenv() -> None:
+        monkeypatch.setenv(API_KEY_ENV_VAR, "dotenv-key")
+
+    monkeypatch.setattr("ukpyn.config.load_dotenv", fake_load_dotenv)
+
+    config = Config()
+
+    assert config.api_key == "dotenv-key"
+    assert config.has_api_key is True
+    assert config.get_headers()["Authorization"] == "Apikey dotenv-key"
