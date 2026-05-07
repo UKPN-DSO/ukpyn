@@ -109,6 +109,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+          git pull --rebase origin main
+
           git add pyproject.toml
           git commit -m "chore(release): v${{ steps.version.outputs.new_version }} [skip ci]"
           git push origin HEAD:main
