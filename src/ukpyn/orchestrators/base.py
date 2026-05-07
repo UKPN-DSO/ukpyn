@@ -8,7 +8,7 @@ from typing import Any, TypeVar
 
 from ..client import UKPNClient
 from ..config import Config
-from ..models import Dataset, RecordListResponse
+from ..models import Dataset, FacetListResponse, RecordListResponse
 
 T = TypeVar("T")
 
@@ -321,6 +321,18 @@ class BaseOrchestrator:
     ) -> bytes:
         """Synchronous wrapper for export_async."""
         return _run_sync(self.export_async(dataset, format=format, **kwargs))
+
+    async def get_facets_async(self, dataset: str) -> FacetListResponse:
+        """Get facet values for a dataset asynchronously."""
+        dataset_id = self.resolve_dataset_id(dataset)
+        client = self._get_client()
+
+        async with client:
+            return await client.get_facets(dataset_id)
+
+    def get_facets(self, dataset: str) -> FacetListResponse:
+        """Synchronous wrapper for get_facets_async."""
+        return _run_sync(self.get_facets_async(dataset))
 
     async def get_metadata_async(self, dataset: str) -> Dataset:
         """Get dataset metadata asynchronously."""

@@ -30,7 +30,7 @@ Usage:
 
 from typing import Any, Literal
 
-from ..models import RecordListResponse
+from ..models import FacetListResponse, RecordListResponse
 from .base import BaseOrchestrator, _install_module_repr, sync_pair
 from .registry import POWERFLOW_DATASETS
 
@@ -885,6 +885,21 @@ def get_half_hourly_timeseries(
         debug=debug,
         **kwargs,
     )
+
+
+def get_facets(dataset: str) -> FacetListResponse:
+    """
+    Get facet values for a powerflow dataset.
+
+    Convenience function using the default orchestrator.
+
+    Args:
+        dataset: Dataset name
+
+    Returns:
+        FacetListResponse containing facet groups and their values.
+    """
+    return _get_orchestrator().get_facets(dataset)
 
 
 _install_module_repr(__name__, "PowerflowOrchestrator", POWERFLOW_DATASETS)
