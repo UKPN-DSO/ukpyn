@@ -16,7 +16,7 @@ Usage:
 
 from typing import Any
 
-from ..models import RecordListResponse
+from ..models import FacetListResponse, RecordListResponse
 from ..registry import DER_DATASETS
 from .base import _install_module_repr
 from .resources import ResourcesOrchestrator
@@ -153,6 +153,21 @@ def export(
         Raw bytes of the exported data
     """
     return _get_orchestrator().export(dataset, format=format, **kwargs)
+
+
+def get_facets(dataset: str) -> FacetListResponse:
+    """
+    Get facet values for a DER dataset.
+
+    Convenience function using the default orchestrator.
+
+    Args:
+        dataset: Dataset name
+
+    Returns:
+        FacetListResponse containing facet groups and their values.
+    """
+    return _get_orchestrator().get_facets(dataset)
 
 
 available_datasets: list[str] = list(DER_DATASETS.keys())

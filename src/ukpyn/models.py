@@ -525,6 +525,18 @@ class FacetGroup(BaseModel):
     facets: list[Facet] = Field(default_factory=list)
 
 
+class FacetListResponse(BaseModel):
+    """Response from the dataset facets endpoint."""
+
+    facets: list[FacetGroup] = Field(default_factory=list)
+    links: list[Link] = Field(default_factory=list)
+
+    def summary(self) -> str:
+        """Return a concise, human-readable summary of this facet response."""
+        groups = ", ".join(fg.name for fg in self.facets)
+        return f"FacetListResponse(groups=[{groups}])"
+
+
 class ErrorResponse(BaseModel):
     """API error response model."""
 

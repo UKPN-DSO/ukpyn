@@ -18,6 +18,7 @@ from .models import (
     Dataset,
     DatasetListResponse,
     DatasetResponse,
+    FacetListResponse,
     RecordListResponse,
 )
 
@@ -278,6 +279,30 @@ class UKPNClient:
         data = await self._request("GET", f"/catalog/datasets/{dataset_id}")
         response = DatasetResponse(**data)
         return response.dataset
+
+    async def get_facets(
+        self,
+        dataset_id: str,
+    ) -> FacetListResponse:
+        """
+        Get facet values for a dataset.
+
+        Returns the available facet fields and their values, useful for
+        discovering filterable categories before querying records.
+
+        Args:
+            dataset_id: The dataset identifier.
+
+        Returns:
+            FacetListResponse containing facet groups and their values.
+
+        Raises:
+            NotFoundError: If the dataset does not exist.
+        """
+        data = await self._request(
+            "GET", f"/catalog/datasets/{dataset_id}/facets"
+        )
+        return FacetListResponse(**data)
 
     async def get_records(
         self,

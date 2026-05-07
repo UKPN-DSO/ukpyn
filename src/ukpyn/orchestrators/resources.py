@@ -19,7 +19,7 @@ Usage:
 
 from typing import Any
 
-from ..models import RecordListResponse
+from ..models import FacetListResponse, RecordListResponse
 from ..registry import RESOURCES_DATASETS
 from .base import BaseOrchestrator, _install_module_repr, sync_pair
 
@@ -305,6 +305,21 @@ def export(
             f.write(csv_data)
     """
     return _get_orchestrator().export(dataset, format=format, **kwargs)
+
+
+def get_facets(dataset: str) -> FacetListResponse:
+    """
+    Get facet values for a resources dataset.
+
+    Convenience function using the default orchestrator.
+
+    Args:
+        dataset: Dataset name
+
+    Returns:
+        FacetListResponse containing facet groups and their values.
+    """
+    return _get_orchestrator().get_facets(dataset)
 
 
 _install_module_repr(__name__, "ResourcesOrchestrator", RESOURCES_DATASETS)
