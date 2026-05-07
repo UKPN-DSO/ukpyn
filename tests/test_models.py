@@ -623,9 +623,7 @@ class TestRecordGeometry:
 
     def test_geometry_from_geo_point_2d_dict(self) -> None:
         """lat/lon dict in geo_point_2d is converted to GeoJSON Point."""
-        record = Record(
-            id="r1", fields={"geo_point_2d": {"lat": 51.5, "lon": -0.1}}
-        )
+        record = Record(id="r1", fields={"geo_point_2d": {"lat": 51.5, "lon": -0.1}})
         assert record.geometry == {
             "type": "Point",
             "coordinates": [-0.1, 51.5],
@@ -633,9 +631,7 @@ class TestRecordGeometry:
 
     def test_geometry_from_geopoint_dict(self) -> None:
         """lat/lon dict in geopoint is converted to GeoJSON Point."""
-        record = Record(
-            id="r1", fields={"geopoint": {"lat": 51.5, "lon": -0.1}}
-        )
+        record = Record(id="r1", fields={"geopoint": {"lat": 51.5, "lon": -0.1}})
         assert record.geometry == {
             "type": "Point",
             "coordinates": [-0.1, 51.5],
@@ -643,9 +639,7 @@ class TestRecordGeometry:
 
     def test_geometry_from_geo_point(self) -> None:
         """lat/lon dict in geo_point is converted to GeoJSON Point."""
-        record = Record(
-            id="r1", fields={"geo_point": {"lat": 51.5, "lon": -0.1}}
-        )
+        record = Record(id="r1", fields={"geo_point": {"lat": 51.5, "lon": -0.1}})
         assert record.geometry == {
             "type": "Point",
             "coordinates": [-0.1, 51.5],

@@ -299,9 +299,7 @@ class UKPNClient:
         Raises:
             NotFoundError: If the dataset does not exist.
         """
-        data = await self._request(
-            "GET", f"/catalog/datasets/{dataset_id}/facets"
-        )
+        data = await self._request("GET", f"/catalog/datasets/{dataset_id}/facets")
         return FacetListResponse(**data)
 
     async def get_records(
