@@ -2,6 +2,8 @@
 
 import os
 
+from dotenv import load_dotenv
+
 # API Base URL constant
 BASE_URL: str = "https://ukpowernetworks.opendatasoft.com"
 
@@ -13,6 +15,11 @@ DEFAULT_TIMEOUT: int = 30
 
 # Environment variable name for API key
 API_KEY_ENV_VAR: str = "UKPN_API_KEY"
+
+
+def load_environment() -> None:
+    """Load variables from a local .env file into the process environment."""
+    load_dotenv()
 
 
 def check_api_key() -> None:
@@ -29,13 +36,7 @@ def check_api_key() -> None:
     Raises:
         AuthenticationError: If no API key is found.
     """
-    # Best-effort .env loading so callers don't need to do it themselves.
-    try:
-        from dotenv import load_dotenv
-
-        load_dotenv()
-    except ImportError:  # python-dotenv is optional
-        pass
+    load_environment()
 
     if not os.getenv(API_KEY_ENV_VAR):
         from .exceptions import AuthenticationError
@@ -67,6 +68,7 @@ class Config:
             base_url: Base URL for the API. Defaults to UK Power Networks OpenDataSoft URL.
             timeout: Request timeout in seconds. Defaults to 30.
         """
+        load_environment()
         self._api_key = api_key or os.getenv(API_KEY_ENV_VAR)
         self._base_url = base_url.rstrip("/")
         self._timeout = timeout
