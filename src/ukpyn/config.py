@@ -15,6 +15,22 @@ DEFAULT_TIMEOUT: int = 30
 API_KEY_ENV_VAR: str = "UKPN_API_KEY"
 
 
+def _load_dotenv() -> None:
+    """Best-effort ``.env`` loader.
+
+    Attempts to load environment variables from a ``.env`` file using
+    *python-dotenv* when it is available.  Silently skips if the package is
+    not installed so that runtime usage without the optional dev dependency is
+    unaffected.
+    """
+    try:
+        from dotenv import load_dotenv
+
+        load_dotenv()
+    except ImportError:  # python-dotenv is optional
+        pass
+
+
 def check_api_key() -> None:
     """Verify that an API key is available.
 
@@ -29,13 +45,7 @@ def check_api_key() -> None:
     Raises:
         AuthenticationError: If no API key is found.
     """
-    # Best-effort .env loading so callers don't need to do it themselves.
-    try:
-        from dotenv import load_dotenv
-
-        load_dotenv()
-    except ImportError:  # python-dotenv is optional
-        pass
+    _load_dotenv()
 
     if not os.getenv(API_KEY_ENV_VAR):
         from .exceptions import AuthenticationError
@@ -67,6 +77,8 @@ class Config:
             base_url: Base URL for the API. Defaults to UK Power Networks OpenDataSoft URL.
             timeout: Request timeout in seconds. Defaults to 30.
         """
+        if api_key is None:
+            _load_dotenv()
         self._api_key = api_key or os.getenv(API_KEY_ENV_VAR)
         self._base_url = base_url.rstrip("/")
         self._timeout = timeout

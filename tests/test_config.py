@@ -79,7 +79,7 @@ def test_empty_api_key_not_considered_configured(monkeypatch) -> None:
 def test_check_api_key_raises_when_missing(monkeypatch) -> None:
     """check_api_key raises AuthenticationError when key is not set."""
     monkeypatch.delenv(API_KEY_ENV_VAR, raising=False)
-    monkeypatch.setattr("dotenv.load_dotenv", lambda: None)
+    monkeypatch.setattr("ukpyn.config._load_dotenv", lambda: None)
 
     with pytest.raises(AuthenticationError, match="UKPN_API_KEY"):
         check_api_key()
@@ -90,3 +90,19 @@ def test_check_api_key_passes_when_set(monkeypatch) -> None:
     monkeypatch.setenv(API_KEY_ENV_VAR, "test-key")
 
     check_api_key()  # should not raise
+
+
+def test_config_reads_api_key_from_dotenv(monkeypatch) -> None:
+    """Config loads API key from .env file via _load_dotenv when env var is absent."""
+    monkeypatch.delenv(API_KEY_ENV_VAR, raising=False)
+
+    def fake_load_dotenv() -> None:
+        monkeypatch.setenv(API_KEY_ENV_VAR, "dotenv-key")
+
+    monkeypatch.setattr("ukpyn.config._load_dotenv", fake_load_dotenv)
+
+    config = Config()
+
+    assert config.api_key == "dotenv-key"
+    assert config.has_api_key is True
+    assert config.get_headers()["Authorization"] == "Apikey dotenv-key"
