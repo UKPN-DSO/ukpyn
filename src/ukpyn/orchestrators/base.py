@@ -244,6 +244,8 @@ class BaseOrchestrator:
         entries = ", ".join(f"'{k}': '{v}'" for k, v in self.DATASETS.items())
         return f"{name}(datasets={{{entries}}})"
 
+    _PAGE_SIZE: int = 100  # ODS API max records per request
+
     async def get_async(
         self,
         dataset: str,
@@ -257,9 +259,13 @@ class BaseOrchestrator:
         """
         Get records from a dataset asynchronously.
 
+        Automatically paginates when *limit* exceeds the API page size
+        (100 records per request).  Set ``limit=-1`` to fetch **all**
+        matching records.
+
         Args:
             dataset: Friendly name or dataset ID
-            limit: Max records to return
+            limit: Max records to return (``-1`` for all)
             offset: Pagination offset
             where: ODSQL filter expression
             select: Fields to include
@@ -271,17 +277,59 @@ class BaseOrchestrator:
         """
         dataset_id = self.resolve_dataset_id(dataset)
         client = self._get_client()
+        page_size = self._PAGE_SIZE
+        fetch_all = limit == -1
+
+        # Fast path: single page is enough
+        if not fetch_all and limit <= page_size:
+            async with client:
+                return await client.get_records(
+                    dataset_id=dataset_id,
+                    limit=limit,
+                    offset=offset,
+                    where=where,
+                    select=select,
+                    order_by=order_by,
+                    **kwargs,
+                )
+
+        # Multi-page fetch
+        all_records: list[Any] = []
+        total_count = 0
+        current_offset = offset
 
         async with client:
-            return await client.get_records(
-                dataset_id=dataset_id,
-                limit=limit,
-                offset=offset,
-                where=where,
-                select=select,
-                order_by=order_by,
-                **kwargs,
-            )
+            while True:
+                remaining = limit - len(all_records) if not fetch_all else page_size
+                page_limit = min(page_size, remaining)
+
+                page = await client.get_records(
+                    dataset_id=dataset_id,
+                    limit=page_limit,
+                    offset=current_offset,
+                    where=where,
+                    select=select,
+                    order_by=order_by,
+                    **kwargs,
+                )
+
+                if current_offset == offset:
+                    total_count = page.total_count
+
+                all_records.extend(page.records)
+
+                # Stop if this page was short (no more data) or we hit the limit
+                if len(page.records) < page_limit:
+                    break
+                if not fetch_all and len(all_records) >= limit:
+                    break
+
+                current_offset += len(page.records)
+
+        return RecordListResponse(
+            total_count=total_count,
+            records=all_records,
+        )
 
     def get(
         self,
