@@ -141,10 +141,6 @@ class PowerflowOrchestrator(BaseOrchestrator):
         if end_date is not None:
             where_parts.append(f"timestamp <= '{end_date}'")
 
-        if feeder_description is not None:
-            escaped = feeder_description.replace('"', '\\"')
-            where_parts.append(f'search(feeder_description, "{escaped}")')
-
         where_clause = " AND ".join(where_parts) if where_parts else None
 
         # Get user-provided WHERE clause, but strip empty/whitespace-only values
