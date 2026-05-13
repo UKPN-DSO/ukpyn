@@ -82,7 +82,7 @@ jobs:
             See `.github/unmanaged-datasets-report.md` for full details.
 
       - name: Create issue for breaking field changes
-        if: steps.sync.outputs.breaking_field_changes > 0
+        if: steps.sync.outputs.breaking_field_changes != '0' && steps.sync.outputs.breaking_field_changes != ''
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         env:
           MAINTAINERS: JamieMBright

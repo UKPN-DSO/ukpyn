@@ -128,7 +128,7 @@ class PowerflowOrchestrator(BaseOrchestrator):
         where_parts = []
 
         if circuit_id is not None:
-            where_parts.append(f"circuit_id = '{circuit_id}'")
+            where_parts.append(f"ltds_line_name = '{circuit_id}'")
 
         # Only filter by licence_area if the dataset has that field
         # Area-specific datasets (e.g., 33kv_half_hourly_epn) don't have it
@@ -731,6 +731,7 @@ def get_circuit_timeseries(
     licence_area: str | None = None,
     start_date: str | None = None,
     end_date: str | None = None,
+    feeder_description: str | None = None,
     limit: int = 1000,
     **kwargs: Any,
 ) -> RecordListResponse:
@@ -752,6 +753,7 @@ def get_circuit_timeseries(
         licence_area=licence_area,
         start_date=start_date,
         end_date=end_date,
+        feeder_description=feeder_description,
         limit=limit,
         **kwargs,
     )

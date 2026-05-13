@@ -95,7 +95,7 @@ class DFESOrchestrator(BaseOrchestrator):
             where_clauses.append(f"scenario = '{safe_scenario}'")
 
         if year is not None:
-            where_clauses.append(f"year = {year}")
+            where_clauses.append(f"year = date'{year}'")
 
         # Combine with existing where clause if provided
         existing_where = kwargs.pop("where", None)

@@ -120,6 +120,32 @@ geojson_bytes = gis.export_geojson("hv_overhead_lines", dimensions="3d")
 geojson_bytes = gis.export_geojson("hv_overhead_lines", dimensions="raw")
 ```
 
+## Pagination and `limit=-1`
+
+The UKPN API returns a maximum of **100 records per request**. ukpyn handles
+pagination automatically — just set the `limit` you need:
+
+```python
+from ukpyn import dfes
+
+# Fetch up to 500 records (ukpyn pages behind the scenes)
+data = dfes.get("by_local_authority", where="lad22nm = 'Southwark'", limit=500)
+
+# Fetch ALL matching records
+data = dfes.get("by_local_authority", where="lad22nm = 'Southwark'", limit=-1)
+
+print(f"Returned {len(data.records)} of {data.total_count} total")
+```
+
+| `limit` value | Behaviour |
+|---|---|
+| `1`–`100` | Single API request (fast path) |
+| `> 100` | Auto-paginates in 100-record pages until `limit` is reached |
+| `-1` | Fetches **every** matching record (use with a filter to avoid huge downloads) |
+
+This works for every orchestrator method that accepts `limit`, including
+convenience methods like `get_headroom(limit=-1)` and the generic `get()`.
+
 ## Practical beginner workflow
 
 1. Pick one orchestrator tied to your question.
