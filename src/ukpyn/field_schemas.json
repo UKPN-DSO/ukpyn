@@ -2,9 +2,12 @@
   "dfes-network-headroom-report": [
     "bulksupplypoint",
     "category",
+    "demand_rag",
     "gridsupplypoint",
     "headroom_mw",
+    "headroom_percent",
     "licencearea",
+    "physical_level",
     "scenario",
     "sitefunctionallocation",
     "spatial_coordinates",
@@ -26,7 +29,6 @@
     "maxdemandwinter",
     "measuredresistance_ohm",
     "next_assessmentdate",
-    "parish",
     "postcode",
     "powertransformercount",
     "reversepower",
@@ -157,6 +159,7 @@
     "minimum_load_scaling_factor",
     "season",
     "substation",
+    "substation_mrid",
     "unutilised_capacity_percent"
   ],
   "ltds-table-3a-load-data-observed-transposed": [
@@ -166,8 +169,6 @@
     "id",
     "licencearea",
     "load",
-    "maximum_demand_24_25_mw",
-    "maximum_demand_24_25_pf",
     "minimum_load_scaling_factor",
     "season",
     "substation",
@@ -231,7 +232,8 @@
     "licencearea",
     "sitefunctionallocation",
     "spatial_coordinates",
-    "substation"
+    "substation",
+    "substation_mrid"
   ],
   "ltds-table-6-interest-connections": [
     "demand_numbers_received_total_capacity",
@@ -312,7 +314,8 @@
     "dno",
     "geo_point_2d",
     "geo_shape",
-    "local_authority"
+    "local_authority",
+    "voltage"
   ],
   "ukpn-132kv-poles-towers": [
     "asset_ref",
@@ -372,7 +375,8 @@
     "geo_point_2d",
     "geo_shape",
     "id",
-    "local_authority"
+    "local_authority",
+    "voltage"
   ],
   "ukpn-33kv-poles-towers": [
     "dno",
@@ -474,7 +478,6 @@
   "ukpn-curtailment-events-site-specific": [
     "average_access_reduction_kw",
     "der_name",
-    "der_name_act",
     "driver",
     "duration_hours",
     "end_time_local",
@@ -491,11 +494,14 @@
   "ukpn-data-best-practice-live-maturity": [
     "avg_percent_score_23_24",
     "avg_percent_score_24_25",
+    "avg_percent_score_25_26",
     "maturity_23_24",
     "maturity_24_25",
+    "maturity_25_26",
     "ofgem_target",
     "percent_score_23_24",
     "percent_score_24_25",
+    "percent_score_25_26",
     "principle",
     "short_description"
   ],
@@ -512,7 +518,6 @@
     "lad22cd",
     "lad22nm",
     "licence_area",
-    "lsoa21cd",
     "number_of_bev_buses",
     "number_of_bev_coaches",
     "number_of_bev_hgvs",
@@ -566,11 +571,12 @@
     "dnoa_result_history_2023",
     "dnoa_result_history_2024",
     "dnoa_result_history_2025",
-    "flexibility_procurement_2024_25",
-    "flexibility_procurement_2025_26",
+    "dnoa_result_history_2026",
     "flexibility_procurement_2026_27",
     "flexibility_procurement_2027_28",
     "flexibility_procurement_2028_29",
+    "flexibility_procurement_2029_30",
+    "flexibility_procurement_2030_31",
     "functional_location",
     "postcode",
     "site",
@@ -729,11 +735,9 @@
     "ops_area"
   ],
   "ukpn-external-facing-tracker": [
-    "dataset_title",
     "description",
     "estimated_actual_date_for_publication",
     "id",
-    "link_to_dataset",
     "link_to_triage",
     "portal_status",
     "raw_processed",
@@ -874,7 +878,8 @@
     "dno",
     "geo_point_2d",
     "geo_shape",
-    "local_authority"
+    "local_authority",
+    "voltage"
   ],
   "ukpn-hv-poles": [
     "asset_ref",
@@ -1017,11 +1022,11 @@
     "constraint_year",
     "deferred_transformer_size_kva",
     "dnoa_result",
-    "floc",
     "geopoint",
-    "sitefunctionallocation",
-    "tr11_flex_capacity_awarded_kw",
-    "tr11_flex_capacity_awarded_mw"
+    "secondary_site_functional_location",
+    "tr13_flex_capacity_awarded_kw",
+    "tr13_flex_capacity_awarded_mw",
+    "transformer_functional_location"
   ],
   "ukpn-lpn-area-operational-boundaries": [
     "geo_point_2d",

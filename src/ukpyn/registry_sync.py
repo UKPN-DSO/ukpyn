@@ -47,11 +47,14 @@ class SyncResult:
     new_dataset_ids: list[str]
     unmanaged_dataset_ids: list[str]
     field_changes: list[FieldChange] = ()
+    deleted_dataset_ids: list[str] = ()
 
     def __post_init__(self) -> None:
         # frozen dataclass workaround: coerce tuple default to list
-        if isinstance(self.field_changes, tuple):
-            object.__setattr__(self, "field_changes", list(self.field_changes))
+        for attr in ("field_changes", "deleted_dataset_ids"):
+            val = getattr(self, attr)
+            if isinstance(val, tuple):
+                object.__setattr__(self, attr, list(val))
 
 
 def fetch_metadata_csv(url: str) -> str:
@@ -274,23 +277,46 @@ def load_field_schemas(schema_path: Path) -> dict[str, list[str]]:
     return json.loads(text)
 
 
-async def fetch_live_schemas(dataset_ids: Iterable[str]) -> dict[str, list[str]]:
-    """Fetch field names for each dataset ID from the live ODP API."""
+async def fetch_live_schemas(
+    dataset_ids: Iterable[str],
+) -> tuple[dict[str, list[str]], list[str], list[str]]:
+    """Fetch field names for each dataset ID from the live ODP API.
+
+    Returns a 3-tuple of ``(schemas, not_found, failed)``:
+
+    * *schemas* — successfully fetched datasets (may include empty field lists
+      for datasets that genuinely have no fields).
+    * *not_found* — dataset IDs that returned a 404 (deleted from ODP).
+    * *failed* — dataset IDs that hit a transient/unexpected error.
+    """
     from .client import UKPNClient
+    from .exceptions import NotFoundError
 
     schemas: dict[str, list[str]] = {}
     unique_ids = sorted(set(dataset_ids))
+    not_found: list[str] = []
+    failed: list[str] = []
 
     async with UKPNClient() as client:
         for dataset_id in unique_ids:
             try:
                 dataset = await client.get_dataset(dataset_id)
                 schemas[dataset_id] = sorted(dataset.field_ids)
-            except Exception:
-                # Dataset may have been removed from ODP; skip it
-                schemas[dataset_id] = []
+            except NotFoundError:
+                not_found.append(dataset_id)
+                print(f"WARNING: dataset deleted from ODP: {dataset_id}")
+            except Exception as exc:  # noqa: BLE001
+                failed.append(dataset_id)
+                print(f"WARNING: failed to fetch schema for {dataset_id}: {exc}")
 
-    return dict(sorted(schemas.items()))
+    if not_found:
+        print(
+            f"DELETED: {len(not_found)}/{len(unique_ids)} datasets no longer exist on ODP"
+        )
+    if failed:
+        print(f"WARNING: {len(failed)}/{len(unique_ids)} dataset schema fetches failed")
+
+    return dict(sorted(schemas.items())), sorted(not_found), sorted(failed)
 
 
 def diff_field_schemas(
@@ -369,6 +395,28 @@ def render_field_changes_report(changes: list[FieldChange]) -> str:
     return "\n".join(lines)
 
 
+def render_deleted_datasets_report(deleted_ids: list[str]) -> str:
+    """Render a markdown section listing datasets deleted from ODP."""
+    if not deleted_ids:
+        return ""
+
+    lines = [
+        "",
+        "## Deleted datasets detected",
+        "",
+        "The following datasets have been **removed** from ODP (404 Not Found).",
+        "Any orchestrators, tutorials, or registry entries referencing these",
+        "datasets need to be updated or removed.",
+        "",
+    ]
+    for dataset_id in deleted_ids:
+        targets = suggest_update_targets(dataset_id)
+        target_str = ", ".join(f"`{t}`" for t in targets)
+        lines.append(f"- **{dataset_id}** — check {target_str}")
+
+    return "\n".join(lines)
+
+
 def build_issue_report(new_dataset_ids: list[str], titles: dict[str, str]) -> str:
     """Build markdown issue body with findings and triage instructions."""
     now = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")
@@ -425,11 +473,14 @@ def build_full_report(
     new_dataset_ids: list[str],
     titles: dict[str, str],
     field_changes: list[FieldChange] | None = None,
+    deleted_dataset_ids: list[str] | None = None,
 ) -> str:
     """Build combined issue report with dataset + field change sections."""
     report = build_issue_report(new_dataset_ids, titles)
     if field_changes:
         report += "\n" + render_field_changes_report(field_changes)
+    if deleted_dataset_ids:
+        report += "\n" + render_deleted_datasets_report(deleted_dataset_ids)
     return report
 
 
@@ -466,23 +517,49 @@ def synchronize_registry(
 
     # --- Field schema audit ---
     field_changes: list[FieldChange] = []
+    deleted_ids: list[str] = []
+    stored: dict[str, list[str]] = {}
     if schema_path is not None:
         stored = load_field_schemas(schema_path)
         if stored:
             print(f"Fetching live field schemas for {len(stored)} datasets...")
-            live_schemas = asyncio.run(fetch_live_schemas(stored.keys()))
-            field_changes = diff_field_schemas(stored, live_schemas)
-            if field_changes:
-                update_field_snapshot(schema_path, live_schemas, stored)
-                print(f"Schema snapshot updated: {schema_path}")
+            live_schemas, deleted_ids, _failed = asyncio.run(
+                fetch_live_schemas(stored.keys())
+            )
+
+            # Safety check: if most datasets returned empty fields while
+            # stored has data, the API is probably down.
+            fetched_count = len(live_schemas)
+            if fetched_count == 0:
+                print("ERROR: all live schema fetches failed, skipping field audit.")
             else:
-                print("No field schema changes detected.")
+                empty_live = sum(
+                    1
+                    for did in live_schemas
+                    if not live_schemas[did] and stored.get(did)
+                )
+                if empty_live > 0 and empty_live / max(fetched_count, 1) > 0.5:
+                    print(
+                        f"ERROR: {empty_live}/{fetched_count} datasets returned "
+                        f"empty fields while stored snapshot has data. "
+                        f"Possible API outage — aborting field audit."
+                    )
+                else:
+                    field_changes = diff_field_schemas(stored, live_schemas)
+                    if field_changes:
+                        update_field_snapshot(schema_path, live_schemas, stored)
+                        print(f"Schema snapshot updated: {schema_path}")
+                    else:
+                        print("No field schema changes detected.")
         else:
             print(f"WARNING: {schema_path} is empty or missing, skipping field audit.")
 
+    # Collect deleted dataset IDs (only from field schema audit)
+    deleted = deleted_ids if schema_path is not None and stored else []
+
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text(
-        build_full_report(new_ids, metadata_titles, field_changes),
+        build_full_report(new_ids, metadata_titles, field_changes, deleted),
         encoding="utf-8",
     )
 
@@ -499,6 +576,8 @@ def synchronize_registry(
             for c in field_changes
         ],
         "breaking_field_changes": sum(1 for c in field_changes if c.removed),
+        "deleted_dataset_ids": deleted,
+        "deleted_count": len(deleted),
     }
     json_output_path.parent.mkdir(parents=True, exist_ok=True)
     json_output_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
@@ -508,6 +587,7 @@ def synchronize_registry(
         new_dataset_ids=new_ids,
         unmanaged_dataset_ids=merged_unmanaged,
         field_changes=field_changes,
+        deleted_dataset_ids=deleted,
     )
 
 
@@ -577,6 +657,11 @@ def main() -> int:
         print(f"breaking_field_changes={len(breaking)}")
         for change in breaking:
             print(f"  BREAKING: {change.dataset_id} removed={change.removed}")
+
+    if result.deleted_dataset_ids:
+        print(f"deleted_datasets={len(result.deleted_dataset_ids)}")
+        for did in result.deleted_dataset_ids:
+            print(f"  DELETED: {did}")
 
     return 0
 

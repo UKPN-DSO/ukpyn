@@ -45,6 +45,7 @@ jobs:
               fh.write(f"new_dataset_ids={','.join(payload['new_dataset_ids'])}\n")
               fh.write(f"breaking_field_changes={payload.get('breaking_field_changes', 0)}\n")
               fh.write(f"field_changes={len(payload.get('field_changes', []))}\n")
+              fh.write(f"deleted_count={payload.get('deleted_count', 0)}\n")
           PY
 
       - name: Create pull request for registry updates
@@ -118,6 +119,43 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `ODP BREAKING: ${breaking.length} dataset(s) with removed fields (${now})`,
+              body,
+              labels: ['bug', 'schema-change'],
+            });
+
+      - name: Create issue for deleted datasets
+        if: steps.sync.outputs.deleted_count != '0' && steps.sync.outputs.deleted_count != ''
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        env:
+          MAINTAINERS: JamieMBright
+        with:
+          script: |
+            const fs = require('fs');
+            const now = new Date().toISOString().slice(0, 10);
+            const payload = JSON.parse(fs.readFileSync('.github/unmanaged-datasets.json', 'utf8'));
+            const deleted = payload.deleted_dataset_ids || [];
+            const maintainers = process.env.MAINTAINERS || 'JamieMBright';
+
+            let body = `## Deleted datasets detected\n\n`;
+            body += `Audit run: ${now}\n\n`;
+            body += `**${deleted.length}** dataset(s) have been **removed** from ODP (404 Not Found).\n`;
+            body += `Any orchestrators, registry entries, tutorials, or field schemas referencing\n`;
+            body += `these datasets need to be updated or removed.\n\n`;
+
+            for (const id of deleted) {
+              body += `- \`${id}\`\n`;
+            }
+
+            body += `\n## Action required\n`;
+            body += `- Remove the dataset from \`field_schemas.json\`\n`;
+            body += `- Remove or update any registry entries in \`dataset_registry.py\`\n`;
+            body += `- Update affected orchestrators, tests, and tutorials\n`;
+            body += `\n## Review ownership\n- Maintainers: ${maintainers}\n`;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `ODP DELETED: ${deleted.length} dataset(s) removed from ODP (${now})`,
               body,
               labels: ['bug', 'schema-change'],
             });
