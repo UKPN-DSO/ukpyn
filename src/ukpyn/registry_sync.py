@@ -310,7 +310,9 @@ async def fetch_live_schemas(
                 print(f"WARNING: failed to fetch schema for {dataset_id}: {exc}")
 
     if not_found:
-        print(f"DELETED: {len(not_found)}/{len(unique_ids)} datasets no longer exist on ODP")
+        print(
+            f"DELETED: {len(not_found)}/{len(unique_ids)} datasets no longer exist on ODP"
+        )
     if failed:
         print(f"WARNING: {len(failed)}/{len(unique_ids)} dataset schema fetches failed")
 
@@ -532,7 +534,8 @@ def synchronize_registry(
                 print("ERROR: all live schema fetches failed, skipping field audit.")
             else:
                 empty_live = sum(
-                    1 for did in live_schemas
+                    1
+                    for did in live_schemas
                     if not live_schemas[did] and stored.get(did)
                 )
                 if empty_live > 0 and empty_live / max(fetched_count, 1) > 0.5:
