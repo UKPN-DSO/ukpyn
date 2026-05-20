@@ -92,7 +92,7 @@ async def test_powerflow_where_merge_and_order_override(monkeypatch) -> None:
     )
 
     assert calls[0]["dataset"] == "132kv_half_hourly"
-    assert calls[0]["where"] == "(licence_area = 'EPN') AND (circuit_id = 'C-1')"
+    assert calls[0]["where"] == "(licence_area = 'EPN') AND (ltds_line_name = 'C-1')"
     assert calls[0]["order_by"] == "custom"
     assert calls[1]["dataset"] == "primary_monthly"
     assert calls[1]["where"] == "(licence_area = 'LPN') AND (transformer_id = 'T-1')"

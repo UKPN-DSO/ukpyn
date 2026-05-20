@@ -110,7 +110,7 @@ async def test_dfes_get_headroom_async_combines_where(monkeypatch) -> None:
 
     assert captured["dataset"] == "headroom"
     assert captured["where"] == (
-        "scenario = 'Leading the Way' AND year = 2035 AND licence_area = 'EPN'"
+        "scenario = 'Leading the Way' AND year = date'2035' AND licence_area = 'EPN'"
     )
     assert captured["order_by"] == "year"
 
