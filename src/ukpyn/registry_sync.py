@@ -275,20 +275,29 @@ def load_field_schemas(schema_path: Path) -> dict[str, list[str]]:
 
 
 async def fetch_live_schemas(dataset_ids: Iterable[str]) -> dict[str, list[str]]:
-    """Fetch field names for each dataset ID from the live ODP API."""
+    """Fetch field names for each dataset ID from the live ODP API.
+
+    Datasets that fail to fetch are **omitted** from the returned dict
+    so that callers can distinguish "API returned zero fields" from
+    "we couldn't reach the API".
+    """
     from .client import UKPNClient
 
     schemas: dict[str, list[str]] = {}
     unique_ids = sorted(set(dataset_ids))
+    failed: list[str] = []
 
     async with UKPNClient() as client:
         for dataset_id in unique_ids:
             try:
                 dataset = await client.get_dataset(dataset_id)
                 schemas[dataset_id] = sorted(dataset.field_ids)
-            except Exception:
-                # Dataset may have been removed from ODP; skip it
-                schemas[dataset_id] = []
+            except Exception as exc:  # noqa: BLE001
+                failed.append(dataset_id)
+                print(f"WARNING: failed to fetch schema for {dataset_id}: {exc}")
+
+    if failed:
+        print(f"WARNING: {len(failed)}/{len(unique_ids)} dataset schema fetches failed")
 
     return dict(sorted(schemas.items()))
 
@@ -471,12 +480,32 @@ def synchronize_registry(
         if stored:
             print(f"Fetching live field schemas for {len(stored)} datasets...")
             live_schemas = asyncio.run(fetch_live_schemas(stored.keys()))
-            field_changes = diff_field_schemas(stored, live_schemas)
-            if field_changes:
-                update_field_snapshot(schema_path, live_schemas, stored)
-                print(f"Schema snapshot updated: {schema_path}")
+
+            # Safety check: if most datasets failed to fetch (not in live_schemas),
+            # the diff would falsely show nothing.  If most that *were* fetched
+            # came back empty while stored had fields, something went wrong.
+            fetched_count = len(live_schemas)
+            stored_count = len(stored)
+            if fetched_count == 0:
+                print("ERROR: all live schema fetches failed, skipping field audit.")
             else:
-                print("No field schema changes detected.")
+                empty_live = sum(
+                    1 for did in live_schemas
+                    if not live_schemas[did] and stored.get(did)
+                )
+                if empty_live > 0 and empty_live / max(fetched_count, 1) > 0.5:
+                    print(
+                        f"ERROR: {empty_live}/{fetched_count} datasets returned "
+                        f"empty fields while stored snapshot has data. "
+                        f"Possible API outage — aborting field audit."
+                    )
+                else:
+                    field_changes = diff_field_schemas(stored, live_schemas)
+                    if field_changes:
+                        update_field_snapshot(schema_path, live_schemas, stored)
+                        print(f"Schema snapshot updated: {schema_path}")
+                    else:
+                        print("No field schema changes detected.")
         else:
             print(f"WARNING: {schema_path} is empty or missing, skipping field audit.")
 
