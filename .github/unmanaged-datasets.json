@@ -3,5 +3,9 @@
   "new_count": 0,
   "registry_changed": false,
   "field_changes": [],
-  "breaking_field_changes": 0
+  "breaking_field_changes": 0,
+  "deleted_dataset_ids": [
+    "ukpn-dfes-peak-demand-scenarios"
+  ],
+  "deleted_count": 1
 }
