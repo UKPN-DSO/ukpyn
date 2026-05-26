@@ -1,7 +1,7 @@
 ## ODP metadata audit findings
 
 Detected **0** new dataset(s) not currently managed in the registry.
-Audit run: 2026-05-20 09:07 UTC
+Audit run: 2026-05-26 07:31 UTC
 
 <!-- unmanaged-datasets: -->
 
@@ -28,11 +28,3 @@ the new data, and open a PR into `dev` with maintainers assigned for review.
 
 ## Context
 The registry now includes these entries in auto-generated `UNMANAGED_DATASETS` for visibility until fully integrated.
-
-## Deleted datasets detected
-
-The following datasets have been **removed** from ODP (404 Not Found).
-Any orchestrators, tutorials, or registry entries referencing these
-datasets need to be updated or removed.
-
-- **ukpn-dfes-peak-demand-scenarios** — check `src/ukpyn/orchestrators/dfes.py`
