@@ -1,11 +1,9 @@
 {
   "new_dataset_ids": [],
   "new_count": 0,
-  "registry_changed": false,
+  "registry_changed": true,
   "field_changes": [],
   "breaking_field_changes": 0,
-  "deleted_dataset_ids": [
-    "ukpn-dfes-peak-demand-scenarios"
-  ],
-  "deleted_count": 1
+  "deleted_dataset_ids": [],
+  "deleted_count": 0
 }
