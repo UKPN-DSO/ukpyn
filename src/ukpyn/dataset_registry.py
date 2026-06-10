@@ -51,6 +51,10 @@ LTDS_DATASETS: dict[str, str] = {
     # Infrastructure projects - 5-year development plans
     "projects": "ukpn-ltds-infrastructure-projects",
     "infrastructure_projects": "ukpn-ltds-infrastructure-projects",
+    # Capacity Heatmap - available capacity, constraints, and connection activity
+    "capacity_heatmap": "ukpn-capacity-heatmap",
+    "heatmap": "ukpn-capacity-heatmap",
+    "ltds_capacity_heatmap": "ukpn-capacity-heatmap",
     # CIM - IEC Common Information Model network representation
     "cim": "ukpn-ltds-cim",
 }

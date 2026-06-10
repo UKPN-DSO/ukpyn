@@ -207,6 +207,12 @@ async def test_ltds_async_where_builders_for_high_impact_tables(monkeypatch) -> 
     await orchestrator.get_projects_async(
         local_authority="Cambridge", expected_start_year=2024
     )
+    await orchestrator.get_capacity_heatmap_async(
+        licence_area="London Power Networks (LPN)",
+        substation="Battersea",
+        demand_constraint="Red",
+        generation_constraint="Amber",
+    )
     await orchestrator.get_cim_async(licence_area="LPN")
 
     assert calls[0]["dataset"] == "table_5"
@@ -216,8 +222,13 @@ async def test_ltds_async_where_builders_for_high_impact_tables(monkeypatch) -> 
     assert calls[2]["dataset"] == "projects"
     assert "local_authority LIKE '%Cambridge%'" in str(calls[2]["where"])
     assert "expected_start_year = 2024" in str(calls[2]["where"])
-    assert calls[3]["dataset"] == "cim"
-    assert calls[3].get("refine") is None
+    assert calls[3]["dataset"] == "capacity_heatmap"
+    assert calls[3]["refine"] == {"area": "LPN"}
+    assert "name LIKE '%Battersea%'" in str(calls[3]["where"])
+    assert "demandconstraint='Red'" in str(calls[3]["where"])
+    assert "generationconstraint='Amber'" in str(calls[3]["where"])
+    assert calls[4]["dataset"] == "cim"
+    assert calls[4].get("refine") is None
 
 
 @pytest.mark.parametrize(
@@ -234,6 +245,7 @@ async def test_ltds_async_where_builders_for_high_impact_tables(monkeypatch) -> 
         "get_table_6",
         "get_table_7",
         "get_table_8",
+        "get_capacity_heatmap",
         "get_projects",
         "get_cim",
     ],
@@ -274,5 +286,6 @@ def test_ltds_module_specific_functions_delegate(monkeypatch) -> None:
     assert ltds.get_table_6(limit=1)[0] == "get_table_6"
     assert ltds.get_table_7(limit=1)[0] == "get_table_7"
     assert ltds.get_table_8(limit=1)[0] == "get_table_8"
+    assert ltds.get_capacity_heatmap(limit=1)[0] == "get_capacity_heatmap"
     assert ltds.get_projects(limit=1)[0] == "get_projects"
     assert ltds.get_cim(limit=1)[0] == "get_cim"

@@ -45,6 +45,19 @@ def _merge_where(built: str | None, extra: str | None) -> str | None:
     return " AND ".join(parts)
 
 
+def _resolve_heatmap_area(value: str | None) -> str | None:
+    """Normalize a licence area to the Capacity Heatmap area code."""
+    if value is None:
+        return None
+
+    stripped = value.strip()
+    upper = stripped.upper()
+    for area_code in ("EPN", "LPN", "SPN"):
+        if upper == area_code or f"({area_code})" in upper:
+            return area_code
+    return stripped
+
+
 class LTDSOrchestrator(BaseOrchestrator):
     """
     Orchestrator for LTDS (Long Term Development Statement) datasets.
@@ -66,6 +79,7 @@ class LTDSOrchestrator(BaseOrchestrator):
         - table_7: Operational restrictions
         - table_8: Fault data (>95th percentile)
         - projects: Infrastructure development projects
+        - capacity_heatmap: Available capacity and constraints by substation
         - cim: IEC Common Information Model representation
     """
 
@@ -508,6 +522,70 @@ class LTDSOrchestrator(BaseOrchestrator):
 
         return await self.get_async(
             dataset="projects",
+            limit=limit,
+            offset=offset,
+            refine=refine if refine else None,
+            where=where,
+            **kwargs,
+        )
+
+    # -------------------------------------------------------------------------
+    # Capacity Heatmap
+    # -------------------------------------------------------------------------
+
+    @sync_pair
+    async def get_capacity_heatmap_async(
+        self,
+        licence_area: str | None = None,
+        substation: str | None = None,
+        demand_constraint: str | None = None,
+        generation_constraint: str | None = None,
+        limit: int = 100,
+        offset: int = 0,
+        **kwargs: Any,
+    ) -> RecordListResponse:
+        """
+        Get LTDS Capacity Heatmap data asynchronously.
+
+        The Capacity Heatmap provides a standardised view of available demand
+        and generation capacity, constraints, and recent connection activity at
+        primary substations.
+
+        Args:
+            licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
+            substation: Filter by substation name
+            demand_constraint: Filter by demand RAG status (e.g., 'Green')
+            generation_constraint: Filter by generation RAG status (e.g., 'Red')
+            limit: Maximum records to return (default 100)
+            offset: Pagination offset
+            **kwargs: Additional query parameters
+
+        Returns:
+            RecordListResponse containing Capacity Heatmap records
+        """
+        refine = {}
+        where_clauses: list[str] = []
+
+        if licence_area is not None:
+            refine["area"] = _resolve_heatmap_area(licence_area)
+
+        if substation is not None:
+            _sub = substation.replace("'", "''")
+            where_clauses.append(f"name LIKE '%{_sub}%'")
+
+        if demand_constraint is not None:
+            _constraint = demand_constraint.replace("'", "''")
+            where_clauses.append(f"demandconstraint='{_constraint}'")
+
+        if generation_constraint is not None:
+            _constraint = generation_constraint.replace("'", "''")
+            where_clauses.append(f"generationconstraint='{_constraint}'")
+
+        built_where = " AND ".join(where_clauses) if where_clauses else None
+        where = _merge_where(built_where, kwargs.pop("where", None))
+
+        return await self.get_async(
+            dataset="capacity_heatmap",
             limit=limit,
             offset=offset,
             refine=refine if refine else None,
@@ -1090,6 +1168,44 @@ def get_cim(
     """
     return _get_orchestrator().get_cim(
         licence_area=licence_area,
+        limit=limit,
+        **kwargs,
+    )
+
+
+def get_capacity_heatmap(
+    licence_area: str | None = None,
+    substation: str | None = None,
+    demand_constraint: str | None = None,
+    generation_constraint: str | None = None,
+    limit: int = 100,
+    **kwargs: Any,
+) -> RecordListResponse:
+    """
+    Get LTDS Capacity Heatmap data.
+
+    Convenience function using the default orchestrator.
+
+    Args:
+        licence_area: Filter by licence area (e.g., 'EPN', 'SPN', 'LPN')
+        substation: Filter by substation name
+        demand_constraint: Filter by demand RAG status (e.g., 'Green')
+        generation_constraint: Filter by generation RAG status (e.g., 'Red')
+        limit: Maximum records to return
+        **kwargs: Additional query parameters
+
+    Returns:
+        RecordListResponse containing Capacity Heatmap records
+
+    Example:
+        from ukpyn import ltds
+        heatmap = ltds.get_capacity_heatmap(licence_area='EPN')
+    """
+    return _get_orchestrator().get_capacity_heatmap(
+        licence_area=licence_area,
+        substation=substation,
+        demand_constraint=demand_constraint,
+        generation_constraint=generation_constraint,
         limit=limit,
         **kwargs,
     )
