@@ -36,6 +36,10 @@ class TestLTDSDatasetsMapping:
         """Test that infrastructure_projects is in LTDS datasets."""
         assert "infrastructure_projects" in LTDS_DATASETS
 
+    def test_ltds_datasets_contains_capacity_heatmap(self) -> None:
+        """Test that capacity_heatmap is in LTDS datasets."""
+        assert "capacity_heatmap" in LTDS_DATASETS
+
     def test_table_3a_and_observed_peak_demand_same_id(self) -> None:
         """Test that table_3a and observed_peak_demand map to same dataset ID."""
         assert LTDS_DATASETS["table_3a"] == LTDS_DATASETS["observed_peak_demand"]
@@ -43,6 +47,15 @@ class TestLTDSDatasetsMapping:
     def test_projects_and_infrastructure_projects_same_id(self) -> None:
         """Test that projects and infrastructure_projects map to same dataset ID."""
         assert LTDS_DATASETS["projects"] == LTDS_DATASETS["infrastructure_projects"]
+
+    def test_capacity_heatmap_aliases_same_id(self) -> None:
+        """Test that capacity heatmap aliases map to same dataset ID."""
+        assert LTDS_DATASETS["capacity_heatmap"] == "ukpn-capacity-heatmap"
+        assert LTDS_DATASETS["heatmap"] == LTDS_DATASETS["capacity_heatmap"]
+        assert (
+            LTDS_DATASETS["ltds_capacity_heatmap"]
+            == LTDS_DATASETS["capacity_heatmap"]
+        )
 
     def test_orchestrator_uses_ltds_datasets(self) -> None:
         """Test that LTDSOrchestrator uses LTDS_DATASETS mapping."""
@@ -104,6 +117,25 @@ class TestGetTable3aFunctionExists:
         assert hasattr(orchestrator, "get_projects")
         assert callable(orchestrator.get_projects)
 
+    def test_get_capacity_heatmap_function_exists(self) -> None:
+        """Test that ltds.get_capacity_heatmap function exists."""
+        assert hasattr(ltds, "get_capacity_heatmap")
+        assert callable(ltds.get_capacity_heatmap)
+
+    def test_orchestrator_has_get_capacity_heatmap_method(self) -> None:
+        """Test that LTDSOrchestrator has get_capacity_heatmap method."""
+        orchestrator = LTDSOrchestrator(api_key=TEST_API_KEY)
+
+        assert hasattr(orchestrator, "get_capacity_heatmap")
+        assert callable(orchestrator.get_capacity_heatmap)
+
+    def test_orchestrator_has_get_capacity_heatmap_async_method(self) -> None:
+        """Test that LTDSOrchestrator has get_capacity_heatmap_async method."""
+        orchestrator = LTDSOrchestrator(api_key=TEST_API_KEY)
+
+        assert hasattr(orchestrator, "get_capacity_heatmap_async")
+        assert callable(orchestrator.get_capacity_heatmap_async)
+
 
 class TestAvailableDatasets:
     """Tests for LTDS available_datasets."""
@@ -117,6 +149,7 @@ class TestAvailableDatasets:
         """Test that available_datasets contains expected dataset names."""
         assert "table_3a" in ltds.available_datasets
         assert "projects" in ltds.available_datasets
+        assert "capacity_heatmap" in ltds.available_datasets
 
     def test_orchestrator_available_datasets(self) -> None:
         """Test that LTDSOrchestrator.available_datasets works."""
@@ -127,6 +160,7 @@ class TestAvailableDatasets:
         assert isinstance(result, list)
         assert "table_3a" in result
         assert "projects" in result
+        assert "capacity_heatmap" in result
 
     def test_available_datasets_matches_orchestrator(self) -> None:
         """Test that module and orchestrator available_datasets match."""
