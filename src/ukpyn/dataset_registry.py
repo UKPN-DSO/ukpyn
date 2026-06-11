@@ -375,3 +375,26 @@ ALL_DATASETS: dict[str, str] = {
     **APPENDIX_G_DATASETS,
     **REFERENCE_DATASETS,
 }
+
+# =============================================================================
+# Domain mapping for filtering
+# =============================================================================
+DOMAIN_MAP: dict[str, dict[str, str]] = {
+    "ltds": LTDS_DATASETS,
+    "dfes": DFES_DATASETS,
+    "dnoa": DNOA_DATASETS,
+    "network_stats": NETWORK_STATS_DATASETS,
+    "powerflow": POWERFLOW_DATASETS,
+    "flexibility": FLEXIBILITY_DATASETS,
+    "curtailment": CURTAILMENT_DATASETS,
+    "ders": DER_DATASETS,
+    "gis": GEO_DATASETS,
+    "equipment": EQUIPMENT_DATASETS,
+    "connections": CONNECTIONS_DATASETS,
+    "operations": OPERATIONS_DATASETS,
+    "sensitivity": SENSITIVITY_DATASETS,
+    "smart": SMART_LCT_DATASETS,
+    "profiles": PROFILES_DATASETS,
+    "appendix_g": APPENDIX_G_DATASETS,
+    "reference": REFERENCE_DATASETS,
+}
