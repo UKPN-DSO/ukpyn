@@ -5,7 +5,8 @@ from __future__ import annotations
 import argparse
 import asyncio
 
-from . import UKPNClient, __version__
+from . import __version__
+from .dataset_registry import ALL_DATASETS, DOMAIN_MAP
 
 
 def _handle_fetch(args, parser):
@@ -24,16 +25,21 @@ async def _handle_list(args, parser):
         parser.print_help()
         return 0
     if args.list_target == "datasets":
-        client = UKPNClient()
         if args.domain:
-            print(args.domain)
+            if args.domain in DOMAIN_MAP:
+                domain_filtered_datasets = DOMAIN_MAP[args.domain].values()
+                print("\n".join(sorted(domain_filtered_datasets)))
+            else:
+                valid_domains = ", ".join(sorted(DOMAIN_MAP.keys()))
+                print(
+                    f"Invalid domain provided: '{args.domain}'. Please use a valid domain: {valid_domains}"
+                )
         else:
-            resp = await client.list_datasets()
-            all_datasets = [(item.dataset.dataset_id, item.dataset.metas.default['title']) for item in resp.datasets]
-            formatted_datasets_info = '\n'.join(f"{id}: {title}" for id, title in all_datasets)
-            print(formatted_datasets_info)
+            all_datasets = set(ALL_DATASETS.values())
+            print("\n".join(sorted(all_datasets)))
     elif args.list_target == "domains":
-        print("Listing domains")
+        all_domains = DOMAIN_MAP.keys()
+        print("\n".join(sorted(all_domains)))
     return 0
 
 
@@ -56,15 +62,24 @@ def build_parser() -> argparse.ArgumentParser:
     # -- Fetch --
     fetch_parser = subparsers.add_parser("fetch", help="Fetch records from a dataset")
 
-    fetch_parser.add_argument("dataset", nargs="?", help="Name of the dataset (e.g dispatches, table_3a)")
-    fetch_parser.add_argument("--output", help="Saves the dataset to a file inferred from the extension (.csv, .json)")
+    fetch_parser.add_argument(
+        "dataset", nargs="?", help="Name of the dataset (e.g dispatches, table_3a)"
+    )
+    fetch_parser.add_argument(
+        "--output",
+        help="Saves the dataset to a file inferred from the extension (.csv, .json)",
+    )
     fetch_parser.set_defaults(func=_handle_fetch, parser=fetch_parser)
 
     # -- List --
-    list_parser = subparsers.add_parser("list", help="Lists all available datasets or domains")
+    list_parser = subparsers.add_parser(
+        "list", help="Lists all available datasets or domains"
+    )
     list_subparsers = list_parser.add_subparsers(dest="list_target")
 
-    list_datasets_parser = list_subparsers.add_parser("datasets", help="Lists all available datasets")
+    list_datasets_parser = list_subparsers.add_parser(
+        "datasets", help="Lists all available datasets"
+    )
     list_datasets_parser.add_argument("--domain", help="Filter by domain, e.g ltds")
 
     list_subparsers.add_parser("domains", help="Lists all available domains")
@@ -98,7 +113,7 @@ def main(argv: list[str] | None = None) -> int:
     """Run the ukpyn CLI."""
     parser = build_parser()
     args = parser.parse_args(argv)
-    
+
     if args.command == "version":
         print(__version__)
         return 0
