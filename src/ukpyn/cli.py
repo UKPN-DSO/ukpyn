@@ -5,9 +5,8 @@ from __future__ import annotations
 import argparse
 import asyncio
 
-from . import __version__
+from . import EXPORT_FORMATS, UKPNClient, __version__
 from .dataset_registry import ALL_DATASETS, DOMAIN_MAP
-from . import UKPNClient
 
 
 async def _handle_fetch(args, parser):
@@ -21,18 +20,30 @@ async def _handle_fetch(args, parser):
         parser.print_help()
         return 0
 
-    output = args.output.strip(".")
-    VALID_EXTENSIONS = ["csv", "json"]
-    if output not in VALID_EXTENSIONS:
-        print(f"An invalid extension was provided: {output}. Please use a valid extensions: {', '.join(VALID_EXTENSIONS)}")
-        parser.print_help()
+    client = UKPNClient()
+    output = args.output
+    if output:
+        output = output.strip(".")
+        if output not in EXPORT_FORMATS:
+            print(f"An invalid extension was provided: {output}. Please use a valid extensions: {', '.join(EXPORT_FORMATS)}")
+            parser.print_help()
+            return 0
+
+        output_filename = f"{dataset}.{output}"
+
+        print(f"Exporting {dataset} to {output}")
+        exported_dataset = await client.export_data(dataset_id=dataset, format=output)
+
+        with open(output_filename, "wb") as output_file:
+            output_file.write(exported_dataset)
+        print(f"Successfully wrote to {output_filename}")
+
         return 0
 
 
     print(f"Fetching {dataset}, output: {output}")
-    client = UKPNClient()
-
-    return 0
+    dataset = await client.get_dataset(dataset)
+    return dataset.summary()
 
 
 def _handle_list(args, parser):
