@@ -7,20 +7,35 @@ import asyncio
 
 from . import __version__
 from .dataset_registry import ALL_DATASETS, DOMAIN_MAP
+from . import UKPNClient
 
 
-def _handle_fetch(args, parser):
+async def _handle_fetch(args, parser):
     dataset = args.dataset
-    output = args.output
     if dataset is None:
         parser.print_help()
         return 0
 
+    if dataset not in ALL_DATASETS.values():
+        print(f"An invalid dataset was provided: {dataset}")
+        parser.print_help()
+        return 0
+
+    output = args.output.strip(".")
+    VALID_EXTENSIONS = ["csv", "json"]
+    if output not in VALID_EXTENSIONS:
+        print(f"An invalid extension was provided: {output}. Please use a valid extensions: {', '.join(VALID_EXTENSIONS)}")
+        parser.print_help()
+        return 0
+
+
     print(f"Fetching {dataset}, output: {output}")
+    client = UKPNClient()
+
     return 0
 
 
-async def _handle_list(args, parser):
+def _handle_list(args, parser):
     if not args.list_target:
         parser.print_help()
         return 0
@@ -32,7 +47,7 @@ async def _handle_list(args, parser):
             else:
                 valid_domains = ", ".join(sorted(DOMAIN_MAP.keys()))
                 print(
-                    f"Invalid domain provided: '{args.domain}'. Please use a valid domain: {valid_domains}"
+                    f"An invalid domain was provided: '{args.domain}'. Please use a valid domain: {valid_domains}"
                 )
         else:
             all_datasets = set(ALL_DATASETS.values())
@@ -67,7 +82,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     fetch_parser.add_argument(
         "--output",
-        help="Saves the dataset to a file inferred from the extension (.csv, .json)",
+        help="Saves the dataset to a file inferred from the extension (csv, json)",
     )
     fetch_parser.set_defaults(func=_handle_fetch, parser=fetch_parser)
 
