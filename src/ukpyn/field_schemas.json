@@ -1,5 +1,5 @@
 {
-  "dfes-network-headroom-report": [
+  "ukpn-dfes-network-headroom-report": [
     "bulksupplypoint",
     "category",
     "demand_rag",
@@ -143,7 +143,7 @@
     "zero_sequence_impedance_x_hv_lv2_percent",
     "zero_sequence_impedance_x_lv1_lv2_percent"
   ],
-  "ltds-table-3a-load-data-observed": [
+  "ukpn-ltds-table-3a-load-data-observed": [
     "firm_capacity_mw",
     "forecast_m_d_mw_25_26",
     "forecast_m_d_mw_26_27",
