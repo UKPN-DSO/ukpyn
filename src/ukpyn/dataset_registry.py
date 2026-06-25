@@ -22,9 +22,9 @@ LTDS_DATASETS: dict[str, str] = {
     "table_2b": "ltds-table-2b-transformer-data-3w",
     "transformer_3w": "ltds-table-2b-transformer-data-3w",
     # Table 3a - Observed peak demand at primary substations
-    "table_3a": "ltds-table-3a-load-data-observed",
-    "observed_demand": "ltds-table-3a-load-data-observed",
-    "observed_peak_demand": "ltds-table-3a-load-data-observed",  # Legacy alias
+    "table_3a": "ukpn-ltds-table-3a-load-data-observed",
+    "observed_demand": "ukpn-ltds-table-3a-load-data-observed",
+    "observed_peak_demand": "ukpn-ltds-table-3a-load-data-observed",  # Legacy alias
     # Table 3a Transposed - Same data, pivoted format
     "table_3a_transposed": "ltds-table-3a-load-data-observed-transposed",
     # Table 3b - True (firm) demand forecasts
@@ -65,8 +65,8 @@ LTDS_DATASETS: dict[str, str] = {
 # =============================================================================
 DFES_DATASETS: dict[str, str] = {
     # Network headroom report - capacity availability by scenario
-    "headroom": "dfes-network-headroom-report",
-    "headroom_report": "dfes-network-headroom-report",
+    "headroom": "ukpn-dfes-network-headroom-report",
+    "headroom_report": "ukpn-dfes-network-headroom-report",
     # Peak demand scenarios by local authority
     "peak_demand_scenarios": "ukpn-dfes-peak-demand-scenarios",
     # DFES data aggregated by local authority
