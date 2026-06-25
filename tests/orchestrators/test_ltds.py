@@ -53,8 +53,7 @@ class TestLTDSDatasetsMapping:
         assert LTDS_DATASETS["capacity_heatmap"] == "ukpn-capacity-heatmap"
         assert LTDS_DATASETS["heatmap"] == LTDS_DATASETS["capacity_heatmap"]
         assert (
-            LTDS_DATASETS["ltds_capacity_heatmap"]
-            == LTDS_DATASETS["capacity_heatmap"]
+            LTDS_DATASETS["ltds_capacity_heatmap"] == LTDS_DATASETS["capacity_heatmap"]
         )
 
     def test_orchestrator_uses_ltds_datasets(self) -> None:
