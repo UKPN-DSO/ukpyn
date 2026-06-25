@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-06-25
+
 ### Changed
 - `version-tag` release workflow now automatically promotes the CHANGELOG `[Unreleased]` section to a dated version heading on each release bump, keeping the changelog in sync with the version published to PyPI
 
