@@ -1,7 +1,7 @@
 {
   "new_dataset_ids": [],
   "new_count": 0,
-  "registry_changed": true,
+  "registry_changed": false,
   "field_changes": [],
   "breaking_field_changes": 0,
   "deleted_dataset_ids": [],

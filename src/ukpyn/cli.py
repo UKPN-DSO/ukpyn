@@ -15,35 +15,38 @@ async def _handle_fetch(args, parser):
         parser.print_help()
         return 0
 
+    # Resolve friendly keys (e.g. "table_3a") to their ODP dataset ID.
+    dataset = ALL_DATASETS.get(dataset, dataset)
+
     if dataset not in ALL_DATASETS.values():
         print(f"An invalid dataset was provided: {dataset}")
         parser.print_help()
         return 0
 
-    client = UKPNClient()
     output = args.output
-    if output:
-        output = output.strip(".")
-        if output not in EXPORT_FORMATS:
-            print(f"An invalid extension was provided: {output}. Please use a valid extensions: {', '.join(EXPORT_FORMATS)}")
-            parser.print_help()
+    async with UKPNClient() as client:
+        if output:
+            output = output.strip(".")
+            if output not in EXPORT_FORMATS:
+                print(f"An invalid extension was provided: {output}. Please use a valid extensions: {', '.join(EXPORT_FORMATS)}")
+                parser.print_help()
+                return 0
+
+            output_filename = f"{dataset}.{output}"
+
+            print(f"Exporting {dataset} to {output}")
+            exported_dataset = await client.export_data(dataset_id=dataset, format=output)
+
+            with open(output_filename, "wb") as output_file:
+                output_file.write(exported_dataset)
+            print(f"Successfully wrote to {output_filename}")
+
             return 0
 
-        output_filename = f"{dataset}.{output}"
-
-        print(f"Exporting {dataset} to {output}")
-        exported_dataset = await client.export_data(dataset_id=dataset, format=output)
-
-        with open(output_filename, "wb") as output_file:
-            output_file.write(exported_dataset)
-        print(f"Successfully wrote to {output_filename}")
-
+        print(f"Fetching {dataset}, output: {output}")
+        dataset_obj = await client.get_dataset(dataset)
+        print(dataset_obj.summary())
         return 0
-
-
-    print(f"Fetching {dataset}, output: {output}")
-    dataset = await client.get_dataset(dataset)
-    return dataset.summary()
 
 
 def _handle_list(args, parser):
