@@ -7,9 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-06-25
+
+### Changed
+- `version-tag` release workflow now automatically promotes the CHANGELOG `[Unreleased]` section to a dated version heading on each release bump, keeping the changelog in sync with the version published to PyPI
+
+## [1.2.0] - 2026-06-25
+
 ### Added
 - `Record.geometry` property — normalised GeoJSON geometry accessor that resolves from whichever raw field the ODP uses (`geo_shape`, `spatial_coordinates`, `geo_point_2d`, `geo_point`, `geopoint`) and converts `{"lat", "lon"}` dicts to standard GeoJSON `Point`
 - `dimensions` parameter on `GISOrchestrator.export_geojson()` — choose `"2d"` (strip Z), `"3d"` (ensure Z), or `"raw"` (default, pass-through) to normalise coordinate dimensionality
+
+### Changed
+- Applied `ukpn-` prefix to renamed ODP dataset IDs: `ltds-table-3a-load-data-observed` → `ukpn-ltds-table-3a-load-data-observed` and `dfes-network-headroom-report` → `ukpn-dfes-network-headroom-report`. Updated the dataset registry, field schema snapshot, and the `02-fetching-data` tutorial accordingly
 
 ### Fixed
 - NaN / Infinity values in record fields are now sanitised to `None` on parse — ODP occasionally returns `float('nan')` which is invalid JSON and breaks all downstream consumers

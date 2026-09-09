@@ -67,7 +67,8 @@ DFES_DATASETS: dict[str, str] = {
     # Network headroom report - capacity availability by scenario
     "headroom": "ukpn-dfes-network-headroom-report",
     "headroom_report": "ukpn-dfes-network-headroom-report",
-    # peak_demand_scenarios removed: ukpn-dfes-peak-demand-scenarios retired from ODP
+    # Peak demand scenarios by local authority
+    "peak_demand_scenarios": "ukpn-dfes-peak-demand-scenarios",
     # DFES data aggregated by local authority
     "by_local_authority": "ukpn-dfes-by-local-authorities",
 }
