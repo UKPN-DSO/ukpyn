@@ -3,8 +3,8 @@
 Each entry maps a user-friendly name to the actual ODP dataset identifier.
 Inline comments describe what each dataset contains.
 
-Registry verified against ODP catalog: 2026-02-04
-Total ODP datasets: 133
+Registry verified against ODP catalog: 2026-09-09
+Total ODP datasets: 138
 """
 
 # =============================================================================
@@ -13,14 +13,14 @@ Total ODP datasets: 133
 # =============================================================================
 LTDS_DATASETS: dict[str, str] = {
     # Table 1 - Circuit Data (lines, cables, circuit parameters)
-    "table_1": "ltds-table-1-circuit-data",
-    "circuit_data": "ltds-table-1-circuit-data",
+    "table_1": "ukpn-ltds-table-1-circuit-data",
+    "circuit_data": "ukpn-ltds-table-1-circuit-data",
     # Table 2a - 2-winding transformer specs (HV-LV)
-    "table_2a": "ltds-table-2a-transformer-2w",
-    "transformer_2w": "ltds-table-2a-transformer-2w",
+    "table_2a": "ukpn-ltds-table-2a-transformer-2w",
+    "transformer_2w": "ukpn-ltds-table-2a-transformer-2w",
     # Table 2b - 3-winding transformer specs (HV-LV1-LV2)
-    "table_2b": "ltds-table-2b-transformer-data-3w",
-    "transformer_3w": "ltds-table-2b-transformer-data-3w",
+    "table_2b": "ukpn-ltds-table-2b-transformer-data-3w",
+    "transformer_3w": "ukpn-ltds-table-2b-transformer-data-3w",
     # Table 3a - Observed peak demand at primary substations
     "table_3a": "ukpn-ltds-table-3a-load-data-observed",
     "observed_demand": "ukpn-ltds-table-3a-load-data-observed",
@@ -28,8 +28,8 @@ LTDS_DATASETS: dict[str, str] = {
     # Table 3a Transposed - Same data, pivoted format
     "table_3a_transposed": "ltds-table-3a-load-data-observed-transposed",
     # Table 3b - True (firm) demand forecasts
-    "table_3b": "ltds-table-3b-load-data-true",
-    "forecast_demand": "ltds-table-3b-load-data-true",
+    "table_3b": "ukpn-ltds-table-3b-load-data-true",
+    "forecast_demand": "ukpn-ltds-table-3b-load-data-true",
     # Table 4a - Three-phase fault levels at substations
     "table_4a": "ltds-table-4a-3ph-fault-level",
     "fault_level_3ph": "ltds-table-4a-3ph-fault-level",
@@ -37,17 +37,17 @@ LTDS_DATASETS: dict[str, str] = {
     "table_4b": "ltds-table-4b-earth-fault-level",
     "fault_level_earth": "ltds-table-4b-earth-fault-level",
     # Table 5 - Distributed generation by primary substation
-    "table_5": "ltds-table-5-generation",
-    "generation": "ltds-table-5-generation",
+    "table_5": "ukpn-ltds-table-5-generation",
+    "generation": "ukpn-ltds-table-5-generation",
     # Table 6 - New connection interest queue
     "table_6": "ltds-table-6-interest-connections",
     "connection_interest": "ltds-table-6-interest-connections",
     # Table 7 - Operational restrictions on network
-    "table_7": "ltds-table-7-operational-restrictions",
-    "restrictions": "ltds-table-7-operational-restrictions",
+    "table_7": "ukpn-ltds-table-7-operational-restrictions",
+    "restrictions": "ukpn-ltds-table-7-operational-restrictions",
     # Table 8 - Fault data (>95th percentile events)
-    "table_8": "ltds-table-8-gt-95-perc-fault-data",
-    "fault_data": "ltds-table-8-gt-95-perc-fault-data",
+    "table_8": "ukpn-ltds-table-8-gt-95-perc-fault-data",
+    "fault_data": "ukpn-ltds-table-8-gt-95-perc-fault-data",
     # Infrastructure projects - 5-year development plans
     "projects": "ukpn-ltds-infrastructure-projects",
     "infrastructure_projects": "ukpn-ltds-infrastructure-projects",
@@ -67,8 +67,7 @@ DFES_DATASETS: dict[str, str] = {
     # Network headroom report - capacity availability by scenario
     "headroom": "ukpn-dfes-network-headroom-report",
     "headroom_report": "ukpn-dfes-network-headroom-report",
-    # Peak demand scenarios by local authority
-    "peak_demand_scenarios": "ukpn-dfes-peak-demand-scenarios",
+    # peak_demand_scenarios removed: ukpn-dfes-peak-demand-scenarios retired from ODP
     # DFES data aggregated by local authority
     "by_local_authority": "ukpn-dfes-by-local-authorities",
 }
@@ -332,7 +331,7 @@ REFERENCE_DATASETS: dict[str, str] = {
 # =============================================================================
 # Unmanaged ODP Datasets
 # Auto-generated from ODP metadata (domain-dataset0)
-# Last sync: 2026-05-20
+# Last sync: 2026-09-10
 # =============================================================================
 UNMANAGED_DATASETS: dict[str, str] = {}
 # END AUTO-GENERATED UNMANAGED DATASETS
@@ -374,4 +373,27 @@ ALL_DATASETS: dict[str, str] = {
     **PROFILES_DATASETS,
     **APPENDIX_G_DATASETS,
     **REFERENCE_DATASETS,
+}
+
+# =============================================================================
+# Domain mapping for filtering
+# =============================================================================
+DOMAIN_MAP: dict[str, dict[str, str]] = {
+    "ltds": LTDS_DATASETS,
+    "dfes": DFES_DATASETS,
+    "dnoa": DNOA_DATASETS,
+    "network_stats": NETWORK_STATS_DATASETS,
+    "powerflow": POWERFLOW_DATASETS,
+    "flexibility": FLEXIBILITY_DATASETS,
+    "curtailment": CURTAILMENT_DATASETS,
+    "ders": DER_DATASETS,
+    "gis": GEO_DATASETS,
+    "equipment": EQUIPMENT_DATASETS,
+    "connections": CONNECTIONS_DATASETS,
+    "operations": OPERATIONS_DATASETS,
+    "sensitivity": SENSITIVITY_DATASETS,
+    "smart": SMART_LCT_DATASETS,
+    "profiles": PROFILES_DATASETS,
+    "appendix_g": APPENDIX_G_DATASETS,
+    "reference": REFERENCE_DATASETS,
 }
