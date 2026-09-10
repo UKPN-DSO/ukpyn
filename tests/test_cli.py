@@ -144,3 +144,30 @@ def test_fetch_accepts_friendly_dataset_key(fake_client, capsys) -> None:
     assert any(
         call[0] == "get_dataset" for call in fake_client.instances[-1].calls
     ), "friendly key 'table_3a' was not resolved and fetched"
+
+
+def test_fetch_invalid_dataset_returns_nonzero(fake_client, capsys) -> None:
+    """Invalid dataset input reports an error and exits non-zero."""
+    exit_code = main(["fetch", "not-a-real-dataset"])
+    captured = capsys.readouterr()
+
+    assert exit_code != 0
+    assert "An invalid dataset was provided" in captured.out
+
+
+def test_fetch_invalid_output_extension_returns_nonzero(fake_client, capsys) -> None:
+    """Invalid --output extension reports an error and exits non-zero."""
+    exit_code = main(["fetch", _VALID_DATASET_ID, "--output", "xml"])
+    captured = capsys.readouterr()
+
+    assert exit_code != 0
+    assert "An invalid extension was provided" in captured.out
+
+
+def test_list_invalid_domain_returns_nonzero(capsys) -> None:
+    """Invalid list --domain reports an error and exits non-zero."""
+    exit_code = main(["list", "datasets", "--domain", "not-a-domain"])
+    captured = capsys.readouterr()
+
+    assert exit_code != 0
+    assert "An invalid domain was provided" in captured.out

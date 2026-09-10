@@ -21,16 +21,16 @@ async def _handle_fetch(args, parser):
     if dataset not in ALL_DATASETS.values():
         print(f"An invalid dataset was provided: {dataset}")
         parser.print_help()
-        return 0
+        return 2
 
     output = args.output
     async with UKPNClient() as client:
         if output:
             output = output.strip(".")
             if output not in EXPORT_FORMATS:
-                print(f"An invalid extension was provided: {output}. Please use a valid extensions: {', '.join(EXPORT_FORMATS)}")
+                print(f"An invalid extension was provided: {output}. Please use a valid extension: {', '.join(EXPORT_FORMATS)}")
                 parser.print_help()
-                return 0
+                return 2
 
             output_filename = f"{dataset}.{output}"
 
@@ -63,6 +63,7 @@ def _handle_list(args, parser):
                 print(
                     f"An invalid domain was provided: '{args.domain}'. Please use a valid domain: {valid_domains}"
                 )
+                return 2
         else:
             all_datasets = set(ALL_DATASETS.values())
             print("\n".join(sorted(all_datasets)))
