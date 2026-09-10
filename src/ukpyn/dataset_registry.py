@@ -67,8 +67,7 @@ DFES_DATASETS: dict[str, str] = {
     # Network headroom report - capacity availability by scenario
     "headroom": "ukpn-dfes-network-headroom-report",
     "headroom_report": "ukpn-dfes-network-headroom-report",
-    # Peak demand scenarios by local authority
-    "peak_demand_scenarios": "ukpn-dfes-peak-demand-scenarios",
+    # peak_demand_scenarios removed: ukpn-dfes-peak-demand-scenarios retired from ODP
     # DFES data aggregated by local authority
     "by_local_authority": "ukpn-dfes-by-local-authorities",
 }
@@ -332,7 +331,7 @@ REFERENCE_DATASETS: dict[str, str] = {
 # =============================================================================
 # Unmanaged ODP Datasets
 # Auto-generated from ODP metadata (domain-dataset0)
-# Last sync: 2026-09-09
+# Last sync: 2026-09-10
 # =============================================================================
 UNMANAGED_DATASETS: dict[str, str] = {}
 # END AUTO-GENERATED UNMANAGED DATASETS
