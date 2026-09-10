@@ -141,9 +141,9 @@ def test_fetch_accepts_friendly_dataset_key(fake_client, capsys) -> None:
         "validation checks ALL_DATASETS.values() instead of resolving keys"
     )
     assert fake_client.instances, "friendly key should still reach a client fetch"
-    assert any(
-        call[0] == "get_dataset" for call in fake_client.instances[-1].calls
-    ), "friendly key 'table_3a' was not resolved and fetched"
+    assert any(call[0] == "get_dataset" for call in fake_client.instances[-1].calls), (
+        "friendly key 'table_3a' was not resolved and fetched"
+    )
 
 
 def test_fetch_invalid_dataset_returns_nonzero(fake_client, capsys) -> None:

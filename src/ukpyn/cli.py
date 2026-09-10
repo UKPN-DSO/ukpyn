@@ -28,14 +28,18 @@ async def _handle_fetch(args, parser):
         if output:
             output = output.strip(".")
             if output not in EXPORT_FORMATS:
-                print(f"An invalid extension was provided: {output}. Please use a valid extension: {', '.join(EXPORT_FORMATS)}")
+                print(
+                    f"An invalid extension was provided: {output}. Please use a valid extension: {', '.join(EXPORT_FORMATS)}"
+                )
                 parser.print_help()
                 return 2
 
             output_filename = f"{dataset}.{output}"
 
             print(f"Exporting {dataset} to {output}")
-            exported_dataset = await client.export_data(dataset_id=dataset, format=output)
+            exported_dataset = await client.export_data(
+                dataset_id=dataset, format=output
+            )
 
             with open(output_filename, "wb") as output_file:
                 output_file.write(exported_dataset)
