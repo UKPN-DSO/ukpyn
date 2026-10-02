@@ -3,8 +3,8 @@
 from typing import Any
 
 import pytest
-from pytest_httpx import HTTPXMock
 
+from tests.conftest import HTTPXMock
 from ukpyn.client import UKPNClient
 from ukpyn.exceptions import (
     AuthenticationError,

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Migrated the HTTP client from `httpx` to `httpx2` and replaced `pytest-httpx` with an `httpx2.MockTransport` test fixture, removing the development dependency on `httpx`.
+
 ## [1.3.0] - 2026-09-10
 
 ## [1.2.1] - 2026-06-25

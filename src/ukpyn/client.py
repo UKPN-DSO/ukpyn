@@ -2,7 +2,7 @@
 
 from typing import Any
 
-import httpx
+import httpx2
 
 from .config import Config
 from .exceptions import (
@@ -69,12 +69,12 @@ class UKPNClient:
                 kwargs["timeout"] = timeout
             self._config = Config(**kwargs)
 
-        self._client: httpx.AsyncClient | None = None
+        self._client: httpx2.AsyncClient | None = None
 
-    async def _get_client(self) -> httpx.AsyncClient:
+    async def _get_client(self) -> httpx2.AsyncClient:
         """Get or create the HTTP client."""
         if self._client is None or self._client.is_closed:
-            self._client = httpx.AsyncClient(
+            self._client = httpx2.AsyncClient(
                 base_url=self._config.api_url,
                 headers=self._config.get_headers(),
                 timeout=self._config.timeout,
@@ -109,7 +109,7 @@ class UKPNClient:
             f"client_state='{client_state}')"
         )
 
-    def _handle_error(self, response: httpx.Response) -> None:
+    def _handle_error(self, response: httpx2.Response) -> None:
         """
         Handle HTTP error responses.
 
@@ -167,7 +167,7 @@ class UKPNClient:
             method: HTTP method (GET, POST, etc.).
             path: API endpoint path.
             params: Query parameters.
-            **kwargs: Additional arguments passed to httpx.
+            **kwargs: Additional arguments passed to httpx2.
 
         Returns:
             Parsed JSON response.
@@ -202,7 +202,7 @@ class UKPNClient:
             method: HTTP method (GET, POST, etc.).
             path: API endpoint path.
             params: Query parameters.
-            **kwargs: Additional arguments passed to httpx.
+            **kwargs: Additional arguments passed to httpx2.
 
         Returns:
             Raw response content as bytes.

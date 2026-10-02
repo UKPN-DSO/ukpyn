@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import pytest
-from pytest_httpx import HTTPXMock
 
+from tests.conftest import HTTPXMock
 from ukpyn.client import UKPNClient
 
 

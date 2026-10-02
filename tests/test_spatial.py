@@ -3,8 +3,8 @@
 from typing import Any
 
 import pytest
-from pytest_httpx import HTTPXMock
 
+from tests.conftest import HTTPXMock
 from ukpyn.spatial import (
     GEO_ENABLED_DATASETS,
     Bounds,

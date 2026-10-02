@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-import httpx
+import httpx2
 import pytest
-from pytest_httpx import HTTPXMock
 
+from tests.conftest import HTTPXMock
 from ukpyn.client import UKPNClient
 from ukpyn.config import Config
 from ukpyn.exceptions import (
@@ -45,7 +45,7 @@ async def test_client_init_applies_base_url_and_timeout_kwargs() -> None:
 def test_handle_error_validation_with_non_json_body() -> None:
     """ValidationError should use raw response text when JSON decoding fails."""
     client = UKPNClient(api_key="k")
-    response = httpx.Response(400, text="invalid request payload")
+    response = httpx2.Response(400, text="invalid request payload")
 
     with pytest.raises(ValidationError, match="invalid request payload"):
         client._handle_error(response)
@@ -55,7 +55,7 @@ def test_handle_error_unknown_field_raises_unrecognised_field_error() -> None:
     """400 with 'unknown field' in the message should raise UnrecognisedFieldError."""
     client = UKPNClient(api_key="k")
 
-    response = httpx.Response(400, json={"message": "Unknown field: foo_bar"})
+    response = httpx2.Response(400, json={"message": "Unknown field: foo_bar"})
     with pytest.raises(UnrecognisedFieldError, match="foo_bar"):
         client._handle_error(response)
 
@@ -64,7 +64,7 @@ def test_handle_error_invalid_field_raises_unrecognised_field_error() -> None:
     """400 with 'invalid field' in the message should raise UnrecognisedFieldError."""
     client = UKPNClient(api_key="k")
 
-    response = httpx.Response(400, json={"message": "Invalid field name in select"})
+    response = httpx2.Response(400, json={"message": "Invalid field name in select"})
     with pytest.raises(UnrecognisedFieldError, match="pip install --upgrade ukpyn"):
         client._handle_error(response)
 
@@ -72,7 +72,7 @@ def test_handle_error_invalid_field_raises_unrecognised_field_error() -> None:
 def test_handle_error_rate_limit_without_retry_after() -> None:
     """RateLimitError should set retry_after to None when header is absent."""
     client = UKPNClient(api_key="k")
-    response = httpx.Response(429, json={"message": "too many requests"})
+    response = httpx2.Response(429, json={"message": "too many requests"})
 
     with pytest.raises(RateLimitError) as exc_info:
         client._handle_error(response)
@@ -85,10 +85,10 @@ def test_handle_error_server_and_generic_statuses() -> None:
     client = UKPNClient(api_key="k")
 
     with pytest.raises(ServerError):
-        client._handle_error(httpx.Response(503, json={"message": "upstream down"}))
+        client._handle_error(httpx2.Response(503, json={"message": "upstream down"}))
 
     with pytest.raises(UKPNError) as exc_info:
-        client._handle_error(httpx.Response(418, json={"message": "teapot"}))
+        client._handle_error(httpx2.Response(418, json={"message": "teapot"}))
 
     assert exc_info.value.status_code == 418
 
@@ -156,3 +156,22 @@ async def test_request_raw_error_branch_raises_not_found(httpx_mock: HTTPXMock) 
     async with UKPNClient(api_key="k") as client:
         with pytest.raises(NotFoundError, match="dataset missing"):
             await client.export_data(dataset_id="missing-dataset", format="csv")
+
+
+@pytest.mark.asyncio
+async def test_http_mock_rejects_unexpected_requests(httpx_mock: HTTPXMock) -> None:
+    """An unmocked request must fail instead of reaching the network."""
+    async with UKPNClient(api_key="k") as client:
+        with pytest.raises(AssertionError, match="Unexpected request: GET"):
+            await client.list_datasets()
+
+    assert len(httpx_mock.get_requests()) == 1
+
+
+def test_http_mock_rejects_unused_responses() -> None:
+    """Registered responses must be consumed by the test."""
+    mock = HTTPXMock()
+    mock.add_response(json={"unused": True})
+
+    with pytest.raises(AssertionError, match="1 mocked responses unused"):
+        mock.assert_all_responses_used()

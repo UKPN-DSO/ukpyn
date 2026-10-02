@@ -1,15 +1,57 @@
 """Pytest fixtures and configuration for ukpyn tests."""
 
 import os
+from collections import deque
+from collections.abc import Iterator
 from typing import Any
 
+import httpx2
 import pytest
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# Note: pytest-httpx must be added to dev dependencies
-# The httpx_mock fixture is provided by pytest-httpx
+
+class HTTPXMock:
+    """Queue httpx2 responses and record requests without network access."""
+
+    def __init__(self) -> None:
+        self._responses: deque[httpx2.Response] = deque()
+        self._requests: list[httpx2.Request] = []
+
+    def add_response(self, status_code: int = 200, **kwargs: Any) -> None:
+        self._responses.append(httpx2.Response(status_code, **kwargs))
+
+    def get_requests(self) -> list[httpx2.Request]:
+        return list(self._requests)
+
+    def handle_request(self, request: httpx2.Request) -> httpx2.Response:
+        self._requests.append(request)
+        if not self._responses:
+            raise AssertionError(f"Unexpected request: {request.method} {request.url}")
+        return self._responses.popleft()
+
+    def assert_all_responses_used(self) -> None:
+        assert not self._responses, f"{len(self._responses)} mocked responses unused"
+
+
+@pytest.fixture
+def httpx_mock(monkeypatch: pytest.MonkeyPatch) -> Iterator[HTTPXMock]:
+    """Mock the async HTTP transport using httpx2's built-in MockTransport."""
+    mock = HTTPXMock()
+    transport = httpx2.MockTransport(mock.handle_request)
+
+    async def handle_async_request(
+        self: httpx2.AsyncHTTPTransport, request: httpx2.Request
+    ) -> httpx2.Response:
+        return await transport.handle_async_request(request)
+
+    monkeypatch.setattr(
+        httpx2.AsyncHTTPTransport, "handle_async_request", handle_async_request
+    )
+    yield mock
+    mock.assert_all_responses_used()
+
 
 # Test constants
 TEST_API_KEY = "test-api-key-12345"
