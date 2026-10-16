@@ -3,7 +3,7 @@
 Each entry maps a user-friendly name to the actual ODP dataset identifier.
 Inline comments describe what each dataset contains.
 
-Registry verified against ODP catalog: 2026-09-09
+Registry verified against ODP catalog: 2026-10-16
 Total ODP datasets: 138
 """
 
@@ -31,17 +31,17 @@ LTDS_DATASETS: dict[str, str] = {
     "table_3b": "ukpn-ltds-table-3b-load-data-true",
     "forecast_demand": "ukpn-ltds-table-3b-load-data-true",
     # Table 4a - Three-phase fault levels at substations
-    "table_4a": "ltds-table-4a-3ph-fault-level",
-    "fault_level_3ph": "ltds-table-4a-3ph-fault-level",
+    "table_4a": "ukpn-ltds-table-4a-3ph-fault-level",
+    "fault_level_3ph": "ukpn-ltds-table-4a-3ph-fault-level",
     # Table 4b - Earth fault levels at substations
-    "table_4b": "ltds-table-4b-earth-fault-level",
-    "fault_level_earth": "ltds-table-4b-earth-fault-level",
+    "table_4b": "ukpn-ltds-table-4b-earth-fault-level",
+    "fault_level_earth": "ukpn-ltds-table-4b-earth-fault-level",
     # Table 5 - Distributed generation by primary substation
     "table_5": "ukpn-ltds-table-5-generation",
     "generation": "ukpn-ltds-table-5-generation",
     # Table 6 - New connection interest queue
-    "table_6": "ltds-table-6-interest-connections",
-    "connection_interest": "ltds-table-6-interest-connections",
+    "table_6": "ukpn-ltds-table-6-interest-connections",
+    "connection_interest": "ukpn-ltds-table-6-interest-connections",
     # Table 7 - Operational restrictions on network
     "table_7": "ukpn-ltds-table-7-operational-restrictions",
     "restrictions": "ukpn-ltds-table-7-operational-restrictions",
