@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Updated the PyPI and TestPyPI publishing action to v1.14.2 to support core metadata version 2.5.
+- Formatted Markdown Python examples for compatibility with the Ruff version used by CI.
+
 ## [1.4.0] - 2026-10-16
 
 ### Fixed

@@ -56,8 +56,9 @@ Useful datasets:
 
 ```python
 from ukpyn.orchestrators import gis
+
 primaries = gis.get_primary_substations(licence_area="EPN", limit=2000)
-hv_lines  = gis.export_geojson("hv_overhead_lines", dimensions="2d")
+hv_lines = gis.export_geojson("hv_overhead_lines", dimensions="2d")
 ```
 
 ## Join strategy

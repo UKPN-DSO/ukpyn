@@ -100,9 +100,9 @@ To inspect a single record safely:
 
 ```python
 if table_3a.records:
-	first = table_3a.records[0]
-	print(first.id)
-	print(first.fields)
+    first = table_3a.records[0]
+    print(first.id)
+    print(first.fields)
 ```
 
 ## 6) Try one simple filter change
