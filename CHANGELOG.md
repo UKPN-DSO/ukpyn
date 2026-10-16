@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Updated LTDS Tables 4a, 4b, and 6 to their current `ukpn-`-prefixed portal dataset IDs, preserving existing friendly names and aliases.
+- Refreshed the field schema snapshot against the portal catalogue on 2026-10-16, including updated site, postcode-area, infrastructure-project, and poles/towers fields.
+
 ## [1.3.0] - 2026-09-10
 
 ## [1.2.1] - 2026-06-25

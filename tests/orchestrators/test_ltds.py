@@ -1,5 +1,11 @@
 """Tests for LTDS (Long Term Development Statement) orchestrator."""
 
+import json
+from importlib.resources import files
+
+import pytest
+
+from ukpyn.dataset_registry import ALL_DATASETS
 from ukpyn.orchestrators import ltds
 from ukpyn.orchestrators.ltds import LTDSOrchestrator
 from ukpyn.registry import LTDS_DATASETS
@@ -10,6 +16,34 @@ TEST_API_KEY = "test-api-key-12345"
 
 class TestLTDSDatasetsMapping:
     """Tests for LTDS datasets mapping."""
+
+    @pytest.mark.parametrize(
+        ("table", "alias", "dataset_id"),
+        [
+            ("table_4a", "fault_level_3ph", "ukpn-ltds-table-4a-3ph-fault-level"),
+            ("table_4b", "fault_level_earth", "ukpn-ltds-table-4b-earth-fault-level"),
+            (
+                "table_6",
+                "connection_interest",
+                "ukpn-ltds-table-6-interest-connections",
+            ),
+        ],
+    )
+    def test_renamed_portal_datasets(
+        self, table: str, alias: str, dataset_id: str
+    ) -> None:
+        schemas = json.loads(
+            files("ukpyn").joinpath("field_schemas.json").read_text(encoding="utf-8")
+        )
+        orchestrator = LTDSOrchestrator(api_key=TEST_API_KEY)
+
+        for name in (table, alias):
+            assert LTDS_DATASETS[name] == dataset_id
+            assert ALL_DATASETS[name] == dataset_id
+            assert orchestrator.resolve_dataset_id(name) == dataset_id
+
+        assert schemas[dataset_id]
+        assert dataset_id.removeprefix("ukpn-") not in schemas
 
     def test_ltds_datasets_mapping_exists(self) -> None:
         """Test that LTDS_DATASETS mapping is defined."""

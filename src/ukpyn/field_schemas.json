@@ -12,8 +12,10 @@
     "maxdemandsummer",
     "maxdemandwinter",
     "measuredresistance_ohm",
+    "parish",
     "postcode",
     "powertransformercount",
+    "resp25",
     "reversepower",
     "siteclassification",
     "sitefunctionallocation",
@@ -57,50 +59,6 @@
     "substation_mrid",
     "unutilised_capacity_percent",
     "year"
-  ],
-  "ltds-table-4a-3ph-fault-level": [
-    "existing_system_fault_currents_peak_make_ka",
-    "existing_system_fault_currents_rms_break_ka",
-    "fault_rating_peak_break_ka",
-    "fault_rating_peak_make_ka",
-    "gridsupplypoint",
-    "id",
-    "licencearea",
-    "nodename",
-    "sitefunctionallocation",
-    "substation",
-    "system_impedance_r_percent",
-    "system_impedance_x_percent",
-    "voltage_level_kv"
-  ],
-  "ltds-table-4b-earth-fault-level": [
-    "existing_system_fault_currents_peak_make_ka",
-    "existing_system_fault_currents_rms_break_ka",
-    "fault_rating_peak_break_ka",
-    "fault_rating_peak_make_ka",
-    "gridsupplypoint",
-    "id",
-    "licencearea",
-    "nodename",
-    "sitefunctionallocation",
-    "substation",
-    "system_impedance_r_percent",
-    "system_impedance_x_percent",
-    "voltage_level_kv"
-  ],
-  "ltds-table-6-interest-connections": [
-    "demand_numbers_received_total_capacity",
-    "demand_numbers_received_total_number",
-    "generation_numbers_received_total_capacity",
-    "generation_numbers_received_total_number",
-    "gridsupplypoint",
-    "id",
-    "licencearea",
-    "proposed_connection_voltage_kv",
-    "sitefunctionallocation",
-    "spatial_coordinates",
-    "status_of_connection",
-    "substation"
   ],
   "ozev-ukpn-national-chargepoint-register": [
     "connector_type",
@@ -153,14 +111,13 @@
     "voltage"
   ],
   "ukpn-132kv-poles-towers": [
-    "asset_ref",
     "dno",
+    "functional_location",
     "geo_point_2d",
     "geo_shape",
     "id",
     "local_authority",
     "route_fl",
-    "route_name",
     "what3words"
   ],
   "ukpn-33kv-circuit-operational-data-half-hourly-epn": [
@@ -220,7 +177,6 @@
     "id",
     "local_authority",
     "route_fl",
-    "route_name",
     "what3words"
   ],
   "ukpn-appendix-g": [
@@ -763,7 +719,6 @@
     "voltage"
   ],
   "ukpn-hv-poles": [
-    "asset_ref",
     "dno",
     "geo_point_2d",
     "geo_shape",
@@ -925,6 +880,7 @@
     "associated_gsp",
     "capacity_added_mva",
     "connectivity_voltage",
+    "county",
     "delivery_cycle_stage",
     "dno",
     "equipment_ratings",
@@ -1059,6 +1015,36 @@
     "season",
     "substation"
   ],
+  "ukpn-ltds-table-4a-3ph-fault-level": [
+    "existing_system_fault_currents_peak_make_ka",
+    "existing_system_fault_currents_rms_break_ka",
+    "fault_rating_peak_break_ka",
+    "fault_rating_peak_make_ka",
+    "gridsupplypoint",
+    "id",
+    "licencearea",
+    "nodename",
+    "sitefunctionallocation",
+    "substation",
+    "system_impedance_r_percent",
+    "system_impedance_x_percent",
+    "voltage_level_kv"
+  ],
+  "ukpn-ltds-table-4b-earth-fault-level": [
+    "existing_system_fault_currents_peak_make_ka",
+    "existing_system_fault_currents_rms_break_ka",
+    "fault_rating_peak_break_ka",
+    "fault_rating_peak_make_ka",
+    "gridsupplypoint",
+    "id",
+    "licencearea",
+    "nodename",
+    "sitefunctionallocation",
+    "substation",
+    "system_impedance_r_percent",
+    "system_impedance_x_percent",
+    "voltage_level_kv"
+  ],
   "ukpn-ltds-table-5-generation": [
     "connected_accepted",
     "connection_voltage_kv",
@@ -1071,6 +1057,20 @@
     "spatial_coordinates",
     "substation",
     "substation_mrid"
+  ],
+  "ukpn-ltds-table-6-interest-connections": [
+    "demand_numbers_received_total_capacity",
+    "demand_numbers_received_total_number",
+    "generation_numbers_received_total_capacity",
+    "generation_numbers_received_total_number",
+    "gridsupplypoint",
+    "id",
+    "licencearea",
+    "proposed_connection_voltage_kv",
+    "sitefunctionallocation",
+    "spatial_coordinates",
+    "status_of_connection",
+    "substation"
   ],
   "ukpn-ltds-table-7-operational-restrictions": [
     "fault_level_operational_restrictions",
@@ -1431,6 +1431,10 @@
     "status"
   ],
   "ukpn_primary_postcode_area": [
+    "assessmentdate",
+    "calculatedresistance",
+    "county",
+    "datecommissioned",
     "demand",
     "demandrag",
     "dno",
@@ -1446,11 +1450,32 @@
     "grid_site_floc",
     "grid_supply_point",
     "grid_supply_point_floc",
+    "gridref",
+    "last_report",
+    "licencearea",
+    "local_authority",
+    "local_authority_code",
+    "measuredresistance_ohm",
     "operational_zone",
+    "parish",
+    "postcode",
+    "powertransformercount",
     "primary",
     "primary_floc",
     "resp25",
-    "seasonofconstraint"
+    "reversepower",
+    "seasonofconstraint",
+    "siteclassification",
+    "sitename",
+    "sitetype",
+    "sitevoltage",
+    "spatial_coordinates",
+    "street",
+    "suburb",
+    "towncity",
+    "transratingsummer",
+    "transratingwinter",
+    "what3words"
   ],
   "ukpn_secondary_postcode_area": [
     "county",
