@@ -72,6 +72,7 @@ In GitHub repository settings:
 - A scheduled GitHub Action audits ODP metadata and opens triage issues when new unmanaged datasets are discovered.
 - These issues are routed to `copilot` with a standardized task brief to classify datasets, implement orchestrator + registry updates, add tutorial usage, and open a PR into `dev`.
 - Maintainers review those PRs before merge.
+- Registry PRs are created only for substantive registry changes, not daily sync-date changes. The registry's `Last sync` date records the last substantive update; audit reports retain the timestamp of every run.
 
 ## Need Help?
 
