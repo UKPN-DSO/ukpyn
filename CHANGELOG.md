@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.2] - 2026-10-16
+
 ### Fixed
 - Prevented registry audits from reporting a change or opening a pull request when only the generated sync date changes; real mapping and title updates still refresh the sync date.
 - Removed duplicate dataset IDs from domain-filtered CLI listings and stray debug output from dataset summaries.
