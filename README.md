@@ -151,19 +151,19 @@ print(f"Rows returned: {len(table_3a.records)}")
 from ukpyn import ltds, flexibility, gis, powerflow, curtailment
 
 # Get LTDS Table 3A (observed peak demand at primary substations)
-table_3a = ltds.get_table_3a(licence_area='EPN')
+table_3a = ltds.get_table_3a(licence_area="EPN")
 
 # Get flexibility dispatch events
-dispatches = flexibility.get_dispatches(start_date='2024-01-01')
+dispatches = flexibility.get_dispatches(start_date="2024-01-01")
 
 # Get primary substation locations
-substations = gis.get_primary_substations(licence_area='SPN')
+substations = gis.get_primary_substations(licence_area="SPN")
 
 # Get 132kV circuit time series
-circuits = powerflow.get_circuit_timeseries(voltage='132kv', granularity='half_hourly')
+circuits = powerflow.get_circuit_timeseries(voltage="132kv", granularity="half_hourly")
 
 # Get curtailment events
-events = curtailment.get_events(start_date='2024-01-01')
+events = curtailment.get_events(start_date="2024-01-01")
 ```
 
 ## Learning Paths
