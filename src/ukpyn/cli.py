@@ -47,7 +47,6 @@ async def _handle_fetch(args, parser):
 
             return 0
 
-        print(f"Fetching {dataset}, output: {output}")
         dataset_obj = await client.get_dataset(dataset)
         print(dataset_obj.summary())
         return 0
@@ -60,7 +59,7 @@ def _handle_list(args, parser):
     if args.list_target == "datasets":
         if args.domain:
             if args.domain in DOMAIN_MAP:
-                domain_filtered_datasets = DOMAIN_MAP[args.domain].values()
+                domain_filtered_datasets = set(DOMAIN_MAP[args.domain].values())
                 print("\n".join(sorted(domain_filtered_datasets)))
             else:
                 valid_domains = ", ".join(sorted(DOMAIN_MAP.keys()))
@@ -129,18 +128,6 @@ def _print_quickstart() -> None:
     print("- Data fetching: tutorials/02-fetching-data.ipynb")
     print("- Advanced workflows: tutorials/03-analysis-patterns.ipynb")
     print("- Full docs: README.md")
-
-
-def fetch_dataset(args) -> None:
-    """
-    Fetches a specified dataset, allowing for parameters
-    to filter the given dataset and specify the output type.
-
-    By default this will present a summary of the dataset.
-    """
-    if args.dataset:
-        print(args.dataset)
-    print("Fetch datasets")
 
 
 def main(argv: list[str] | None = None) -> int:

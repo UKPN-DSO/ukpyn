@@ -192,6 +192,12 @@ def inject_unmanaged_section(registry_source: str, section: str) -> str:
     return f"{prefix}\n\n{section}\n\n{suffix}"
 
 
+def _without_sync_date(source: str) -> str:
+    return "\n".join(
+        line for line in source.splitlines() if not line.startswith("# Last sync: ")
+    )
+
+
 def suggest_update_targets(dataset_id: str) -> list[str]:
     """Suggest likely files for triaging a dataset integration."""
     checks: list[tuple[tuple[str, ...], list[str]]] = [
@@ -511,7 +517,7 @@ def synchronize_registry(
     new_section = render_unmanaged_section(merged_unmanaged, metadata_titles)
     updated_source = inject_unmanaged_section(registry_source, new_section)
 
-    changed = updated_source != registry_source
+    changed = _without_sync_date(updated_source) != _without_sync_date(registry_source)
     if changed:
         registry_path.write_text(updated_source, encoding="utf-8")
 
