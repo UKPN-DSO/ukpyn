@@ -166,6 +166,21 @@ circuits = powerflow.get_circuit_timeseries(voltage="132kv", granularity="half_h
 events = curtailment.get_events(start_date="2024-01-01")
 ```
 
+### Command-line usage
+
+```bash
+ukpyn list domains
+ukpyn list datasets --domain ltds
+ukpyn fetch table_3a
+ukpyn fetch dispatches --output csv
+```
+
+Dataset listings are sorted and contain each dataset ID once, including when
+filtering by domain. `fetch` accepts friendly registry keys or full dataset IDs
+and prints a summary by default. With `--output`, it writes
+`<dataset-id>.<format>` in the current directory. Invalid datasets, formats, or
+domains return a non-zero exit code.
+
 ## Learning Paths
 
 > **Note:** To run the tutorials, install the full set of dependencies with `uv pip install "ukpyn[all]"` (or `pip install "ukpyn[all]"`).

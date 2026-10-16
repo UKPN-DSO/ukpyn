@@ -129,6 +129,7 @@ def test_fetch_summary_prints_and_returns_zero(fake_client, capsys) -> None:
     assert f"SUMMARY::{_VALID_DATASET_ID}" in captured.out, (
         "dataset summary was returned rather than printed - the user sees nothing"
     )
+    assert captured.out.strip() == f"SUMMARY::{_VALID_DATASET_ID}"
 
 
 def test_fetch_accepts_friendly_dataset_key(fake_client, capsys) -> None:
@@ -171,3 +172,27 @@ def test_list_invalid_domain_returns_nonzero(capsys) -> None:
 
     assert exit_code != 0
     assert "An invalid domain was provided" in captured.out
+
+
+def test_list_domain_datasets_are_sorted_and_unique(capsys) -> None:
+    exit_code = main(["list", "datasets", "--domain", "ltds"])
+    lines = capsys.readouterr().out.splitlines()
+
+    assert exit_code == 0
+    assert lines == sorted(set(cli.DOMAIN_MAP["ltds"].values()))
+
+
+@pytest.mark.parametrize("output_format", ["csv", ".json"])
+def test_fetch_exports_bytes_and_closes_client(
+    fake_client, tmp_path, monkeypatch, output_format: str
+) -> None:
+    monkeypatch.chdir(tmp_path)
+
+    exit_code = main(["fetch", "dispatches", "--output", output_format])
+
+    extension = output_format.lstrip(".")
+    assert exit_code == 0
+    assert (tmp_path / f"{_VALID_DATASET_ID}.{extension}").read_bytes() == b"BYTES"
+    client = fake_client.instances[-1]
+    assert client.calls == [("export_data", _VALID_DATASET_ID, extension)]
+    assert client.closed is True

@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import json
 import sys
+from datetime import date
 from pathlib import Path
 
 import pytest
@@ -151,7 +153,7 @@ NETWORK_DATASETS: dict[str, str] = {}
 def test_synchronize_registry_no_change_when_no_new(
     tmp_path: Path, monkeypatch
 ) -> None:
-    """Synchronization keeps registry unchanged when there are no new datasets."""
+    """Synchronization refreshes titles and formatting even without new datasets."""
     section = (
         f"{BEGIN_MARKER}\n"
         "UNMANAGED_DATASETS: dict[str, str] = {\n"
@@ -179,6 +181,72 @@ def test_synchronize_registry_no_change_when_no_new(
 
     assert result.changed is True
     assert result.new_dataset_ids == []
+
+
+@pytest.mark.parametrize("dataset_ids", [[], ["ukpn-old"]])
+def test_synchronize_registry_ignores_date_only_changes(
+    tmp_path: Path, monkeypatch, dataset_ids: list[str]
+) -> None:
+    titles = {"ukpn-old": "Old"}
+    source = registry_sync.render_unmanaged_section(dataset_ids, titles).replace(
+        f"# Last sync: {date.today().isoformat()}", "# Last sync: 2000-01-01"
+    )
+    registry_path = tmp_path / "dataset_registry.py"
+    registry_path.write_text(source, encoding="utf-8")
+    original_bytes = registry_path.read_bytes()
+    monkeypatch.setattr(
+        registry_sync,
+        "fetch_metadata_csv",
+        lambda _url: (
+            "datasetid,default.title\n"
+            + "".join(f"{dataset_id},Old\n" for dataset_id in dataset_ids)
+        ),
+    )
+    report_path = tmp_path / "report.md"
+    json_path = tmp_path / "out.json"
+
+    result = synchronize_registry(
+        registry_path=registry_path,
+        metadata_url="https://example.com/mock.csv",
+        report_path=report_path,
+        json_output_path=json_path,
+    )
+
+    assert result.changed is False
+    assert result.new_dataset_ids == []
+    assert registry_path.read_bytes() == original_bytes
+    assert (
+        json.loads(json_path.read_text(encoding="utf-8"))["registry_changed"] is False
+    )
+    assert "Audit run:" in report_path.read_text(encoding="utf-8")
+
+
+def test_synchronize_registry_updates_titles_and_sync_date(
+    tmp_path: Path, monkeypatch
+) -> None:
+    registry_path = tmp_path / "dataset_registry.py"
+    source = registry_sync.render_unmanaged_section(
+        ["ukpn-old"], {"ukpn-old": "Old title"}
+    ).replace(f"# Last sync: {date.today().isoformat()}", "# Last sync: 2000-01-01")
+    registry_path.write_text(source, encoding="utf-8")
+    monkeypatch.setattr(
+        registry_sync,
+        "fetch_metadata_csv",
+        lambda _url: "datasetid,default.title\nukpn-old,Updated title\n",
+    )
+
+    result = synchronize_registry(
+        registry_path=registry_path,
+        metadata_url="https://example.com/mock.csv",
+        report_path=tmp_path / "report.md",
+        json_output_path=tmp_path / "out.json",
+    )
+
+    assert result.changed is True
+    assert result.new_dataset_ids == []
+    updated = registry_path.read_text(encoding="utf-8")
+    assert "# Updated title" in updated
+    assert f"# Last sync: {date.today().isoformat()}" in updated
 
 
 def test_main_uses_parse_and_sync(monkeypatch, capsys) -> None:
