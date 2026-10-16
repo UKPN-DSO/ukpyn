@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Prevented registry audits from reporting a change or opening a pull request when only the generated sync date changes; real mapping and title updates still refresh the sync date.
 
+### Changed
+- Updated pinned GitHub Actions for artifact uploads, Pages artifact uploads, GitHub App tokens, GitHub scripts, and automated pull requests.
+
 ## [1.4.1] - 2026-10-16
 
 ### Fixed
