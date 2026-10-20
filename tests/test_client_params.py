@@ -3,15 +3,17 @@
 from __future__ import annotations
 
 import pytest
-from pytest_httpx import HTTPXMock
+from pytest_httpx2 import HTTPXMock
 
 from ukpyn.client import UKPNClient
 
 
 @pytest.mark.asyncio
-async def test_list_datasets_passes_all_supported_params(httpx_mock: HTTPXMock) -> None:
+async def test_list_datasets_passes_all_supported_params(
+    httpx2_mock: HTTPXMock,
+) -> None:
     """list_datasets sends where/q/order/refine/exclude query params."""
-    httpx_mock.add_response(
+    httpx2_mock.add_response(
         json={
             "total_count": 0,
             "datasets": [],
@@ -28,7 +30,7 @@ async def test_list_datasets_passes_all_supported_params(httpx_mock: HTTPXMock) 
             exclude={"licence_area": "LPN"},
         )
 
-    request = httpx_mock.get_requests()[0]
+    request = httpx2_mock.get_requests()[0]
     params = dict(request.url.params)
 
     assert params["limit"] == "5"
@@ -40,9 +42,11 @@ async def test_list_datasets_passes_all_supported_params(httpx_mock: HTTPXMock) 
 
 
 @pytest.mark.asyncio
-async def test_get_records_includes_geo_and_group_params(httpx_mock: HTTPXMock) -> None:
+async def test_get_records_includes_geo_and_group_params(
+    httpx2_mock: HTTPXMock,
+) -> None:
     """get_records forwards select/group/geofilter params correctly."""
-    httpx_mock.add_response(
+    httpx2_mock.add_response(
         json={
             "total_count": 1,
             "records": [{"id": "r1", "fields": {"value": 1}}],
@@ -64,7 +68,7 @@ async def test_get_records_includes_geo_and_group_params(httpx_mock: HTTPXMock) 
             exclude={"status": "archived"},
         )
 
-    request = httpx_mock.get_requests()[0]
+    request = httpx2_mock.get_requests()[0]
     params = dict(request.url.params)
 
     assert params["select"] == "value"
@@ -76,9 +80,9 @@ async def test_get_records_includes_geo_and_group_params(httpx_mock: HTTPXMock) 
 
 
 @pytest.mark.asyncio
-async def test_get_records_columns_list_maps_to_select(httpx_mock: HTTPXMock) -> None:
+async def test_get_records_columns_list_maps_to_select(httpx2_mock: HTTPXMock) -> None:
     """get_records maps columns list to select query parameter."""
-    httpx_mock.add_response(
+    httpx2_mock.add_response(
         json={
             "total_count": 1,
             "records": [{"id": "r1", "fields": {"value": 1, "status": "ok"}}],
@@ -88,7 +92,7 @@ async def test_get_records_columns_list_maps_to_select(httpx_mock: HTTPXMock) ->
     async with UKPNClient(api_key="k") as client:
         await client.get_records(dataset_id="dataset-1", columns=["value", "status"])
 
-    request = httpx_mock.get_requests()[0]
+    request = httpx2_mock.get_requests()[0]
     params = dict(request.url.params)
     assert params["select"] == "value, status"
 
@@ -106,9 +110,9 @@ async def test_get_records_rejects_columns_and_select_together() -> None:
 
 
 @pytest.mark.asyncio
-async def test_export_data_uses_raw_request_and_params(httpx_mock: HTTPXMock) -> None:
+async def test_export_data_uses_raw_request_and_params(httpx2_mock: HTTPXMock) -> None:
     """export_data returns raw bytes and includes export params."""
-    httpx_mock.add_response(content=b"a,b\n1,2\n")
+    httpx2_mock.add_response(content=b"a,b\n1,2\n")
 
     async with UKPNClient(api_key="k") as client:
         blob = await client.export_data(
@@ -123,7 +127,7 @@ async def test_export_data_uses_raw_request_and_params(httpx_mock: HTTPXMock) ->
             exclude={"status": "archived"},
         )
 
-    request = httpx_mock.get_requests()[0]
+    request = httpx2_mock.get_requests()[0]
     params = dict(request.url.params)
 
     assert blob.startswith(b"a,b")

@@ -3,7 +3,7 @@
 from typing import Any
 
 import pytest
-from pytest_httpx import HTTPXMock
+from pytest_httpx2 import HTTPXMock
 
 from ukpyn.client import UKPNClient
 from ukpyn.exceptions import (
@@ -87,11 +87,11 @@ class TestListDatasets:
     @pytest.mark.asyncio
     async def test_list_datasets_success(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
         mock_catalog_response: dict[str, Any],
     ) -> None:
         """Test successful listing of datasets."""
-        httpx_mock.add_response(json=mock_catalog_response)
+        httpx2_mock.add_response(json=mock_catalog_response)
 
         async with UKPNClient(api_key=TEST_API_KEY) as client:
             result = await client.list_datasets()
@@ -103,10 +103,10 @@ class TestListDatasets:
     @pytest.mark.asyncio
     async def test_list_datasets_parses_results_key(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
     ) -> None:
         """Test list_datasets parses OpenDataSoft 'results' key (wrapped format)."""
-        httpx_mock.add_response(
+        httpx2_mock.add_response(
             json={
                 "total_count": 2,
                 "results": [
@@ -138,10 +138,10 @@ class TestListDatasets:
     @pytest.mark.asyncio
     async def test_list_datasets_parses_flat_results_items(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
     ) -> None:
         """Test list_datasets parses OpenDataSoft 'results' items when unwrapped."""
-        httpx_mock.add_response(
+        httpx2_mock.add_response(
             json={
                 "total_count": 2,
                 "results": [
@@ -175,11 +175,11 @@ class TestGetRecords:
     @pytest.mark.asyncio
     async def test_get_records_success(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
         mock_records_api_response: dict[str, Any],
     ) -> None:
         """Test successful retrieval of records."""
-        httpx_mock.add_response(json=mock_records_api_response)
+        httpx2_mock.add_response(json=mock_records_api_response)
 
         async with UKPNClient(api_key=TEST_API_KEY) as client:
             result = await client.get_records("ukpn-smart-meter-data")
@@ -191,10 +191,10 @@ class TestGetRecords:
     @pytest.mark.asyncio
     async def test_get_records_parses_results_key(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
     ) -> None:
         """Test get_records parses OpenDataSoft 'results' key."""
-        httpx_mock.add_response(
+        httpx2_mock.add_response(
             json={
                 "total_count": 2,
                 "results": [
@@ -218,10 +218,10 @@ class TestGetDataset:
     @pytest.mark.asyncio
     async def test_get_dataset_parses_wrapped_response(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
     ) -> None:
         """Test get_dataset parses wrapped 'dataset' response."""
-        httpx_mock.add_response(
+        httpx2_mock.add_response(
             json={
                 "dataset": {
                     "dataset_id": "ukpn-smart-meter-data",
@@ -240,10 +240,10 @@ class TestGetDataset:
     @pytest.mark.asyncio
     async def test_get_dataset_parses_flat_response(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
     ) -> None:
         """Test get_dataset parses flat response without 'dataset' wrapper."""
-        httpx_mock.add_response(
+        httpx2_mock.add_response(
             json={
                 "dataset_id": "ukpn-smart-meter-installation-volumes",
                 "has_records": True,
@@ -265,10 +265,10 @@ class TestGetFacets:
     @pytest.mark.asyncio
     async def test_get_facets_success(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
     ) -> None:
         """Test successful retrieval of facets."""
-        httpx_mock.add_response(
+        httpx2_mock.add_response(
             json={
                 "links": [
                     {
@@ -323,10 +323,10 @@ class TestGetFacets:
     @pytest.mark.asyncio
     async def test_get_facets_empty(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
     ) -> None:
         """Test facets response with no facet groups."""
-        httpx_mock.add_response(
+        httpx2_mock.add_response(
             json={
                 "links": [],
                 "facets": [],
@@ -341,10 +341,10 @@ class TestGetFacets:
     @pytest.mark.asyncio
     async def test_get_facets_not_found(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
     ) -> None:
         """Test facets for nonexistent dataset raises NotFoundError."""
-        httpx_mock.add_response(
+        httpx2_mock.add_response(
             json={"message": "Dataset not found"},
             status_code=404,
         )
@@ -360,10 +360,10 @@ class TestErrorHandling:
     @pytest.mark.asyncio
     async def test_authentication_error(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
     ) -> None:
         """Test handling of authentication error (401)."""
-        httpx_mock.add_response(
+        httpx2_mock.add_response(
             json={"message": "Invalid API key"},
             status_code=401,
         )
@@ -375,10 +375,10 @@ class TestErrorHandling:
     @pytest.mark.asyncio
     async def test_not_found_error(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
     ) -> None:
         """Test handling of not found error (404)."""
-        httpx_mock.add_response(
+        httpx2_mock.add_response(
             json={"message": "Dataset not found"},
             status_code=404,
         )
@@ -390,10 +390,10 @@ class TestErrorHandling:
     @pytest.mark.asyncio
     async def test_rate_limit_error(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
     ) -> None:
         """Test handling of rate limit error (429)."""
-        httpx_mock.add_response(
+        httpx2_mock.add_response(
             json={"message": "Rate limit exceeded"},
             status_code=429,
             headers={"Retry-After": "60"},
@@ -424,11 +424,11 @@ class TestClientSummary:
     @pytest.mark.asyncio
     async def test_summary_reflects_open_and_closed_state(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
         mock_catalog_response: dict[str, Any],
     ) -> None:
         """Summary reflects HTTP client lifecycle state changes."""
-        httpx_mock.add_response(json=mock_catalog_response)
+        httpx2_mock.add_response(json=mock_catalog_response)
 
         async with UKPNClient(api_key=TEST_API_KEY) as client:
             await client.list_datasets()
@@ -443,11 +443,11 @@ class TestClientContextManager:
     @pytest.mark.asyncio
     async def test_client_as_context_manager(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
         mock_catalog_response: dict[str, Any],
     ) -> None:
         """Test client works as async context manager."""
-        httpx_mock.add_response(json=mock_catalog_response)
+        httpx2_mock.add_response(json=mock_catalog_response)
 
         async with UKPNClient(api_key=TEST_API_KEY) as client:
             result = await client.list_datasets()

@@ -3,7 +3,7 @@
 from typing import Any
 
 import pytest
-from pytest_httpx import HTTPXMock
+from pytest_httpx2 import HTTPXMock
 
 from ukpyn.spatial import (
     GEO_ENABLED_DATASETS,
@@ -174,12 +174,12 @@ class TestQueryBoundsValidation:
     def test_valid_dataset_accepted(
         self,
         london_bounds: Bounds,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
         mock_geo_records_response: dict[str, Any],
     ) -> None:
         """Test that valid dataset names don't raise validation errors."""
         # Mock the response so we don't actually call the API
-        httpx_mock.add_response(json=mock_geo_records_response)
+        httpx2_mock.add_response(json=mock_geo_records_response)
 
         # This should not raise
         result = query_bounds(
@@ -198,12 +198,12 @@ class TestQueryBoundsSync:
 
     def test_query_bounds_returns_dict(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
         mock_geo_records_response: dict[str, Any],
         london_bounds: Bounds,
     ) -> None:
         """Test that query_bounds returns a properly structured dict."""
-        httpx_mock.add_response(json=mock_geo_records_response)
+        httpx2_mock.add_response(json=mock_geo_records_response)
 
         result = query_bounds(
             bounds=london_bounds,
@@ -220,12 +220,12 @@ class TestQueryBoundsSync:
 
     def test_query_bounds_success(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
         mock_geo_records_response: dict[str, Any],
         london_bounds: Bounds,
     ) -> None:
         """Test successful query returns data."""
-        httpx_mock.add_response(json=mock_geo_records_response)
+        httpx2_mock.add_response(json=mock_geo_records_response)
 
         result = query_bounds(
             bounds=london_bounds,
@@ -240,12 +240,12 @@ class TestQueryBoundsSync:
 
     def test_query_bounds_handles_api_error(
         self,
-        httpx_mock: HTTPXMock,
+        httpx2_mock: HTTPXMock,
         london_bounds: Bounds,
     ) -> None:
         """Test that API errors are captured in errors dict."""
         # Mock an error response
-        httpx_mock.add_response(status_code=500, json={"message": "Server error"})
+        httpx2_mock.add_response(status_code=500, json={"message": "Server error"})
 
         result = query_bounds(
             bounds=london_bounds,
