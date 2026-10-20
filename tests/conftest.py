@@ -8,8 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Note: pytest-httpx must be added to dev dependencies
-# The httpx_mock fixture is provided by pytest-httpx
+# The httpx2_mock fixture is provided by httpx2-pytest.
 
 # Test constants
 TEST_API_KEY = "test-api-key-12345"

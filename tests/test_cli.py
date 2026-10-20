@@ -113,7 +113,7 @@ def test_fetch_closes_client(fake_client) -> None:
     client = fake_client.instances[-1]
     assert client.closed is True, (
         "UKPNClient opened by `fetch` was never closed - the bare "
-        "`client = UKPNClient()` leaks the underlying httpx connection pool"
+        "`client = UKPNClient()` leaks the underlying httpx2 connection pool"
     )
 
 
