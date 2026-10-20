@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.3] - 2026-10-20
+
 ### Changed
 - Migrated the HTTP client from `httpx` to `httpx2` and HTTP mocking tests from `pytest-httpx` to `httpx2-pytest`, preserving the `UKPNClient` API. HTTPX2 uses the operating system trust store for TLS verification by default.
 
