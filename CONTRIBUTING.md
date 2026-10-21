@@ -16,8 +16,12 @@ This project is for both novice and experienced coders, so contributions that im
 ```bash
 git clone https://github.com/UKPN-DSO/ukpyn.git
 cd ukpyn
+python -m pip install --upgrade "pip>=26.2.2" "uv>=0.13.4"
 uv sync
 ```
+
+See [TLS certificate maintenance](README.md#tls-certificate-maintenance) for
+existing environments, custom CA bundles, and downstream container rebuilds.
 
 ## Before Opening a PR
 

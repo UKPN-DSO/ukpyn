@@ -63,7 +63,7 @@ source .venv/bin/activate
 #### 2) Install `uv`
 
 ```bash
-pip install uv
+python -m pip install --upgrade "pip>=26.2.2" "uv>=0.13.4"
 ```
 
 #### 3) Install from this repository
@@ -73,7 +73,7 @@ pip install uv
 git clone https://github.com/UKPN-DSO/ukpyn.git
 cd ukpyn
 
-# Recommended: install using the lockfile
+# Resolve dependencies and create or update the local lockfile
 uv sync
 ```
 
@@ -103,6 +103,36 @@ uv pip install "ukpyn[all]"
 ```
 
 Shell note: use double quotes for extras in PowerShell and bash. In Windows CMD, prefer `uv pip install -e .[all]`.
+
+### TLS certificate maintenance
+
+Use `pip>=26.2.2`, `uv>=0.13.4`, and `certifi>=2026.10.19`.
+The certifi dependency floor also protects optional integrations that use
+Requests or HTTPX; ukpyn's HTTPX2 client uses operating system certificates
+by default instead. Keep the operating system trust store and any custom
+`SSL_CERT_FILE` / `SSL_CERT_DIR` bundles updated independently.
+
+For an existing environment, activate it and upgrade its tools as above, then
+run `uv sync --upgrade-package certifi` for a repository checkout.
+The local `uv.lock` is not committed; the minimum versions are enforced by
+`pyproject.toml`, including when installing with pip. Environments created
+without pip can use a trusted, updated uv installation to run
+`uv pip install --python <environment-python> --upgrade "pip>=26.2.2" "uv>=0.13.4"`.
+Bootstrap these upgrades using a trusted installer and an updated system or
+custom CA store; do not disable TLS verification.
+
+If using sigstore separately, upgrade it to `sigstore>=4.5.1` in its own
+environment. The PyPI publishing workflows use the patched v1.14.3 publishing
+action, which pins certifi 2026.10.19 and sigstore 4.5.1. That action's separate
+container still pins pip 26.2, below the recommended minimum; upgrading pip on
+the workflow runner does not update the container. Full compliance for that
+embedded pip requires an upstream action/image update.
+
+This repository does not define application container images. Downstream image
+owners must refresh base images and system CA packages, rebuild without stale
+layers (for example, `docker build --pull --no-cache .`), verify the resulting
+certificate stores and package versions, and redeploy. A rebuild alone does
+not prove that compromised certificates have been removed.
 
 ## Quick Start
 
