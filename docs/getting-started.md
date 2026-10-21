@@ -11,8 +11,14 @@ Need help with terminology? See the [Glossary](glossary.md).
 For most users:
 
 ```bash
-pip install ukpyn
+python -m pip install --upgrade "pip>=26.2.2"
+python -m pip install --upgrade ukpyn "certifi>=2026.10.19"
 ```
+
+Keep your operating system certificates and any custom CA bundles updated.
+If using uv, upgrade it to at least 0.13.4; if using sigstore, upgrade it to at
+least 4.5.1 in the environment where it runs. HTTPX2 uses system certificates
+by default, so upgrading certifi alone does not update ukpyn's TLS trust store.
 
 If you cloned this repository and want all optional tools (for notebooks and
 development workflows):
