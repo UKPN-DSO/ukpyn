@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.4] - 2026-10-21
+
 ### Security
 - Require certifi 2026.10.19 or newer, including for optional integrations, and uv 0.13.4 or newer for project tooling.
 - Enforce patched pip and certifi minimums in Python installation workflows and update the PyPI/TestPyPI publishing action to v1.14.3 for its patched certifi and sigstore dependencies.
